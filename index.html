@@ -53,15 +53,13 @@
             position: relative; display: flex; align-items: center; justify-content: center;
             height: 160px; width: 100%; margin-bottom: 0.5rem;
         }
-        .hero-gooey .goo-text { display: flex; align-items: center; justify-content: center; filter: url(#goo); }
+        .hero-gooey .goo-text { display: flex; align-items: center; justify-content: center; }
         .hero-gooey .goo-text span {
             position: absolute; display: inline-block; text-align: center; user-select: none;
             font-family: 'Anton', sans-serif;
             font-size: 5rem; letter-spacing: 4px; text-transform: uppercase;
-            line-height: 1; color: #fff; opacity: 0;
+            line-height: 1; color: #fff; opacity: 0; transform: translateY(0);
         }
-        .hero-gooey .goo-text .g1 { opacity: 1; }
-        .hero-gooey .goo-text .g2 { opacity: 0; }
 
         .hero-sub {
             font-size: 1rem; color: var(--gray-mid); max-width: 550px;
@@ -706,43 +704,40 @@
     const gooWrap = document.getElementById("gooWrap");
     if (!el1 || !el2 || typeof gsap === 'undefined') return;
 
-    gooWrap.style.filter = "none";
-    el1.style.filter = "none";
-    el1.style.opacity = "1";
-    el2.style.filter = "none";
-    el2.style.opacity = "0";
-
-    function setMorph(fraction) {
-        const b1 = Math.min(6 / (fraction + 0.1) - 1.5, 30);
-        const b2 = Math.min(6 / (1 - fraction + 0.1) - 1.5, 30);
-        el2.style.filter = `blur(${b1}px)`;
-        el2.style.opacity = Math.min(fraction * 1.2, 1);
-        el1.style.filter = `blur(${b2}px)`;
-        el1.style.opacity = Math.min((1 - fraction) * 1.2, 1);
-    }
-
-    function settle() {
-        el2.style.display = "none";
-        el1.innerHTML = "FLUSH<br>RESELL";
-        el1.style.filter = "none";
-        el1.style.opacity = "1";
-        gooWrap.style.filter = "none";
-    }
-
     el1.textContent = texts[0];
     el2.textContent = texts[1];
 
-    const tl = gsap.timeline({ delay: 0.8 });
+    gsap.set([el1, el2], { opacity: 0, y: 24, filter: "none" });
+    gsap.set(gooWrap, { filter: "none" });
+
+    const tl = gsap.timeline({ delay: 0.3 });
+
+    tl.to(el1, { opacity: 1, y: 0, duration: 0.7, ease: "power2.out" });
 
     tl.call(() => { gooWrap.style.filter = "url(#goo)"; });
 
     for (let i = 0; i < texts.length - 1; i++) {
         if (i > 0) tl.call(() => { el1.textContent = texts[i]; el2.textContent = texts[i + 1]; });
-        tl.to({}, { duration: 0.7, ease: "power2.inOut", onUpdate: function() { setMorph(this.progress()); } });
-        tl.call(() => { setMorph(1); el2.style.filter = ""; el2.style.opacity = "1"; el1.style.filter = ""; el1.style.opacity = "0"; });
+        tl.to({}, { duration: 0.7, ease: "power2.inOut", onUpdate: function() {
+            const f = this.progress();
+            const b2 = Math.min(6 / (1 - f + 0.1) - 1.5, 30);
+            const b1 = Math.min(6 / (f + 0.1) - 1.5, 30);
+            gsap.set(el2, { filter: `blur(${b1}px)`, opacity: Math.min(f * 1.2, 1) });
+            gsap.set(el1, { filter: `blur(${b2}px)`, opacity: Math.min((1 - f) * 1.2, 1) });
+        } });
+        tl.call(() => {
+            gsap.set([el1, el2], { filter: "" });
+            gsap.set(el2, { opacity: 1 });
+            gsap.set(el1, { opacity: 0 });
+        });
         if (i < texts.length - 2) tl.to({}, { duration: 1.2 });
     }
-    tl.call(settle);
+    tl.call(() => {
+        el2.style.display = "none";
+        el1.innerHTML = "FLUSH<br>RESELL";
+        gsap.set([el1, el2, gooWrap], { filter: "none" });
+        gsap.set(el1, { opacity: 1 });
+    });
 })();
 
 const statObserver = new IntersectionObserver((entries) => {
