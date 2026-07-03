@@ -357,6 +357,20 @@
 
         @media (max-width: 900px) { .catalog-grid { grid-template-columns: repeat(2, 1fr); } }
         @media (max-width: 560px) { .catalog-grid { grid-template-columns: 1fr; } .catalog-section { padding: 60px 14px; } }
+
+        .gallery-item { cursor: pointer; }
+        img { -webkit-user-drag: none; user-select: none; -webkit-touch-callout: none; }
+        .modal-backdrop {
+            position: fixed; inset: 0; background: rgba(5,8,12,0.95); z-index: 1000;
+            display: none; align-items: center; justify-content: center; padding: 2rem; cursor: pointer;
+        }
+        .modal-backdrop.open { display: flex; }
+        .modal-backdrop img { max-width: 90vw; max-height: 90vh; object-fit: contain; cursor: default; border-radius: 12px; }
+        .modal-close {
+            position: fixed; top: 2rem; right: 2rem; z-index: 1001;
+            background: none; border: none; color: #fff; font-size: 2rem; cursor: pointer; display: none;
+        }
+        .modal-close.open { display: block; }
     </style>
 </head>
 <body>
@@ -695,6 +709,11 @@
         </defs>
     </svg>
 
+    <div class="modal-backdrop" id="modalBackdrop" onclick="closeModal()">
+        <img id="modalImage" src="" alt="">
+    </div>
+    <button class="modal-close" id="modalClose" onclick="closeModal()">✕</button>
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 <script>
 (function() {
@@ -896,6 +915,21 @@ function checkoutCart() {
 }
 
 renderDigitalCatalog();
+
+function openModal(src) {
+    document.getElementById('modalImage').src = src;
+    document.getElementById('modalBackdrop').classList.add('open');
+    document.getElementById('modalClose').classList.add('open');
+    document.body.style.overflow = 'hidden';
+}
+function closeModal() {
+    document.getElementById('modalBackdrop').classList.remove('open');
+    document.getElementById('modalClose').classList.remove('open');
+    document.body.style.overflow = '';
+}
+document.querySelectorAll('.gallery-item').forEach(el => {
+    el.addEventListener('click', () => openModal(el.src));
+});
 </script>
 </body>
 </html>
