@@ -3,17 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FlushResell · Reventa & Ecomm</title>
+    <title>FlushResell · Consultoria en Reventa y E-commerce</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Montserrat:wght@400;700;800;900&family=Anton&family=JetBrains+Mono:wght@400;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Montserrat:wght@400;600;700;800;900&family=Anton&family=JetBrains+Mono:wght@400;700&display=swap');
         * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
         body { font-family: 'Inter', sans-serif; background: #05080C; color: #fff; overflow-x: hidden; -webkit-font-smoothing: antialiased; }
 
         :root { --border: #1F252D; --green: #00B83F; --green-neon: #39FF66; --green-dark: #0B2E18; --gold: #F2C94C; --gray-ui: #1F252D; --gray-light: #D9DEE5; --gray-mid: #6B7280; }
 
         ::selection { background: var(--green); color: #05080C; }
 
-        /* === TRANSITION OVERLAY === */
         .transition-overlay {
             position: fixed; inset: 0; z-index: 999; display: grid;
             grid-template-columns: repeat(10, 1fr); grid-template-rows: repeat(10, 1fr);
@@ -36,7 +36,7 @@
         }
         header .logo:hover { opacity: 0.7; }
         .header-left, .header-right { display: flex; align-items: center; gap: 1.5rem; }
-        .header-left a, .header-right a { color: #fff; text-decoration: none; cursor: pointer; transition: opacity 0.3s; }
+        .header-left a, .header-right a { color: #fff; text-decoration: none; cursor: pointer; transition: opacity 0.3s; font-size: 0.65rem; letter-spacing: 2px; }
         .header-left a:hover, .header-right a:hover { opacity: 0.5; }
 
         .hero {
@@ -65,7 +65,7 @@
 
         .hero-sub {
             font-size: 1rem; color: var(--gray-mid); max-width: 550px;
-            margin-top: 1.5rem; line-height: 1.5; font-family: 'Inter', sans-serif;
+            margin-top: 1.5rem; line-height: 1.6; font-family: 'Inter', sans-serif;
             position: relative; z-index: 1;
         }
         .hero-actions { margin-top: 2rem; display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center; position: relative; z-index: 1; }
@@ -85,7 +85,6 @@
         }
         .btn-secondary:hover { border-color: var(--green); color: var(--green); }
 
-        /* === STATS SECTION === */
         .stats-section {
             padding: 3rem 4rem; background: var(--gray-ui); border-top: 1px solid var(--border);
             border-bottom: 1px solid var(--border);
@@ -96,10 +95,9 @@
         .stat-item .number { font-family: 'Anton', sans-serif; font-size: 2.5rem; color: var(--green-neon); line-height: 1; }
         .stat-item .label { font-size: 0.6rem; text-transform: uppercase; letter-spacing: 2px; color: var(--gray-mid); margin-top: 0.3rem; font-family: 'JetBrains Mono', monospace; }
 
-        /* === WHAT YOU LEARN === */
         .learn-section { padding: 5rem 4rem; background: #05080C; border-top: 1px solid var(--border); }
         .learn-section .inner { max-width: 1000px; margin: 0 auto; }
-        .learn-section .section-label { font-size: 0.6rem; color: var(--green); font-family: 'JetBrains Mono', monospace; letter-spacing: 3px; text-transform: uppercase; margin-bottom: 0.5rem; }
+        .section-label { font-size: 0.6rem; color: var(--green); font-family: 'JetBrains Mono', monospace; letter-spacing: 3px; text-transform: uppercase; margin-bottom: 0.5rem; }
         .learn-section h2 { font-family: 'Anton', sans-serif; font-size: 3rem; text-transform: uppercase; color: #fff; line-height: 1.1; margin-bottom: 2.5rem; letter-spacing: 2px; }
         .learn-section h2 span { color: var(--green-neon); }
         .learn-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
@@ -110,11 +108,10 @@
         }
         .learn-card.revealed { opacity: 1; transform: translateY(0); }
         .learn-card:hover { border-color: var(--green); box-shadow: 0 0 30px rgba(0,184,63,0.1); }
-        .learn-card .icon { font-size: 1.5rem; margin-bottom: 0.5rem; }
+        .learn-card .num { font-size: 0.7rem; font-weight: 700; color: var(--green); font-family: 'JetBrains Mono', monospace; margin-bottom: 0.4rem; }
         .learn-card h3 { font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px; color: #fff; margin-bottom: 0.3rem; }
         .learn-card p { font-size: 0.75rem; color: var(--gray-mid); line-height: 1.5; }
 
-        /* === COMMUNITY SECTION === */
         .community-section {
             padding: 5rem 4rem; background: var(--gray-ui); border-top: 1px solid var(--border);
             text-align: center; position: relative; overflow: hidden;
@@ -125,20 +122,18 @@
             opacity: 0.4;
         }
         .community-section .inner { max-width: 700px; margin: 0 auto; position: relative; z-index: 1; }
-        .community-section .section-label { font-size: 0.6rem; color: var(--green); font-family: 'JetBrains Mono', monospace; letter-spacing: 3px; text-transform: uppercase; margin-bottom: 0.5rem; }
         .community-section h2 { font-family: 'Anton', sans-serif; font-size: 3rem; text-transform: uppercase; color: #fff; line-height: 1.1; margin-bottom: 1rem; letter-spacing: 2px; }
         .community-section h2 span { color: var(--green-neon); }
-        .community-section .sub-text { font-size: 0.9rem; color: var(--gray-light); line-height: 1.5; margin-bottom: 1.5rem; }
+        .community-section .sub-text { font-size: 0.9rem; color: var(--gray-light); line-height: 1.6; margin-bottom: 1.5rem; }
         .community-section .member-count {
             font-family: 'Anton', sans-serif; font-size: 4rem; color: var(--green-neon);
             line-height: 1; margin-bottom: 0.3rem;
         }
         .community-section .member-label { font-size: 0.6rem; color: var(--gray-mid); font-family: 'JetBrains Mono', monospace; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 2rem; }
 
-        /* === RESULTS / TESTIMONIALS === */
         .results-section { padding: 5rem 4rem; background: #05080C; border-top: 1px solid var(--border); }
         .results-section .inner { max-width: 800px; margin: 0 auto; }
-        .results-section .section-label { font-size: 0.6rem; color: var(--green); font-family: 'JetBrains Mono', monospace; letter-spacing: 3px; text-transform: uppercase; margin-bottom: 0.5rem; text-align: center; }
+        .results-section .section-label { text-align: center; }
         .results-section h2 { font-family: 'Anton', sans-serif; font-size: 2.5rem; text-transform: uppercase; color: #fff; line-height: 1.1; margin-bottom: 2rem; text-align: center; letter-spacing: 2px; }
         .results-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
         .result-card {
@@ -148,11 +143,10 @@
         }
         .result-card.revealed { opacity: 1; transform: translateY(0); }
         .result-card:hover { border-color: var(--green); }
-        .result-card .stars { color: var(--gold); font-size: 0.8rem; letter-spacing: 2px; }
-        .result-card blockquote { font-size: 0.8rem; color: var(--gray-light); line-height: 1.5; margin: 0.5rem 0; }
+        .result-card .rating { color: var(--gold); font-size: 0.7rem; font-family: 'JetBrains Mono', monospace; letter-spacing: 2px; margin-bottom: 0.3rem; }
+        .result-card blockquote { font-size: 0.8rem; color: var(--gray-light); line-height: 1.5; margin: 0.5rem 0; font-style: italic; }
         .result-card .author { font-size: 0.65rem; font-weight: 600; color: var(--green-neon); text-transform: uppercase; letter-spacing: 1px; }
 
-        /* === CTA FINAL === */
         .cta-section {
             padding: 5rem 4rem; background: var(--gray-ui); border-top: 1px solid var(--border);
             border-bottom: 1px solid var(--border); text-align: center;
@@ -160,13 +154,32 @@
         .cta-section .inner { max-width: 600px; margin: 0 auto; }
         .cta-section h2 { font-family: 'Anton', sans-serif; font-size: 3.5rem; text-transform: uppercase; color: #fff; line-height: 1.1; margin-bottom: 1rem; letter-spacing: 2px; }
         .cta-section h2 span { color: var(--green-neon); }
-        .cta-section p { font-size: 0.9rem; color: var(--gray-mid); line-height: 1.5; margin-bottom: 2rem; }
-        .cta-section .btn-primary { font-size: 0.85rem; padding: 1.2rem 3rem; }
+        .cta-section p { font-size: 0.9rem; color: var(--gray-mid); line-height: 1.6; margin-bottom: 2rem; }
 
-        /* === FAQ SECTION === */
-        .faq-section { padding: 5rem 4rem; background: #05080C; border-top: 1px solid var(--border); }
+        .consulting-section {
+            padding: 5rem 4rem; background: #05080C; border-top: 1px solid var(--border);
+        }
+        .consulting-section .inner { max-width: 720px; margin: 0 auto; }
+        .consulting-section .section-label { text-align: center; }
+        .consulting-section h2 { font-family: 'Anton', sans-serif; font-size: 2.5rem; text-transform: uppercase; color: #fff; line-height: 1.1; margin-bottom: 0.5rem; text-align: center; letter-spacing: 2px; }
+        .consulting-section .sub { text-align: center; font-size: 0.85rem; color: var(--gray-mid); margin-bottom: 2.5rem; line-height: 1.5; }
+        .consulting-form { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+        .consulting-form .full { grid-column: 1 / -1; }
+        .consulting-form label { display: block; font-size: 0.6rem; text-transform: uppercase; letter-spacing: 1.5px; color: var(--gray-mid); margin-bottom: 0.4rem; font-family: 'JetBrains Mono', monospace; }
+        .consulting-form input, .consulting-form select, .consulting-form textarea {
+            width: 100%; padding: 0.8rem 1rem; background: var(--gray-ui); border: 1px solid var(--border);
+            color: #fff; font-family: 'Inter', sans-serif; font-size: 0.8rem; border-radius: 12px;
+            outline: none; transition: border 0.2s;
+        }
+        .consulting-form input:focus, .consulting-form select:focus, .consulting-form textarea:focus { border-color: var(--green); }
+        .consulting-form select option { background: var(--gray-ui); color: #fff; }
+        .consulting-form textarea { min-height: 120px; resize: vertical; }
+        .consulting-form .submit-wrap { grid-column: 1 / -1; display: flex; justify-content: center; margin-top: 0.5rem; }
+        .consulting-form .btn-primary { font-size: 0.8rem; padding: 1rem 3rem; }
+
+        .faq-section { padding: 5rem 4rem; background: var(--gray-ui); border-top: 1px solid var(--border); }
         .faq-section .inner { max-width: 700px; margin: 0 auto; }
-        .faq-section .section-label { font-size: 0.6rem; color: var(--green); font-family: 'JetBrains Mono', monospace; letter-spacing: 3px; text-transform: uppercase; margin-bottom: 0.5rem; text-align: center; }
+        .faq-section .section-label { text-align: center; }
         .faq-section h2 { font-family: 'Anton', sans-serif; font-size: 2.5rem; text-transform: uppercase; color: #fff; line-height: 1.1; margin-bottom: 2rem; text-align: center; letter-spacing: 2px; }
         .faq-item {
             border-bottom: 1px solid var(--border); padding: 1.2rem 0; cursor: pointer;
@@ -199,13 +212,6 @@
         }
         footer .social span:hover { border-color: var(--green); color: var(--green); }
 
-        /* === MODAL === */
-        .modal-backdrop { position: fixed; inset: 0; background: rgba(5,8,12,0.95); z-index: 300; display: none; align-items: center; justify-content: center; padding: 2rem; cursor: pointer; }
-        .modal-backdrop.open { display: flex; }
-        .modal-backdrop img { max-width: 90vw; max-height: 90vh; object-fit: contain; cursor: default; border-radius: 24px; }
-        .modal-close { position: fixed; top: 2rem; right: 2rem; z-index: 301; background: none; border: none; color: #fff; font-size: 2rem; cursor: pointer; display: none; }
-        .modal-close.open { display: block; }
-
         .toast-container {
             position: fixed; bottom: 2rem; right: 2rem; z-index: 500;
             display: flex; flex-direction: column; gap: 8px; pointer-events: none;
@@ -214,11 +220,10 @@
             background: var(--green); color: #05080C; padding: 0.8rem 1.2rem;
             font-size: 0.75rem; font-weight: 600; transform: translateY(20px); opacity: 0;
             transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-            pointer-events: all; display: flex; align-items: center; gap: 8px; min-width: 240px;
+            pointer-events: all; display: flex; align-items: center; gap: 8px; min-width: 280px;
             border-radius: 12px; font-family: 'Montserrat', sans-serif;
         }
         .toast.show { transform: translateY(0); opacity: 1; }
-        .toast .check { font-size: 1rem; }
 
         @media (max-width: 768px) {
             header { padding: 1rem 1.5rem; flex-wrap: wrap; }
@@ -241,6 +246,9 @@
             .results-grid { grid-template-columns: 1fr; }
             .cta-section { padding: 3rem 1.5rem; }
             .cta-section h2 { font-size: 2.2rem; }
+            .consulting-section { padding: 3rem 1.5rem; }
+            .consulting-section h2 { font-size: 1.8rem; }
+            .consulting-form { grid-template-columns: 1fr; }
             .faq-section { padding: 3rem 1.5rem; }
             .faq-section h2 { font-size: 1.8rem; }
             footer { padding: 2rem 1.5rem; }
@@ -252,42 +260,41 @@
 
     <header>
         <div class="header-left">
-            <a onclick="document.getElementById('learnSection').scrollIntoView({behavior:'smooth'})">Aprende</a>
+            <a onclick="document.getElementById('learnSection').scrollIntoView({behavior:'smooth'})">Metodologia</a>
             <a onclick="document.getElementById('communitySection').scrollIntoView({behavior:'smooth'})">Comunidad</a>
+            <a onclick="document.getElementById('consultingSection').scrollIntoView({behavior:'smooth'})">Consultoria</a>
         </div>
         <div class="logo" id="mainLogo">FLUSH RESELL</div>
         <div class="header-right">
-            <a onclick="document.getElementById('ctaSection').scrollIntoView({behavior:'smooth'})">Empieza ya</a>
+            <a onclick="document.getElementById('ctaSection').scrollIntoView({behavior:'smooth'})">Comenzar</a>
         </div>
     </header>
 
-    <!-- HERO -->
     <section class="hero">
         <div class="hero-gooey" id="heroGooey">
             <div class="goo-text" id="gooWrap">
-                <span class="g1" id="goo1">APRENDE A GANAR</span>
-                <span class="g2" id="goo2">DINERO CON VINTED</span>
+                <span class="g1" id="goo1">APRENDE A GENERAR</span>
+                <span class="g2" id="goo2">INGRESOS CON VINTED</span>
             </div>
         </div>
         <p class="hero-sub">
-            Te enseño cómo encontrar productos ganadores, proveedores y estrategias para empezar en la reventa desde cero.
+            Metodologia comprobada para encontrar productos ganadores, optimizar tu estrategia de reventa y construir un negocio sostenible en Vinted desde cero.
         </p>
         <div class="hero-actions">
             <button class="btn-primary" onclick="document.getElementById('communitySection').scrollIntoView({behavior:'smooth'})">
-                ÚNETE A LA COMUNIDAD GRATIS
+                Acceder a la comunidad
             </button>
-            <button class="btn-secondary" onclick="document.getElementById('faqSection').scrollIntoView({behavior:'smooth'})">
-                QUIERO MÁS INFORMACIÓN
+            <button class="btn-secondary" onclick="document.getElementById('consultingSection').scrollIntoView({behavior:'smooth'})">
+                Solicitar consultoria
             </button>
         </div>
     </section>
 
-    <!-- STATS -->
     <section class="stats-section" id="statsSection">
         <div class="stats-grid">
             <div class="stat-item">
-                <div class="number">+5.000€</div>
-                <div class="label">/MES CON 18 AÑOS</div>
+                <div class="number">+5.000 EUR</div>
+                <div class="label">INGRESOS MENSUALES</div>
             </div>
             <div class="stat-item">
                 <div class="number">2.793</div>
@@ -304,138 +311,183 @@
         </div>
     </section>
 
-    <!-- WHAT YOU LEARN -->
     <section class="learn-section" id="learnSection">
         <div class="inner">
-            <div class="section-label">▸ QUÉ APRENDERÁS</div>
-            <h2>DOMINA LA <span>REVENTA</span> EN VINTED</h2>
+            <div class="section-label">QUE APRENDERAS</div>
+            <h2>METODOLOGIA DE <span>REVENTA</span></h2>
             <div class="learn-grid">
                 <div class="learn-card">
-                    <div class="icon">📦</div>
-                    <h3>Productos ganadores</h3>
-                    <p>Aprende a identificar qué productos se venden rápido y con buen margen en Vinted.</p>
+                    <div class="num">01</div>
+                    <h3>Identificacion de productos ganadores</h3>
+                    <p>Aprende a detectar que productos tienen alta demanda y buen margen en Vinted mediante analisis de mercado y tendencias.</p>
                 </div>
                 <div class="learn-card">
-                    <div class="icon">💰</div>
-                    <h3>Comprar barato, vender caro</h3>
-                    <p>Estrategias para encontrar gangas y revenderlas al mejor precio.</p>
+                    <div class="num">02</div>
+                    <h3>Estrategia de compra y venta</h3>
+                    <p>Metodos para adquirir por debajo del precio de mercado y maximizar el retorno en cada venta.</p>
                 </div>
                 <div class="learn-card">
-                    <div class="icon">📱</div>
-                    <h3>Optimizar tus anuncios</h3>
-                    <p>Fotos, descripciones y títulos que convierten. Haz que tus productos destaquen.</p>
+                    <div class="num">03</div>
+                    <h3>Optimizacion de anuncios</h3>
+                    <p>Fotografia, descripciones y posicionamiento para aumentar la tasa de conversion de tus publicaciones.</p>
                 </div>
                 <div class="learn-card">
-                    <div class="icon">🔗</div>
-                    <h3>Proveedores de confianza</h3>
-                    <p>Accede a una red de proveedores verificados para conseguir stock de calidad.</p>
+                    <div class="num">04</div>
+                    <h3>Red de proveedores</h3>
+                    <p>Acceso a proveedores verificados que garantizan stock de calidad y precios competitivos para la reventa.</p>
                 </div>
                 <div class="learn-card">
-                    <div class="icon">📊</div>
-                    <h3>Estrategia de reventa</h3>
-                    <p>Desde cero hasta generar ingresos recurrentes. El método paso a paso.</p>
+                    <div class="num">05</div>
+                    <h3>Escalado del negocio</h3>
+                    <p>Desde las primeras ventas hasta la gestion de un volumen recurrente. Sistemas y automatizacion incluidos.</p>
                 </div>
                 <div class="learn-card">
-                    <div class="icon">👥</div>
-                    <h3>Comunidad activa</h3>
-                    <p>Comparte dudas, resultados y aprende de otros que ya están ganando dinero.</p>
+                    <div class="num">06</div>
+                    <h3>Acompanamiento en comunidad</h3>
+                    <p>Resuelve dudas, comparte resultados y aprende de otros emprendedores que ya estan generando ingresos.</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- COMMUNITY -->
     <section class="community-section" id="communitySection">
         <div class="inner">
-            <div class="section-label">▸ COMUNIDAD GRATUITA</div>
-            <h2>ÚNETE A <span>FLUSH MAKERS</span></h2>
+            <div class="section-label">COMUNIDAD EXCLUSIVA</div>
+            <h2>FLUSH <span>MAKERS</span></h2>
             <p class="sub-text">
-                Una comunidad gratuita para personas que quieren empezar en la reventa.
-                Aprende, comparte resultados y accede a contenido exclusivo cada semana.
+                Una comunidad gratuita de emprendedores en reventa. Accede a contenido semanal, recursos exclusivos y el apoyo de una red activa de personas que comparten tu mismo objetivo.
             </p>
             <div class="member-count">218</div>
             <div class="member-label">MIEMBROS ACTIVOS</div>
-            <button class="btn-primary" onclick="showToast()">ENTRAR GRATIS</button>
+            <button class="btn-primary" onclick="showToast('comunidad')">UNIRME A LA COMUNIDAD</button>
         </div>
     </section>
 
-    <!-- RESULTS / TESTIMONIALS -->
     <section class="results-section" id="resultsSection">
         <div class="inner">
-            <div class="section-label">▸ RESULTADOS REALES</div>
-            <h2>LO QUE DICEN <span style="color:var(--green-neon)">NUESTROS ALUMNOS</span></h2>
-            <div class="results-grid" id="resultsGrid">
+            <div class="section-label">RESULTADOS</div>
+            <h2>TESTIMONIOS DE <span style="color:var(--green-neon)">ALUMNOS</span></h2>
+            <div class="results-grid">
                 <div class="result-card">
-                    <div class="stars">★★★★★</div>
-                    <blockquote>"Empecé sin saber nada y en mi primer mes ya había ganado 600€. El método funciona."</blockquote>
-                    <div class="author">— Alejandro M.</div>
+                    <div class="rating">5.0</div>
+                    <blockquote>"Comence sin experiencia y en mi primer mes genere mas de 600 EUR. La metodologia es solida y el acompanamiento constante."</blockquote>
+                    <div class="author">Alejandro M.</div>
                 </div>
                 <div class="result-card">
-                    <div class="stars">★★★★★</div>
-                    <blockquote>"Los proveedores que comparte son una pasada. Calidad precio increíble para revender."</blockquote>
-                    <div class="author">— Carla S.</div>
+                    <div class="rating">5.0</div>
+                    <blockquote>"Los proveedores que comparte la comunidad son de gran calidad. He conseguido stock excelente a precios muy competitivos."</blockquote>
+                    <div class="author">Carla S.</div>
                 </div>
                 <div class="result-card">
-                    <div class="stars">★★★★★</div>
-                    <blockquote>"La comunidad es un 10. Siempre hay alguien dispuesto a ayudar. He aprendido muchísimo."</blockquote>
-                    <div class="author">— David R.</div>
+                    <div class="rating">5.0</div>
+                    <blockquote>"El entorno de la comunidad es colaborativo y profesional. He aprendido mas en semanas que en meses investigando por mi cuenta."</blockquote>
+                    <div class="author">David R.</div>
                 </div>
                 <div class="result-card">
-                    <div class="stars">★★★★★</div>
-                    <blockquote>"Dejé mi trabajo de fin de semana para dedicarme a la reventa. Ahora gano más que antes."</blockquote>
-                    <div class="author">— Lucía P.</div>
+                    <div class="rating">5.0</div>
+                    <blockquote>"Deje mi trabajo a tiempo parcial para dedicarme a la reventa a tiempo completo. Mis ingresos actuales superan con creces mi empleo anterior."</blockquote>
+                    <div class="author">Lucia P.</div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- CTA -->
     <section class="cta-section" id="ctaSection">
         <div class="inner">
-            <h2>EMPIECE HOY CON <span>FLUSH RESELL</span></h2>
+            <h2>COMIENZA HOY CON <span>FLUSH RESELL</span></h2>
             <p>
-                Entra gratis y aprende cómo funciona la reventa en Vinted.
-                Descubre productos ganadores, proveedores y empieza a generar ingresos desde cero.
+                Accede gratis a la comunidad y descubre como funciona la reventa en Vinted. Aprende a identificar productos ganadores, consigue proveedores y empieza a generar ingresos desde cero.
             </p>
-            <button class="btn-primary" onclick="showToast()">ENTRAR A LA COMUNIDAD GRATIS</button>
+            <button class="btn-primary" onclick="showToast('cta')">QUIERO EMPEZAR</button>
         </div>
     </section>
 
-    <!-- FAQ -->
+    <section class="consulting-section" id="consultingSection">
+        <div class="inner">
+            <div class="section-label">ASESORIA PERSONALIZADA</div>
+            <h2>SOLICITA UNA <span style="color:var(--green-neon)">CONSULTORIA</span></h2>
+            <p class="sub">
+                Si necesitas orientacion especifica para tu caso, rellena el formulario y te contactaremos para una sesion de consultoria personalizada.
+            </p>
+            <form class="consulting-form" id="consultingForm" onsubmit="return submitConsulting(event)">
+                <div>
+                    <label for="consName">Nombre completo</label>
+                    <input type="text" id="consName" required placeholder="Tu nombre">
+                </div>
+                <div>
+                    <label for="consEmail">Correo electronico</label>
+                    <input type="email" id="consEmail" required placeholder="tu@email.com">
+                </div>
+                <div class="full">
+                    <label for="consPhone">Telefono (opcional)</label>
+                    <input type="tel" id="consPhone" placeholder="+34 600 000 000">
+                </div>
+                <div class="full">
+                    <label for="consLevel">Nivel de experiencia</label>
+                    <select id="consLevel">
+                        <option value="" disabled selected>Selecciona tu nivel</option>
+                        <option value="novato">Nunca he vendido en Vinted</option>
+                        <option value="iniciado">He vendido alguna vez pero sin estrategia</option>
+                        <option value="intermedio">Vendo regularmente pero quiero escalar</option>
+                        <option value="avanzado">Ya tengo ingresos y busco optimizar</option>
+                    </select>
+                </div>
+                <div class="full">
+                    <label for="consGoal">Objetivo principal</label>
+                    <select id="consGoal">
+                        <option value="" disabled selected>Selecciona tu objetivo</option>
+                        <option value="empezar">Empezar desde cero en la reventa</option>
+                        <option value="proveedores">Encontrar proveedores de calidad</option>
+                        <option value="escalar">Escalar mi negocio actual</option>
+                        <option value="productos">Identificar productos ganadores</option>
+                        <option value="optimizar">Optimizar mis anuncios y ventas</option>
+                    </select>
+                </div>
+                <div class="full">
+                    <label for="consMsg">Describe tu situacion</label>
+                    <textarea id="consMsg" placeholder="Cuentanos brevemente en que punto estas y que necesitas..."></textarea>
+                </div>
+                <div class="submit-wrap">
+                    <button type="submit" class="btn-primary">ENVIAR SOLICITUD</button>
+                </div>
+            </form>
+        </div>
+    </section>
+
     <section class="faq-section" id="faqSection">
         <div class="inner">
-            <div class="section-label">▸ PREGUNTAS FRECUENTES</div>
+            <div class="section-label">PREGUNTAS FRECUENTES</div>
             <h2>RESUELVE TUS <span style="color:var(--green-neon)">DUDAS</span></h2>
-            <div class="faq-list" id="faqList">
+            <div class="faq-list">
                 <div class="faq-item open">
                     <div class="question" onclick="toggleFaq(this)">
                         ¿Necesito experiencia previa? <span class="arrow">+</span>
                     </div>
-                    <div class="answer">No, absolutamente nada. El método está diseñado para empezar desde cero. Te guío paso a paso.</div>
+                    <div class="answer">No es necesaria. La metodologia esta disenada para que cualquier persona pueda empezar desde cero y obtener resultados en las primeras semanas.</div>
                 </div>
                 <div class="faq-item">
                     <div class="question" onclick="toggleFaq(this)">
-                        ¿Cuánto dinero puedo ganar? <span class="arrow">+</span>
+                        ¿Cuanto se puede ganar? <span class="arrow">+</span>
                     </div>
-                    <div class="answer">Depende de tu dedicación. Algunos alumnos empiezan con 200-600€ el primer mes. Yo personalmente genero +5.000€/mes.</div>
+                    <div class="answer">Los resultados varian segun dedicacion. Alumnos comprometidos generan entre 200 y 600 EUR el primer mes. Nuestra referencia personal supera los 5.000 EUR mensuales.</div>
                 </div>
                 <div class="faq-item">
                     <div class="question" onclick="toggleFaq(this)">
-                        ¿La comunidad es gratis? <span class="arrow">+</span>
+                        ¿La comunidad tiene costo? <span class="arrow">+</span>
                     </div>
-                    <div class="answer">Sí, totalmente gratuita. Puedes unirte, ver el contenido y decidir si quieres ir más allá.</div>
+                    <div class="answer">La comunidad Flush Makers es completamente gratuita. Puedes acceder, consumir el contenido y decidir si deseas avanzar a programas mas especializados.</div>
                 </div>
                 <div class="faq-item">
                     <div class="question" onclick="toggleFaq(this)">
-                        ¿Necesito invertir dinero? <span class="arrow">+</span>
+                        ¿Cuanto capital necesito para empezar? <span class="arrow">+</span>
                     </div>
-                    <div class="answer">Mínimo. Puedes empezar con poco más de 20€ para comprar tu primer producto y dar la vuelta.</div>
+                    <div class="answer">Se puede empezar con menos de 50 EUR para adquirir el primer lote de productos. La clave esta en la rotacion, no en el volumen inicial.</div>
                 </div>
                 <div class="faq-item">
                     <div class="question" onclick="toggleFaq(this)">
-                        ¿Esto es solo para España? <span class="arrow">+</span>
+                        ¿Funciona solo en Espana? <span class="arrow">+</span>
                     </div>
-                    <div class="answer">Vinted funciona en toda Europa. La mayoría de estrategias aplican a cualquier país.</div>
+                    <div class="answer">Vinted opera en toda Europa. Las estrategias son aplicables en cualquier pais donde la plataforma este disponible.</div>
                 </div>
             </div>
         </div>
@@ -443,21 +495,16 @@
 
     <footer>
         <div class="logo">FLUSH RESELL</div>
-        <p>Reventa & Ecomm · Aprende a ganar dinero con Vinted</p>
+        <p>Consultoria en reventa y e-commerce</p>
         <div class="social">
             <span>IG</span>
             <span>TK</span>
             <span>YT</span>
         </div>
-        <p style="margin-top:1rem;font-size:0.6rem;">© 2026 FlushResell · Todos los derechos reservados</p>
+        <p style="margin-top:1rem;font-size:0.6rem;">2026 FlushResell. Todos los derechos reservados.</p>
     </footer>
 
     <div class="toast-container" id="toastContainer"></div>
-
-    <div class="modal-backdrop" id="modalBackdrop" onclick="closeModal()">
-        <img id="modalImage" src="" alt="">
-    </div>
-    <button class="modal-close" id="modalClose" onclick="closeModal()">✕</button>
 
     <svg style="position:absolute;width:0;height:0;" aria-hidden="true">
         <defs>
@@ -471,9 +518,8 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 <script>
-// === HERO GOOEY ANIMATION ===
 (function() {
-    const texts = ["APRENDE A GANAR DINERO", "CON VINTED", "FLUSH RESELL"];
+    const texts = ["APRENDE A GENERAR", "INGRESOS CON VINTED", "FLUSH RESELL"];
     const el1 = document.getElementById("goo1");
     const el2 = document.getElementById("goo2");
     const gooWrap = document.getElementById("gooWrap");
@@ -509,42 +555,49 @@
     tl.call(settle);
 })();
 
-// === STATS SCROLL REVEAL ===
 const statObserver = new IntersectionObserver((entries) => {
     entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('revealed'); });
 }, { threshold: 0.3 });
 document.querySelectorAll('.stat-item').forEach(el => statObserver.observe(el));
 
-// === LEARN CARDS SCROLL REVEAL ===
 const learnObserver = new IntersectionObserver((entries) => {
     entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('revealed'); });
 }, { threshold: 0.2 });
 document.querySelectorAll('.learn-card').forEach(el => learnObserver.observe(el));
 
-// === RESULT CARDS SCROLL REVEAL ===
 const resultObserver = new IntersectionObserver((entries) => {
     entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('revealed'); });
 }, { threshold: 0.2 });
 document.querySelectorAll('.result-card').forEach(el => resultObserver.observe(el));
 
-// === FAQ ===
 function toggleFaq(el) {
     const item = el.closest('.faq-item');
     item.classList.toggle('open');
 }
 
-// === TOAST ===
-function showToast() {
+function showToast(type) {
     const container = document.getElementById('toastContainer');
     const toast = document.createElement('div');
     toast.className = 'toast';
-    toast.innerHTML = `<span class="check">✓</span> Bienvenido a FlushResell. Te esperamos en la comunidad.`;
+    const msg = type === 'comunidad'
+        ? 'Recibiras el enlace de acceso a Flush Makers en tu correo.'
+        : 'Gracias por tu interes. Te contactaremos en breve.';
+    toast.textContent = msg;
     container.appendChild(toast);
     requestAnimationFrame(() => toast.classList.add('show'));
-    setTimeout(() => { toast.classList.remove('show'); setTimeout(() => toast.remove(), 400); }, 3000);
+    setTimeout(() => { toast.classList.remove('show'); setTimeout(() => toast.remove(), 400); }, 3500);
 }
 
-// === TRANSITION OVERLAY + LOGO CLICK (GSAP) ===
+function submitConsulting(e) {
+    e.preventDefault();
+    const name = document.getElementById('consName').value.trim();
+    const email = document.getElementById('consEmail').value.trim();
+    if (!name || !email) return false;
+    showToast('cta');
+    document.getElementById('consultingForm').reset();
+    return false;
+}
+
 (function() {
     const overlay = document.getElementById('transitionOverlay');
     if (!overlay) return;
@@ -569,10 +622,6 @@ function showToast() {
     };
     document.getElementById('mainLogo').addEventListener('click', () => window.activarAnimacion());
 })();
-
-// === MODAL ===
-function openModal(src) { document.getElementById('modalImage').src = src; document.getElementById('modalBackdrop').classList.add('open'); document.getElementById('modalClose').classList.add('open'); document.body.style.overflow = 'hidden'; }
-function closeModal() { document.getElementById('modalBackdrop').classList.remove('open'); document.getElementById('modalClose').classList.remove('open'); document.body.style.overflow = ''; }
 </script>
 </body>
 </html>
