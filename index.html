@@ -512,7 +512,6 @@ gsap.to("#heroActions", { opacity: 1, y: 0, duration: 0.8, delay: 0.4, ease: "po
 const revealConfigs = [
   { sel: '.stat-item', thresh: 0.3, stagger: 0, cls: 'revealed' },
   { sel: '.learn-card', thresh: 0.15, stagger: 0.08, cls: 'revealed' },
-  { sel: '.product-card-digital', thresh: 0.15, stagger: 0.08, cls: 'revealed' },
   { sel: '.faq-item', thresh: 0.15, stagger: 0, cls: 'revealed' },
 ];
 revealConfigs.forEach(({sel,thresh,stagger,cls}) => {
@@ -670,6 +669,10 @@ function renderCatalog() {
   }).join('');
 }
 renderCatalog();
+// Reveal product cards immediately (observers were set up before renderCatalog populated the grid)
+document.querySelectorAll('.product-card-digital').forEach((el, i) => {
+  setTimeout(() => el.classList.add('revealed'), i * 80);
+});
 
 // === CART (localStorage) ===
 let cart = [];
