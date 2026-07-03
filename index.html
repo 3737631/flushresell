@@ -209,15 +209,16 @@ header .logo:hover{opacity:0.7}
 .faq-item .answer{max-height:0;overflow:hidden;transition:max-height 0.4s cubic-bezier(0.16,1,0.3,1);font-size:0.8rem;color:var(--gray-mid);line-height:1.5}
 .faq-item.open .answer{max-height:200px;padding-top:0.8rem}
 
-.footer-waves{position:relative;background:#05080C;overflow:hidden;height:320px}
-.footer-waves svg{position:absolute;bottom:0;left:0;width:200%;height:100%}
-.footer-waves .wave1{animation:waveDrift 8s linear infinite}
-.footer-waves .wave2{animation:waveDrift 12s linear infinite reverse}
-.footer-waves .wave3{animation:waveDrift 16s linear infinite}
-.footer-waves .wave4{animation:waveDrift 20s linear infinite reverse}
-@keyframes waveDrift{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
-.footer-waves .overlay{position:absolute;inset:0;background:linear-gradient(to top,#05080C 30%,transparent);pointer-events:none}
-.footer-waves .glow{position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:900px;height:250px;background:radial-gradient(ellipse at center,rgba(0,184,63,0.35),transparent 70%);pointer-events:none;animation:glowPulse 3s ease-in-out infinite}
+.footer-waves{position:relative;background:#05080C;overflow:hidden;height:340px}
+.footer-waves svg{position:absolute;bottom:0;left:0;width:200%;height:100%;overflow:visible}
+.footer-waves .w1{animation:waveSway 7s ease-in-out infinite alternate}
+.footer-waves .w2{animation:waveSway 9s ease-in-out infinite alternate-reverse}
+.footer-waves .w3{animation:waveSway 11s ease-in-out infinite alternate}
+.footer-waves .w4{animation:waveSway 13s ease-in-out infinite alternate-reverse}
+@keyframes waveSway{0%{transform:translateX(0)}100%{transform:translateX(-25%)}}
+.footer-waves .overlay{position:absolute;inset:0;background:linear-gradient(to top,#05080C 35%,transparent);pointer-events:none;z-index:2}
+.footer-waves .glow{position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:1000px;height:280px;background:radial-gradient(ellipse at center,rgba(57,255,102,0.5),rgba(0,184,63,0.2),transparent 70%);pointer-events:none;animation:glowPulse 3s ease-in-out infinite;z-index:0}
+@keyframes glowPulse{0%,100%{opacity:0.5}50%{opacity:1}}
 @keyframes glowPulse{0%,100%{opacity:0.6}50%{opacity:1}}
 .footer-inner{position:relative;padding:3rem 4rem 2rem;background:#05080C;text-align:center;z-index:1}
 .footer-inner .logo{font-family:'Montserrat',sans-serif;font-weight:800;font-size:1.3rem;color:var(--green-neon);letter-spacing:3px;text-transform:uppercase;margin-bottom:0.5rem}
@@ -278,7 +279,7 @@ header .logo{position:static;transform:none;font-size:0.75rem}
 .faq-section{padding:3rem 1.5rem}
 .faq-section h2{font-size:1.8rem}
 .footer-inner{padding:2rem 1.5rem}
-.footer-waves{height:200px}
+.footer-waves{height:220px}
 }
 </style>
 </head>
@@ -458,12 +459,16 @@ header .logo{position:static;transform:none;font-size:0.75rem}
 </div>
 </section>
 
+<svg style="position:absolute;width:0;height:0"><defs>
+<filter id="waveGlow"><feGaussianBlur stdDeviation="4" result="blur"/><feComposite in="SourceGraphic" in2="blur" operator="over"/></filter>
+<filter id="waveGlowStrong"><feGaussianBlur stdDeviation="6" result="blur"/><feComposite in="SourceGraphic" in2="blur" operator="over"/></filter>
+</defs></svg>
 <div class="footer-waves">
-<svg class="wave1" viewBox="0 0 1440 320" preserveAspectRatio="none"><path fill="#00B83F" fill-opacity="0.35" d="M0,160 C360,280 720,60 1080,160 C1260,220 1380,160 1440,130 L1440,320 L0,320 Z"/><path fill="#00B83F" fill-opacity="0.15" d="M0,220 C360,110 720,280 1080,220 C1260,180 1380,240 1440,220 L1440,320 L0,320 Z"/></svg>
-<svg class="wave2" viewBox="0 0 1440 320" preserveAspectRatio="none"><path fill="#39FF66" fill-opacity="0.30" d="M0,180 C360,300 720,80 1080,180 C1260,240 1380,180 1440,150 L1440,320 L0,320 Z"/><path fill="#39FF66" fill-opacity="0.12" d="M0,240 C360,140 720,300 1080,240 C1260,200 1380,260 1440,240 L1440,320 L0,320 Z"/></svg>
-<svg class="wave3" viewBox="0 0 1440 320" preserveAspectRatio="none"><path fill="#00B83F" fill-opacity="0.25" d="M0,140 C360,260 720,40 1080,140 C1260,200 1380,140 1440,110 L1440,320 L0,320 Z"/><path fill="#00B83F" fill-opacity="0.10" d="M0,200 C360,90 720,260 1080,200 C1260,160 1380,220 1440,200 L1440,320 L0,320 Z"/></svg>
-<svg class="wave4" viewBox="0 0 1440 320" preserveAspectRatio="none"><path fill="#39FF66" fill-opacity="0.18" d="M0,200 C360,320 720,120 1080,200 C1260,260 1380,200 1440,170 L1440,320 L0,320 Z"/></svg>
 <div class="glow"></div>
+<svg class="w1" viewBox="0 0 1440 380" preserveAspectRatio="none" filter="url(#waveGlowStrong)"><path fill="none" stroke="#39FF66" stroke-width="3" opacity="0.7" d="M0,190 C120,280 240,80 360,180 C480,280 600,80 720,180 C840,280 960,80 1080,180 C1200,280 1320,80 1440,180 L1440,380 L0,380 Z"/><path fill="none" stroke="#00B83F" stroke-width="1.5" opacity="0.5" d="M0,210 C120,290 240,100 360,200 C480,290 600,100 720,200 C840,290 960,100 1080,200 C1200,290 1320,100 1440,200 L1440,380 L0,380 Z"/></svg>
+<svg class="w2" viewBox="0 0 1440 380" preserveAspectRatio="none" filter="url(#waveGlow)"><path fill="none" stroke="#00B83F" stroke-width="2.5" opacity="0.6" d="M0,150 C180,260 360,40 540,150 C720,260 900,40 1080,150 C1260,260 1440,40 1440,150 L1440,380 L0,380 Z"/><path fill="none" stroke="#39FF66" stroke-width="1" opacity="0.35" d="M0,170 C180,275 360,60 540,170 C720,275 900,60 1080,170 C1260,275 1440,60 1440,170 L1440,380 L0,380 Z"/></svg>
+<svg class="w3" viewBox="0 0 1440 380" preserveAspectRatio="none" filter="url(#waveGlow)"><path fill="none" stroke="#39FF66" stroke-width="2" opacity="0.5" d="M0,220 C140,310 280,120 420,220 C560,310 700,120 840,220 C980,310 1120,120 1260,220 C1400,310 1440,140 1440,220 L1440,380 L0,380 Z"/><path fill="none" stroke="#00B83F" stroke-width="1" opacity="0.3" d="M0,240 C140,330 280,140 420,240 C560,330 700,140 840,240 C980,330 1120,140 1260,240 C1400,330 1440,160 1440,240 L1440,380 L0,380 Z"/></svg>
+<svg class="w4" viewBox="0 0 1440 380" preserveAspectRatio="none" filter="url(#waveGlow)"><path fill="none" stroke="#00B83F" stroke-width="1.5" opacity="0.4" d="M0,130 C160,240 320,20 480,130 C640,240 800,20 960,130 C1120,240 1280,20 1440,130 L1440,380 L0,380 Z"/></svg>
 <div class="overlay"></div>
 </div>
 
