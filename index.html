@@ -545,12 +545,12 @@
     el1.textContent = texts[0];
     el2.textContent = texts[1];
 
-    const tl = gsap.timeline({ delay: 0.4 });
+    const tl = gsap.timeline({ delay: 1.2 });
     for (let i = 0; i < texts.length - 1; i++) {
         if (i > 0) tl.call(() => { el1.textContent = texts[i]; el2.textContent = texts[i + 1]; });
-        tl.to({}, { duration: 0.6, ease: "power2.inOut", onUpdate: function() { setMorph(this.progress()); } });
+        tl.to({}, { duration: 1.2, ease: "power2.inOut", onUpdate: function() { setMorph(this.progress()); } });
         tl.call(() => { setMorph(1); el2.style.filter = ""; el2.style.opacity = "1"; el1.style.filter = ""; el1.style.opacity = "0"; });
-        if (i < texts.length - 2) tl.to({}, { duration: 0.5 });
+        if (i < texts.length - 2) tl.to({}, { duration: 2.5 });
     }
     tl.call(settle);
 })();
