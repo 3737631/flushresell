@@ -209,15 +209,15 @@ header .logo:hover{opacity:0.7}
 .faq-item .answer{max-height:0;overflow:hidden;transition:max-height 0.4s cubic-bezier(0.16,1,0.3,1);font-size:0.8rem;color:var(--gray-mid);line-height:1.5}
 .faq-item.open .answer{max-height:200px;padding-top:0.8rem}
 
-.footer-waves{position:relative;background:#05080C;overflow:hidden;height:280px}
+.footer-waves{position:relative;background:#05080C;overflow:hidden;height:320px}
 .footer-waves svg{position:absolute;bottom:0;left:0;width:200%;height:100%}
 .footer-waves .wave1{animation:waveDrift 8s linear infinite}
-.footer-waves .wave2{animation:waveDrift 12s linear infinite reverse;opacity:0.5}
-.footer-waves .wave3{animation:waveDrift 16s linear infinite;opacity:0.25}
-.footer-waves .wave4{animation:waveDrift 20s linear infinite reverse;opacity:0.12}
+.footer-waves .wave2{animation:waveDrift 12s linear infinite reverse}
+.footer-waves .wave3{animation:waveDrift 16s linear infinite}
+.footer-waves .wave4{animation:waveDrift 20s linear infinite reverse}
 @keyframes waveDrift{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
-.footer-waves .overlay{position:absolute;inset:0;background:linear-gradient(to top,#05080C 25%,transparent);pointer-events:none}
-.footer-waves .glow{position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:800px;height:200px;background:radial-gradient(ellipse at center,rgba(0,184,63,0.18),transparent 70%);pointer-events:none;animation:glowPulse 4s ease-in-out infinite}
+.footer-waves .overlay{position:absolute;inset:0;background:linear-gradient(to top,#05080C 30%,transparent);pointer-events:none}
+.footer-waves .glow{position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:900px;height:250px;background:radial-gradient(ellipse at center,rgba(0,184,63,0.35),transparent 70%);pointer-events:none;animation:glowPulse 3s ease-in-out infinite}
 @keyframes glowPulse{0%,100%{opacity:0.6}50%{opacity:1}}
 .footer-inner{position:relative;padding:3rem 4rem 2rem;background:#05080C;text-align:center;z-index:1}
 .footer-inner .logo{font-family:'Montserrat',sans-serif;font-weight:800;font-size:1.3rem;color:var(--green-neon);letter-spacing:3px;text-transform:uppercase;margin-bottom:0.5rem}
@@ -278,7 +278,7 @@ header .logo{position:static;transform:none;font-size:0.75rem}
 .faq-section{padding:3rem 1.5rem}
 .faq-section h2{font-size:1.8rem}
 .footer-inner{padding:2rem 1.5rem}
-.footer-waves{height:160px}
+.footer-waves{height:200px}
 }
 </style>
 </head>
@@ -459,10 +459,10 @@ header .logo{position:static;transform:none;font-size:0.75rem}
 </section>
 
 <div class="footer-waves">
-<svg class="wave1" viewBox="0 0 1440 280" preserveAspectRatio="none"><path fill="#00B83F" fill-opacity="0.08" d="M0,140 C360,240 720,60 1080,140 C1260,190 1380,140 1440,120 L1440,280 L0,280 Z"/><path fill="#00B83F" fill-opacity="0.04" d="M0,190 C360,100 720,240 1080,190 C1260,160 1380,210 1440,190 L1440,280 L0,280 Z"/></svg>
-<svg class="wave2" viewBox="0 0 1440 280" preserveAspectRatio="none"><path fill="#39FF66" fill-opacity="0.07" d="M0,160 C360,260 720,80 1080,160 C1260,210 1380,160 1440,140 L1440,280 L0,280 Z"/><path fill="#39FF66" fill-opacity="0.03" d="M0,210 C360,120 720,260 1080,210 C1260,180 1380,230 1440,210 L1440,280 L0,280 Z"/></svg>
-<svg class="wave3" viewBox="0 0 1440 280" preserveAspectRatio="none"><path fill="#00B83F" fill-opacity="0.06" d="M0,120 C360,220 720,40 1080,120 C1260,170 1380,120 1440,100 L1440,280 L0,280 Z"/><path fill="#00B83F" fill-opacity="0.03" d="M0,170 C360,80 720,220 1080,170 C1260,140 1380,190 1440,170 L1440,280 L0,280 Z"/></svg>
-<svg class="wave4" viewBox="0 0 1440 280" preserveAspectRatio="none"><path fill="#39FF66" fill-opacity="0.04" d="M0,180 C360,280 720,100 1080,180 C1260,230 1380,180 1440,160 L1440,280 L0,280 Z"/></svg>
+<svg class="wave1" viewBox="0 0 1440 320" preserveAspectRatio="none"><path fill="#00B83F" fill-opacity="0.35" d="M0,160 C360,280 720,60 1080,160 C1260,220 1380,160 1440,130 L1440,320 L0,320 Z"/><path fill="#00B83F" fill-opacity="0.15" d="M0,220 C360,110 720,280 1080,220 C1260,180 1380,240 1440,220 L1440,320 L0,320 Z"/></svg>
+<svg class="wave2" viewBox="0 0 1440 320" preserveAspectRatio="none"><path fill="#39FF66" fill-opacity="0.30" d="M0,180 C360,300 720,80 1080,180 C1260,240 1380,180 1440,150 L1440,320 L0,320 Z"/><path fill="#39FF66" fill-opacity="0.12" d="M0,240 C360,140 720,300 1080,240 C1260,200 1380,260 1440,240 L1440,320 L0,320 Z"/></svg>
+<svg class="wave3" viewBox="0 0 1440 320" preserveAspectRatio="none"><path fill="#00B83F" fill-opacity="0.25" d="M0,140 C360,260 720,40 1080,140 C1260,200 1380,140 1440,110 L1440,320 L0,320 Z"/><path fill="#00B83F" fill-opacity="0.10" d="M0,200 C360,90 720,260 1080,200 C1260,160 1380,220 1440,200 L1440,320 L0,320 Z"/></svg>
+<svg class="wave4" viewBox="0 0 1440 320" preserveAspectRatio="none"><path fill="#39FF66" fill-opacity="0.18" d="M0,200 C360,320 720,120 1080,200 C1260,260 1380,200 1440,170 L1440,320 L0,320 Z"/></svg>
 <div class="glow"></div>
 <div class="overlay"></div>
 </div>
