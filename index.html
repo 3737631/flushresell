@@ -11,7 +11,7 @@ html { scroll-behavior: smooth; }
 body { font-family: 'Inter', sans-serif; background: #05080C; color: #fff; overflow-x: hidden; -webkit-font-smoothing: antialiased; }
 :root { --border: #1F252D; --green: #00B83F; --green-neon: #39FF66; --green-dark: #0B2E18; --gold: #F2C94C; --gray-ui: #1F252D; --gray-light: #D9DEE5; --gray-mid: #6B7280; }
 ::selection { background: var(--green); color: #05080C; }
-img { -webkit-user-drag: none; user-select: none; -webkit-touch-callout: none; }
+img, .gallery-item { -webkit-user-drag: none; user-select: none; -webkit-touch-callout: none; }
 
 .transition-overlay { position: fixed; inset: 0; z-index: 999; display: grid; grid-template-columns: repeat(10,1fr); grid-template-rows: repeat(10,1fr); pointer-events: none; }
 .transition-overlay .box { background: #05080C; transform: scaleY(0); transform-origin: center bottom; }
@@ -93,7 +93,7 @@ header .logo:hover { opacity: 0.7; }
 .tab { border: 1px solid rgba(57,255,102,0.25); background: #111821; color: white; padding: 13px 22px; border-radius: 999px; font-weight: 800; cursor: pointer; transition: 0.25s ease; font-family: 'Montserrat',sans-serif; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 1px; }
 .tab.active, .tab:hover { background: var(--green); color: #031006; box-shadow: 0 0 28px rgba(0,200,83,0.35); }
 .gallery-grid { max-width: 1180px; margin: 0 auto; display: grid; grid-template-columns: repeat(3,1fr); gap: 18px; }
-.gallery-item { width: 100%; aspect-ratio: 4/5; object-fit: cover; display: block; background: #111; transition: all 0.4s cubic-bezier(0.16,1,0.3,1); border-radius: 12px; cursor: pointer; }
+.gallery-item { width: 100%; aspect-ratio: 4/5; display: block; background: #111; background-size: cover; background-position: center; transition: all 0.4s cubic-bezier(0.16,1,0.3,1); border-radius: 12px; cursor: pointer; }
 .gallery-item:hover { transform: translateY(-6px) scale(1.015); box-shadow: 0 12px 40px rgba(0,184,63,0.15); }
 .gallery-item.hidden { display: none; }
 
@@ -327,24 +327,24 @@ footer { padding: 2rem 1.5rem; }
 <button class="tab" data-category="calidad">Calidad</button>
 </div>
 <div class="gallery-grid">
-<img src="https://res.cloudinary.com/dmuxgamms/image/upload/v1783107903/photo_2026-07-03_21-44-01_j1cbp7.jpg" class="gallery-item resultados" alt="Resultado de alumno">
-<img src="https://res.cloudinary.com/dmuxgamms/image/upload/v1783107903/photo_2026-07-03_21-44-00_gc8u3x.jpg" class="gallery-item resultados" alt="Venta en Vinted">
-<img src="https://res.cloudinary.com/dmuxgamms/image/upload/v1783107903/photo_2026-07-03_21-43-57_vho6cg.jpg" class="gallery-item resultados" alt="Resultado">
-<img src="https://res.cloudinary.com/dmuxgamms/image/upload/v1783107903/photo_2026-07-03_21-43-58_ubwwvr.jpg" class="gallery-item resultados" alt="Alumno generando">
-<img src="https://res.cloudinary.com/dmuxgamms/image/upload/v1783107902/photo_2026-07-03_21-43-53_nt6qxi.jpg" class="gallery-item resultados" alt="Venta confirmada">
-<img src="https://res.cloudinary.com/dmuxgamms/image/upload/v1783107902/photo_2026-07-03_21-43-40_kmjyi4.jpg" class="gallery-item stock" alt="Stock Apple">
-<img src="https://res.cloudinary.com/dmuxgamms/image/upload/v1783107902/photo_2026-07-03_21-43-41_pax8ms.jpg" class="gallery-item stock" alt="Proveedor">
-<img src="https://res.cloudinary.com/dmuxgamms/image/upload/v1783107902/photo_2026-07-03_21-43-45_xg7ydi.jpg" class="gallery-item stock" alt="Stock consolas">
-<img src="https://res.cloudinary.com/dmuxgamms/image/upload/v1783107903/photo_2026-07-03_21-43-47_dmxiww.jpg" class="gallery-item stock" alt="Inventario">
-<img src="https://res.cloudinary.com/dmuxgamms/image/upload/v1783107911/photo_2026-07-03_21-43-38_m0qcip.jpg" class="gallery-item stock" alt="Almacen">
-<img src="https://res.cloudinary.com/dmuxgamms/image/upload/v1783107911/photo_2026-07-03_21-43-36_d1h4vd.jpg" class="gallery-item stock" alt="Cajas producto">
-<img src="https://res.cloudinary.com/dmuxgamms/image/upload/v1783107903/photo_2026-07-03_21-44-03_jsxzbv.jpg" class="gallery-item calidad" alt="Apple revisado">
-<img src="https://res.cloudinary.com/dmuxgamms/image/upload/v1783107903/photo_2026-07-03_21-44-04_hmdbci.jpg" class="gallery-item calidad" alt="AirPods Max">
-<img src="https://res.cloudinary.com/dmuxgamms/image/upload/v1783107903/photo_2026-07-03_21-44-05_puzxc9.jpg" class="gallery-item calidad" alt="iPhone">
-<img src="https://res.cloudinary.com/dmuxgamms/image/upload/v1783107903/photo_2026-07-03_21-43-54_g3oogb.jpg" class="gallery-item calidad" alt="PS5">
-<img src="https://res.cloudinary.com/dmuxgamms/image/upload/v1783107903/photo_2026-07-03_21-43-49_tord6i.jpg" class="gallery-item calidad" alt="Componentes">
-<img src="https://res.cloudinary.com/dmuxgamms/image/upload/v1783107902/photo_2026-07-03_21-43-51_jrmbdf.jpg" class="gallery-item calidad" alt="Apple Vision">
-<img src="https://res.cloudinary.com/dmuxgamms/image/upload/v1783107902/photo_2026-07-03_21-43-43_b8rpx7.jpg" class="gallery-item calidad" alt="Mando PS5">
+<div style="background-image:url(https://res.cloudinary.com/dmuxgamms/image/upload/v1783107903/photo_2026-07-03_21-44-01_j1cbp7.jpg)" class="gallery-item resultados"></div>
+<div style="background-image:url(https://res.cloudinary.com/dmuxgamms/image/upload/v1783107903/photo_2026-07-03_21-44-00_gc8u3x.jpg)" class="gallery-item resultados"></div>
+<div style="background-image:url(https://res.cloudinary.com/dmuxgamms/image/upload/v1783107903/photo_2026-07-03_21-43-57_vho6cg.jpg)" class="gallery-item resultados"></div>
+<div style="background-image:url(https://res.cloudinary.com/dmuxgamms/image/upload/v1783107903/photo_2026-07-03_21-43-58_ubwwvr.jpg)" class="gallery-item resultados"></div>
+<div style="background-image:url(https://res.cloudinary.com/dmuxgamms/image/upload/v1783107902/photo_2026-07-03_21-43-53_nt6qxi.jpg)" class="gallery-item resultados"></div>
+<div style="background-image:url(https://res.cloudinary.com/dmuxgamms/image/upload/v1783107902/photo_2026-07-03_21-43-40_kmjyi4.jpg)" class="gallery-item stock"></div>
+<div style="background-image:url(https://res.cloudinary.com/dmuxgamms/image/upload/v1783107902/photo_2026-07-03_21-43-41_pax8ms.jpg)" class="gallery-item stock"></div>
+<div style="background-image:url(https://res.cloudinary.com/dmuxgamms/image/upload/v1783107902/photo_2026-07-03_21-43-45_xg7ydi.jpg)" class="gallery-item stock"></div>
+<div style="background-image:url(https://res.cloudinary.com/dmuxgamms/image/upload/v1783107903/photo_2026-07-03_21-43-47_dmxiww.jpg)" class="gallery-item stock"></div>
+<div style="background-image:url(https://res.cloudinary.com/dmuxgamms/image/upload/v1783107911/photo_2026-07-03_21-43-38_m0qcip.jpg)" class="gallery-item stock"></div>
+<div style="background-image:url(https://res.cloudinary.com/dmuxgamms/image/upload/v1783107911/photo_2026-07-03_21-43-36_d1h4vd.jpg)" class="gallery-item stock"></div>
+<div style="background-image:url(https://res.cloudinary.com/dmuxgamms/image/upload/v1783107903/photo_2026-07-03_21-44-03_jsxzbv.jpg)" class="gallery-item calidad"></div>
+<div style="background-image:url(https://res.cloudinary.com/dmuxgamms/image/upload/v1783107903/photo_2026-07-03_21-44-04_hmdbci.jpg)" class="gallery-item calidad"></div>
+<div style="background-image:url(https://res.cloudinary.com/dmuxgamms/image/upload/v1783107903/photo_2026-07-03_21-44-05_puzxc9.jpg)" class="gallery-item calidad"></div>
+<div style="background-image:url(https://res.cloudinary.com/dmuxgamms/image/upload/v1783107903/photo_2026-07-03_21-43-54_g3oogb.jpg)" class="gallery-item calidad"></div>
+<div style="background-image:url(https://res.cloudinary.com/dmuxgamms/image/upload/v1783107903/photo_2026-07-03_21-43-49_tord6i.jpg)" class="gallery-item calidad"></div>
+<div style="background-image:url(https://res.cloudinary.com/dmuxgamms/image/upload/v1783107902/photo_2026-07-03_21-43-51_jrmbdf.jpg)" class="gallery-item calidad"></div>
+<div style="background-image:url(https://res.cloudinary.com/dmuxgamms/image/upload/v1783107902/photo_2026-07-03_21-43-43_b8rpx7.jpg)" class="gallery-item calidad"></div>
 </div>
 </section>
 
@@ -569,7 +569,12 @@ digitalCart = []; updateCartUI(); cartOpen = false; document.getElementById('car
 
 function openModal(src) { document.getElementById('modalImage').src = src; document.getElementById('modalBackdrop').classList.add('open'); document.getElementById('modalClose').classList.add('open'); document.body.style.overflow = 'hidden'; }
 function closeModal() { document.getElementById('modalBackdrop').classList.remove('open'); document.getElementById('modalClose').classList.remove('open'); document.body.style.overflow = ''; }
-document.querySelectorAll('.gallery-item').forEach(el => { el.addEventListener('click', () => openModal(el.src)); });
+document.querySelectorAll('.gallery-item').forEach(el => {
+el.addEventListener('click', () => {
+const url = el.style.backgroundImage.slice(5, -2).replace(/["']/g, '');
+openModal(url);
+});
+});
 </script>
 </body>
 </html>
