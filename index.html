@@ -588,6 +588,12 @@
     const gooWrap = document.getElementById("gooWrap");
     if (!el1 || !el2 || typeof gsap === 'undefined') return;
 
+    gooWrap.style.filter = "none";
+    el1.style.filter = "none";
+    el1.style.opacity = "1";
+    el2.style.filter = "none";
+    el2.style.opacity = "0";
+
     function setMorph(fraction) {
         const b1 = Math.min(6 / (fraction + 0.1) - 1.5, 30);
         const b2 = Math.min(6 / (1 - fraction + 0.1) - 1.5, 30);
@@ -608,12 +614,15 @@
     el1.textContent = texts[0];
     el2.textContent = texts[1];
 
-    const tl = gsap.timeline({ delay: 1.2 });
+    const tl = gsap.timeline({ delay: 0.8 });
+
+    tl.call(() => { gooWrap.style.filter = "url(#goo)"; });
+
     for (let i = 0; i < texts.length - 1; i++) {
         if (i > 0) tl.call(() => { el1.textContent = texts[i]; el2.textContent = texts[i + 1]; });
-        tl.to({}, { duration: 1.2, ease: "power2.inOut", onUpdate: function() { setMorph(this.progress()); } });
+        tl.to({}, { duration: 0.7, ease: "power2.inOut", onUpdate: function() { setMorph(this.progress()); } });
         tl.call(() => { setMorph(1); el2.style.filter = ""; el2.style.opacity = "1"; el1.style.filter = ""; el1.style.opacity = "0"; });
-        if (i < texts.length - 2) tl.to({}, { duration: 2.5 });
+        if (i < texts.length - 2) tl.to({}, { duration: 1.2 });
     }
     tl.call(settle);
 })();
@@ -688,6 +697,9 @@ function submitConsulting(e) {
 
 const tabs = document.querySelectorAll(".tab");
 const items = document.querySelectorAll(".gallery-item");
+items.forEach((item) => {
+    if (!item.classList.contains("resultados")) item.classList.add("hidden");
+});
 tabs.forEach((tab) => {
     tab.addEventListener("click", () => {
         tabs.forEach((btn) => btn.classList.remove("active"));
