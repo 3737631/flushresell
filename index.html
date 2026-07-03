@@ -251,8 +251,36 @@
             .consulting-form { grid-template-columns: 1fr; }
             .faq-section { padding: 3rem 1.5rem; }
             .faq-section h2 { font-size: 1.8rem; }
+            .gallery-grid { grid-template-columns: 1fr; gap: 14px; }
+            .gallery-header h2 { font-size: 38px; }
+            .gallery-section { padding: 65px 14px; }
             footer { padding: 2rem 1.5rem; }
         }
+
+        .gallery-section {
+            padding: 90px 20px;
+            background: radial-gradient(circle at top, rgba(0, 200, 83, 0.12), transparent 35%), #05080c;
+            color: white;
+        }
+        .gallery-header { max-width: 850px; margin: 0 auto 36px; text-align: center; }
+        .gallery-header .eyebrow { color: var(--green-neon); font-weight: 800; letter-spacing: 2px; font-size: 13px; font-family: 'JetBrains Mono', monospace; }
+        .gallery-header h2 { margin: 12px 0; font-size: clamp(34px, 6vw, 68px); line-height: 0.95; font-weight: 900; text-transform: uppercase; font-family: 'Anton', sans-serif; }
+        .gallery-header p { color: #cfd6df; font-size: 18px; line-height: 1.6; }
+        .gallery-tabs { display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; margin-bottom: 34px; }
+        .tab {
+            border: 1px solid rgba(57, 255, 102, 0.25); background: #111821; color: white;
+            padding: 13px 22px; border-radius: 999px; font-weight: 800; cursor: pointer;
+            transition: 0.25s ease; font-family: 'Montserrat', sans-serif; font-size: 0.7rem;
+            text-transform: uppercase; letter-spacing: 1px;
+        }
+        .tab.active, .tab:hover { background: var(--green); color: #031006; box-shadow: 0 0 28px rgba(0, 200, 83, 0.35); }
+        .gallery-grid { max-width: 1180px; margin: 0 auto; display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+        .gallery-item {
+            width: 100%; aspect-ratio: 4 / 5; object-fit: cover; display: block;
+            background: #111; transition: transform 0.25s ease, opacity 0.25s ease; border-radius: 12px;
+        }
+        .gallery-item:hover { transform: translateY(-6px) scale(1.015); }
+        .gallery-item.hidden { display: none; }
     </style>
 </head>
 <body>
@@ -389,6 +417,41 @@
                     <div class="author">Lucia P.</div>
                 </div>
             </div>
+        </div>
+    </section>
+
+    <section class="gallery-section" id="gallerySection">
+        <div class="gallery-header">
+            <div class="eyebrow">PRUEBAS Y PRODUCTOS</div>
+            <h2>Resultados, proveedores y calidad real</h2>
+            <p>Mira ejemplos de resultados de alumnos, stock disponible y productos usados para detectar oportunidades de reventa.</p>
+        </div>
+        <div class="gallery-tabs">
+            <button class="tab active" data-category="resultados">Resultados</button>
+            <button class="tab" data-category="stock">Stock y proveedores</button>
+            <button class="tab" data-category="calidad">Calidad</button>
+        </div>
+        <div class="gallery-grid">
+            <img src="https://res.cloudinary.com/dmuxgamms/image/upload/v1783107903/photo_2026-07-03_21-44-01_j1cbp7.jpg" class="gallery-item resultados" alt="Resultado de alumno en reventa">
+            <img src="https://res.cloudinary.com/dmuxgamms/image/upload/v1783107903/photo_2026-07-03_21-44-00_gc8u3x.jpg" class="gallery-item resultados" alt="Prueba de venta en Vinted">
+            <img src="https://res.cloudinary.com/dmuxgamms/image/upload/v1783107903/photo_2026-07-03_21-43-57_vho6cg.jpg" class="gallery-item resultados" alt="Resultado de venta">
+            <img src="https://res.cloudinary.com/dmuxgamms/image/upload/v1783107903/photo_2026-07-03_21-43-58_ubwwvr.jpg" class="gallery-item resultados" alt="Alumno generando ingresos">
+            <img src="https://res.cloudinary.com/dmuxgamms/image/upload/v1783107902/photo_2026-07-03_21-43-53_nt6qxi.jpg" class="gallery-item resultados" alt="Venta confirmada en Vinted">
+
+            <img src="https://res.cloudinary.com/dmuxgamms/image/upload/v1783107902/photo_2026-07-03_21-43-40_kmjyi4.jpg" class="gallery-item stock" alt="Stock de productos Apple">
+            <img src="https://res.cloudinary.com/dmuxgamms/image/upload/v1783107902/photo_2026-07-03_21-43-41_pax8ms.jpg" class="gallery-item stock" alt="Proveedor de AirPods Max">
+            <img src="https://res.cloudinary.com/dmuxgamms/image/upload/v1783107902/photo_2026-07-03_21-43-45_xg7ydi.jpg" class="gallery-item stock" alt="Stock de consolas">
+            <img src="https://res.cloudinary.com/dmuxgamms/image/upload/v1783107903/photo_2026-07-03_21-43-47_dmxiww.jpg" class="gallery-item stock" alt="Inventario de reventa">
+            <img src="https://res.cloudinary.com/dmuxgamms/image/upload/v1783107911/photo_2026-07-03_21-43-38_m0qcip.jpg" class="gallery-item stock" alt="Almacen con producto">
+            <img src="https://res.cloudinary.com/dmuxgamms/image/upload/v1783107911/photo_2026-07-03_21-43-36_d1h4vd.jpg" class="gallery-item stock" alt="Cajas de producto para vender">
+
+            <img src="https://res.cloudinary.com/dmuxgamms/image/upload/v1783107903/photo_2026-07-03_21-44-03_jsxzbv.jpg" class="gallery-item calidad" alt="Producto Apple revisado">
+            <img src="https://res.cloudinary.com/dmuxgamms/image/upload/v1783107903/photo_2026-07-03_21-44-04_hmdbci.jpg" class="gallery-item calidad" alt="AirPods Max calidad verificada">
+            <img src="https://res.cloudinary.com/dmuxgamms/image/upload/v1783107903/photo_2026-07-03_21-44-05_puzxc9.jpg" class="gallery-item calidad" alt="iPhone sellado calidad">
+            <img src="https://res.cloudinary.com/dmuxgamms/image/upload/v1783107903/photo_2026-07-03_21-43-54_g3oogb.jpg" class="gallery-item calidad" alt="PlayStation 5 producto real">
+            <img src="https://res.cloudinary.com/dmuxgamms/image/upload/v1783107903/photo_2026-07-03_21-43-49_tord6i.jpg" class="gallery-item calidad" alt="Componentes gaming calidad">
+            <img src="https://res.cloudinary.com/dmuxgamms/image/upload/v1783107902/photo_2026-07-03_21-43-51_jrmbdf.jpg" class="gallery-item calidad" alt="Apple Vision revisado">
+            <img src="https://res.cloudinary.com/dmuxgamms/image/upload/v1783107902/photo_2026-07-03_21-43-43_b8rpx7.jpg" class="gallery-item calidad" alt="Mando PS5 calidad">
         </div>
     </section>
 
@@ -622,6 +685,19 @@ function submitConsulting(e) {
     };
     document.getElementById('mainLogo').addEventListener('click', () => window.activarAnimacion());
 })();
+
+const tabs = document.querySelectorAll(".tab");
+const items = document.querySelectorAll(".gallery-item");
+tabs.forEach((tab) => {
+    tab.addEventListener("click", () => {
+        tabs.forEach((btn) => btn.classList.remove("active"));
+        tab.classList.add("active");
+        const category = tab.dataset.category;
+        items.forEach((item) => {
+            item.classList.toggle("hidden", !item.classList.contains(category));
+        });
+    });
+});
 </script>
 </body>
 </html>
