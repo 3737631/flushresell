@@ -1,935 +1,575 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FlushResell · Consultoria en Reventa y E-commerce</title>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Montserrat:wght@400;600;700;800;900&family=Anton&family=JetBrains+Mono:wght@400;700&display=swap');
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        html { scroll-behavior: smooth; }
-        body { font-family: 'Inter', sans-serif; background: #05080C; color: #fff; overflow-x: hidden; -webkit-font-smoothing: antialiased; }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FlushResell · Consultoria en Reventa y E-commerce</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Montserrat:wght@400;600;700;800;900&family=Anton&family=JetBrains+Mono:wght@400;700&display=swap');
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { font-family: 'Inter', sans-serif; background: #05080C; color: #fff; overflow-x: hidden; -webkit-font-smoothing: antialiased; }
+:root { --border: #1F252D; --green: #00B83F; --green-neon: #39FF66; --green-dark: #0B2E18; --gold: #F2C94C; --gray-ui: #1F252D; --gray-light: #D9DEE5; --gray-mid: #6B7280; }
+::selection { background: var(--green); color: #05080C; }
+img { -webkit-user-drag: none; user-select: none; -webkit-touch-callout: none; }
 
-        :root { --border: #1F252D; --green: #00B83F; --green-neon: #39FF66; --green-dark: #0B2E18; --gold: #F2C94C; --gray-ui: #1F252D; --gray-light: #D9DEE5; --gray-mid: #6B7280; }
+.transition-overlay { position: fixed; inset: 0; z-index: 999; display: grid; grid-template-columns: repeat(10,1fr); grid-template-rows: repeat(10,1fr); pointer-events: none; }
+.transition-overlay .box { background: #05080C; transform: scaleY(0); transform-origin: center bottom; }
+.transition-overlay.open { pointer-events: all; }
 
-        ::selection { background: var(--green); color: #05080C; }
+header { display: flex; align-items: center; justify-content: space-between; padding: 1.5rem 4rem; position: sticky; top: 0; background: rgba(5,8,12,0.97); backdrop-filter: blur(12px); z-index: 100; border-bottom: 1px solid var(--border); font-size: 0.7rem; text-transform: uppercase; letter-spacing: 1.5px; }
+header .logo { font-weight: 800; letter-spacing: 3px; font-size: 0.9rem; cursor: pointer; transition: opacity 0.3s; font-family: 'Montserrat',sans-serif; position: absolute; left: 50%; transform: translateX(-50%); color: var(--green-neon); }
+header .logo:hover { opacity: 0.7; }
+.header-left, .header-right { display: flex; align-items: center; gap: 1.5rem; }
+.header-left a, .header-right a { color: #fff; text-decoration: none; cursor: pointer; transition: opacity 0.3s; font-size: 0.65rem; letter-spacing: 2px; }
+.header-left a:hover, .header-right a:hover { opacity: 0.5; }
 
-        .transition-overlay {
-            position: fixed; inset: 0; z-index: 999; display: grid;
-            grid-template-columns: repeat(10, 1fr); grid-template-rows: repeat(10, 1fr);
-            pointer-events: none;
-        }
-        .transition-overlay .box { background: #05080C; transform: scaleY(0); transform-origin: center bottom; }
-        .transition-overlay.open { pointer-events: all; }
+.hero { height: 80vh; display: flex; flex-direction: column; align-items: center; justify-content: center; background: #05080C; text-align: center; padding: 2rem; position: relative; overflow: hidden; }
+.hero::before { content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: radial-gradient(ellipse at center, var(--green-dark) 0%, transparent 60%); opacity: 0.3; pointer-events: none; }
+.hero-title-wrap { position: relative; display: flex; align-items: center; justify-content: center; height: 160px; width: 100%; margin-bottom: 0.5rem; }
+.hero-title { font-family: 'Anton',sans-serif; font-size: clamp(2.8rem, 8vw, 5.5rem); letter-spacing: 3px; text-transform: uppercase; line-height: 1.05; color: #fff; text-align: center; max-width: 900px; margin: 0 auto; text-wrap: balance; }
+.hero-title span { color: var(--green-neon); }
+.hero-sub { font-size: 1rem; color: var(--gray-mid); max-width: 550px; margin-top: 1.5rem; line-height: 1.6; position: relative; z-index: 1; }
+.hero-actions { margin-top: 2rem; display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center; position: relative; z-index: 1; }
+.btn-primary { padding: 1rem 2.5rem; background: var(--green); color: #05080C; border: none; font-family: 'Montserrat',sans-serif; font-weight: 700; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 2px; cursor: pointer; transition: all 0.3s; border-radius: 50px; box-shadow: 0 0 30px rgba(0,184,63,0.3); position: relative; overflow: hidden; }
+.btn-primary:hover { background: var(--green-neon); box-shadow: 0 0 50px rgba(57,255,102,0.5); transform: translateY(-2px); }
+.btn-primary::after { content: ''; position: absolute; inset: 0; background: linear-gradient(120deg,transparent,rgba(255,255,255,0.15),transparent); transform: translateX(-100%); transition: transform 0.5s; }
+.btn-primary:hover::after { transform: translateX(100%); }
+.btn-secondary { padding: 1rem 2.5rem; background: transparent; color: #fff; border: 1px solid var(--border); font-family: 'Montserrat',sans-serif; font-weight: 600; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 2px; cursor: pointer; transition: all 0.3s; border-radius: 50px; }
+.btn-secondary:hover { border-color: var(--green); color: var(--green); }
 
-        header {
-            display: flex; align-items: center; justify-content: space-between; padding: 1.5rem 4rem;
-            position: sticky; top: 0; background: rgba(5,8,12,0.97); backdrop-filter: blur(12px);
-            z-index: 100; border-bottom: 1px solid var(--border);
-            font-size: 0.7rem; text-transform: uppercase; letter-spacing: 1.5px;
-        }
-        header .logo {
-            font-weight: 800; letter-spacing: 3px; font-size: 0.9rem; cursor: pointer;
-            transition: opacity 0.3s; font-family: 'Montserrat', sans-serif;
-            position: absolute; left: 50%; transform: translateX(-50%);
-            color: var(--green-neon);
-        }
-        header .logo:hover { opacity: 0.7; }
-        .header-left, .header-right { display: flex; align-items: center; gap: 1.5rem; }
-        .header-left a, .header-right a { color: #fff; text-decoration: none; cursor: pointer; transition: opacity 0.3s; font-size: 0.65rem; letter-spacing: 2px; }
-        .header-left a:hover, .header-right a:hover { opacity: 0.5; }
+.stats-section { padding: 3rem 4rem; background: var(--gray-ui); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+.stats-grid { max-width: 1000px; margin: 0 auto; display: grid; grid-template-columns: repeat(4,1fr); gap: 2rem; text-align: center; }
+.stat-item { opacity: 0; transform: translateY(24px); transition: all 0.7s cubic-bezier(0.16,1,0.3,1); }
+.stat-item.revealed { opacity: 1; transform: translateY(0); }
+.stat-item:nth-child(2) { transition-delay: 0.1s; }
+.stat-item:nth-child(3) { transition-delay: 0.2s; }
+.stat-item:nth-child(4) { transition-delay: 0.3s; }
+.stat-item .number { font-family: 'Anton',sans-serif; font-size: 2.5rem; color: var(--green-neon); line-height: 1; }
+.stat-item .label { font-size: 0.6rem; text-transform: uppercase; letter-spacing: 2px; color: var(--gray-mid); margin-top: 0.3rem; font-family: 'JetBrains Mono',monospace; }
 
-        .hero {
-            height: 80vh; display: flex; flex-direction: column; align-items: center;
-            justify-content: center; background: #05080C; text-align: center; padding: 2rem;
-            position: relative; overflow: hidden;
-        }
-        .hero::before {
-            content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
-            background: radial-gradient(ellipse at center, var(--green-dark) 0%, transparent 60%);
-            opacity: 0.3; pointer-events: none;
-        }
-        .hero-gooey {
-            position: relative; display: flex; align-items: center; justify-content: center;
-            height: 160px; width: 100%; margin-bottom: 0.5rem;
-        }
-        .hero-gooey .goo-text { display: flex; align-items: center; justify-content: center; }
-        .hero-gooey .goo-text span {
-            position: absolute; display: inline-block; text-align: center; user-select: none;
-            font-family: 'Anton', sans-serif;
-            font-size: 5rem; letter-spacing: 4px; text-transform: uppercase;
-            line-height: 1; color: #fff; opacity: 0; transform: translateY(0);
-        }
+.learn-section { padding: 5rem 4rem; background: #05080C; border-top: 1px solid var(--border); }
+.learn-section .inner { max-width: 1000px; margin: 0 auto; }
+.section-label { font-size: 0.6rem; color: var(--green); font-family: 'JetBrains Mono',monospace; letter-spacing: 3px; text-transform: uppercase; margin-bottom: 0.5rem; }
+.learn-section h2 { font-family: 'Anton',sans-serif; font-size: clamp(2rem,5vw,3rem); text-transform: uppercase; color: #fff; line-height: 1.1; margin-bottom: 2.5rem; letter-spacing: 2px; }
+.learn-section h2 span { color: var(--green-neon); }
+.learn-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+.learn-card { background: var(--gray-ui); padding: 1.5rem; border-radius: 16px; border: 1px solid var(--border); transition: all 0.4s cubic-bezier(0.16,1,0.3,1); opacity: 0; transform: translateY(24px); position: relative; overflow: hidden; }
+.learn-card.revealed { opacity: 1; transform: translateY(0); }
+.learn-card:hover { border-color: var(--green); box-shadow: 0 0 40px rgba(0,184,63,0.12); transform: translateY(-4px); }
+.learn-card::before { content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: radial-gradient(circle at var(--mx,50%) var(--my,50%),rgba(0,184,63,0.06),transparent 60%); opacity: 0; transition: opacity 0.4s; pointer-events: none; }
+.learn-card:hover::before { opacity: 1; }
+.learn-card .num { font-size: 0.7rem; font-weight: 700; color: var(--green); font-family: 'JetBrains Mono',monospace; margin-bottom: 0.4rem; }
+.learn-card h3 { font-family: 'Montserrat',sans-serif; font-weight: 700; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px; color: #fff; margin-bottom: 0.3rem; }
+.learn-card p { font-size: 0.75rem; color: var(--gray-mid); line-height: 1.5; }
 
-        .hero-sub {
-            font-size: 1rem; color: var(--gray-mid); max-width: 550px;
-            margin-top: 1.5rem; line-height: 1.6; font-family: 'Inter', sans-serif;
-            position: relative; z-index: 1;
-        }
-        .hero-actions { margin-top: 2rem; display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center; position: relative; z-index: 1; }
-        .btn-primary {
-            padding: 1rem 2.5rem; background: var(--green); color: #05080C; border: none;
-            font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 0.75rem;
-            text-transform: uppercase; letter-spacing: 2px; cursor: pointer;
-            transition: all 0.3s; border-radius: 50px;
-            box-shadow: 0 0 30px rgba(0,184,63,0.3);
-        }
-        .btn-primary:hover { background: var(--green-neon); box-shadow: 0 0 50px rgba(57,255,102,0.5); transform: translateY(-2px); }
-        .btn-secondary {
-            padding: 1rem 2.5rem; background: transparent; color: #fff; border: 1px solid var(--border);
-            font-family: 'Montserrat', sans-serif; font-weight: 600; font-size: 0.75rem;
-            text-transform: uppercase; letter-spacing: 2px; cursor: pointer;
-            transition: all 0.3s; border-radius: 50px;
-        }
-        .btn-secondary:hover { border-color: var(--green); color: var(--green); }
+.community-section { padding: 5rem 4rem; background: var(--gray-ui); border-top: 1px solid var(--border); text-align: center; position: relative; overflow: hidden; }
+.community-section::before { content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: radial-gradient(ellipse at center, var(--green-dark) 0%, transparent 70%); opacity: 0.4; }
+.community-section .inner { max-width: 700px; margin: 0 auto; position: relative; z-index: 1; }
+.community-section h2 { font-family: 'Anton',sans-serif; font-size: clamp(2rem,5vw,3rem); text-transform: uppercase; color: #fff; line-height: 1.1; margin-bottom: 1rem; letter-spacing: 2px; }
+.community-section h2 span { color: var(--green-neon); }
+.community-section .sub-text { font-size: 0.9rem; color: var(--gray-light); line-height: 1.6; margin-bottom: 1.5rem; }
+.community-section .member-count { font-family: 'Anton',sans-serif; font-size: 4rem; color: var(--green-neon); line-height: 1; margin-bottom: 0.3rem; }
+.community-section .member-label { font-size: 0.6rem; color: var(--gray-mid); font-family: 'JetBrains Mono',monospace; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 2rem; }
 
-        .stats-section {
-            padding: 3rem 4rem; background: var(--gray-ui); border-top: 1px solid var(--border);
-            border-bottom: 1px solid var(--border);
-        }
-        .stats-grid { max-width: 1000px; margin: 0 auto; display: grid; grid-template-columns: repeat(4, 1fr); gap: 2rem; text-align: center; }
-        .stat-item { opacity: 0; transform: translateY(20px); transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1); }
-        .stat-item.revealed { opacity: 1; transform: translateY(0); }
-        .stat-item .number { font-family: 'Anton', sans-serif; font-size: 2.5rem; color: var(--green-neon); line-height: 1; }
-        .stat-item .label { font-size: 0.6rem; text-transform: uppercase; letter-spacing: 2px; color: var(--gray-mid); margin-top: 0.3rem; font-family: 'JetBrains Mono', monospace; }
+.results-section { padding: 5rem 4rem; background: #05080C; border-top: 1px solid var(--border); }
+.results-section .inner { max-width: 800px; margin: 0 auto; }
+.results-section .section-label { text-align: center; }
+.results-section h2 { font-family: 'Anton',sans-serif; font-size: clamp(1.8rem,4vw,2.5rem); text-transform: uppercase; color: #fff; line-height: 1.1; margin-bottom: 2rem; text-align: center; letter-spacing: 2px; }
+.results-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+.result-card { background: var(--gray-ui); border: 1px solid var(--border); border-radius: 16px; padding: 1.5rem; transition: all 0.4s cubic-bezier(0.16,1,0.3,1); opacity: 0; transform: translateY(24px); }
+.result-card.revealed { opacity: 1; transform: translateY(0); }
+.result-card:hover { border-color: var(--green); transform: translateY(-4px); box-shadow: 0 0 30px rgba(0,184,63,0.08); }
+.result-card .rating { color: var(--gold); font-size: 0.7rem; font-family: 'JetBrains Mono',monospace; letter-spacing: 2px; margin-bottom: 0.3rem; }
+.result-card blockquote { font-size: 0.8rem; color: var(--gray-light); line-height: 1.5; margin: 0.5rem 0; font-style: italic; }
+.result-card .author { font-size: 0.65rem; font-weight: 600; color: var(--green-neon); text-transform: uppercase; letter-spacing: 1px; }
 
-        .learn-section { padding: 5rem 4rem; background: #05080C; border-top: 1px solid var(--border); }
-        .learn-section .inner { max-width: 1000px; margin: 0 auto; }
-        .section-label { font-size: 0.6rem; color: var(--green); font-family: 'JetBrains Mono', monospace; letter-spacing: 3px; text-transform: uppercase; margin-bottom: 0.5rem; }
-        .learn-section h2 { font-family: 'Anton', sans-serif; font-size: 3rem; text-transform: uppercase; color: #fff; line-height: 1.1; margin-bottom: 2.5rem; letter-spacing: 2px; }
-        .learn-section h2 span { color: var(--green-neon); }
-        .learn-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
-        .learn-card {
-            background: var(--gray-ui); padding: 1.5rem; border-radius: 16px;
-            border: 1px solid var(--border); transition: all 0.3s;
-            opacity: 0; transform: translateY(20px);
-        }
-        .learn-card.revealed { opacity: 1; transform: translateY(0); }
-        .learn-card:hover { border-color: var(--green); box-shadow: 0 0 30px rgba(0,184,63,0.1); }
-        .learn-card .num { font-size: 0.7rem; font-weight: 700; color: var(--green); font-family: 'JetBrains Mono', monospace; margin-bottom: 0.4rem; }
-        .learn-card h3 { font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px; color: #fff; margin-bottom: 0.3rem; }
-        .learn-card p { font-size: 0.75rem; color: var(--gray-mid); line-height: 1.5; }
+.gallery-section { padding: 90px 20px; background: radial-gradient(circle at top, rgba(0,200,83,0.12), transparent 35%), #05080c; }
+.gallery-header { max-width: 850px; margin: 0 auto 36px; text-align: center; }
+.gallery-header .eyebrow { color: var(--green-neon); font-weight: 800; letter-spacing: 2px; font-size: 13px; font-family: 'JetBrains Mono',monospace; }
+.gallery-header h2 { margin: 12px 0; font-size: clamp(34px,5vw,56px); line-height: 0.95; font-weight: 900; text-transform: uppercase; font-family: 'Anton',sans-serif; }
+.gallery-header p { color: #cfd6df; font-size: 18px; line-height: 1.6; }
+.gallery-tabs { display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; margin-bottom: 34px; }
+.tab { border: 1px solid rgba(57,255,102,0.25); background: #111821; color: white; padding: 13px 22px; border-radius: 999px; font-weight: 800; cursor: pointer; transition: 0.25s ease; font-family: 'Montserrat',sans-serif; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 1px; }
+.tab.active, .tab:hover { background: var(--green); color: #031006; box-shadow: 0 0 28px rgba(0,200,83,0.35); }
+.gallery-grid { max-width: 1180px; margin: 0 auto; display: grid; grid-template-columns: repeat(3,1fr); gap: 18px; }
+.gallery-item { width: 100%; aspect-ratio: 4/5; object-fit: cover; display: block; background: #111; transition: all 0.4s cubic-bezier(0.16,1,0.3,1); border-radius: 12px; cursor: pointer; }
+.gallery-item:hover { transform: translateY(-6px) scale(1.015); box-shadow: 0 12px 40px rgba(0,184,63,0.15); }
+.gallery-item.hidden { display: none; }
 
-        .community-section {
-            padding: 5rem 4rem; background: var(--gray-ui); border-top: 1px solid var(--border);
-            text-align: center; position: relative; overflow: hidden;
-        }
-        .community-section::before {
-            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
-            background: radial-gradient(ellipse at center, var(--green-dark) 0%, transparent 70%);
-            opacity: 0.4;
-        }
-        .community-section .inner { max-width: 700px; margin: 0 auto; position: relative; z-index: 1; }
-        .community-section h2 { font-family: 'Anton', sans-serif; font-size: 3rem; text-transform: uppercase; color: #fff; line-height: 1.1; margin-bottom: 1rem; letter-spacing: 2px; }
-        .community-section h2 span { color: var(--green-neon); }
-        .community-section .sub-text { font-size: 0.9rem; color: var(--gray-light); line-height: 1.6; margin-bottom: 1.5rem; }
-        .community-section .member-count {
-            font-family: 'Anton', sans-serif; font-size: 4rem; color: var(--green-neon);
-            line-height: 1; margin-bottom: 0.3rem;
-        }
-        .community-section .member-label { font-size: 0.6rem; color: var(--gray-mid); font-family: 'JetBrains Mono', monospace; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 2rem; }
+.catalog-section { padding: 90px 20px; background: #05080C; border-top: 1px solid var(--border); }
+.catalog-section .inner { max-width: 1100px; margin: 0 auto; }
+.catalog-section .header { text-align: center; margin-bottom: 40px; }
+.catalog-section .header .eyebrow { color: var(--green-neon); font-weight: 800; letter-spacing: 2px; font-size: 13px; font-family: 'JetBrains Mono',monospace; }
+.catalog-section .header h2 { font-family: 'Anton',sans-serif; font-size: clamp(34px,5vw,56px); text-transform: uppercase; color: #fff; line-height: 1; margin: 10px 0; }
+.catalog-section .header p { color: var(--gray-mid); font-size: 16px; max-width: 600px; margin: 0 auto; line-height: 1.5; }
+.catalog-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 20px; }
+.product-card-digital { background: var(--gray-ui); border: 1px solid var(--border); border-radius: 16px; overflow: hidden; transition: all 0.4s cubic-bezier(0.16,1,0.3,1); }
+.product-card-digital:hover { border-color: var(--green); box-shadow: 0 0 40px rgba(0,184,63,0.12); transform: translateY(-6px); }
+.product-card-digital .img-wrap { width: 100%; aspect-ratio: 4/3; background: linear-gradient(135deg,#0B2E18,#05080C); overflow: hidden; display: flex; align-items: center; justify-content: center; position: relative; }
+.product-card-digital .img-wrap .mockup { font-size: 3rem; font-weight: 900; color: var(--green); opacity: 0.25; font-family: 'Anton',sans-serif; text-transform: uppercase; letter-spacing: 6px; }
+.product-card-digital .img-wrap .badge { position: absolute; top: 12px; left: 12px; background: var(--green); color: #05080C; font-size: 0.5rem; font-weight: 800; font-family: 'JetBrains Mono',monospace; padding: 4px 8px; border-radius: 6px; text-transform: uppercase; letter-spacing: 1px; }
+.product-card-digital .img-wrap .discount { position: absolute; top: 12px; right: 12px; background: rgba(242,201,76,0.15); color: var(--gold); font-size: 0.55rem; font-weight: 700; font-family: 'JetBrains Mono',monospace; padding: 4px 8px; border-radius: 6px; }
+.product-card-digital .body { padding: 16px 18px 18px; }
+.product-card-digital .body .name { font-family: 'Montserrat',sans-serif; font-weight: 700; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.5px; color: #fff; margin-bottom: 6px; line-height: 1.3; }
+.product-card-digital .body .prices { display: flex; align-items: baseline; gap: 8px; margin-bottom: 12px; }
+.product-card-digital .body .prices .current { font-size: 1.3rem; font-weight: 800; color: var(--green-neon); font-family: 'Montserrat',sans-serif; }
+.product-card-digital .body .prices .old { font-size: 0.8rem; color: var(--gray-mid); text-decoration: line-through; font-family: 'JetBrains Mono',monospace; }
+.product-card-digital .body .actions { display: flex; gap: 8px; }
+.product-card-digital .body .actions .btn-add { flex: 1; padding: 10px; border: 1px solid var(--border); border-radius: 50px; background: transparent; color: #fff; font-family: 'Montserrat',sans-serif; font-size: 0.6rem; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; cursor: pointer; transition: all 0.25s; }
+.product-card-digital .body .actions .btn-add:hover { border-color: var(--green); color: var(--green); background: rgba(0,184,63,0.06); }
+.product-card-digital .body .actions .btn-buy { flex: 1; padding: 10px; border: none; border-radius: 50px; background: var(--green); color: #05080C; font-family: 'Montserrat',sans-serif; font-size: 0.6rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; cursor: pointer; transition: all 0.25s; box-shadow: 0 0 20px rgba(0,184,63,0.2); }
+.product-card-digital .body .actions .btn-buy:hover { background: var(--green-neon); box-shadow: 0 0 40px rgba(57,255,102,0.4); }
 
-        .results-section { padding: 5rem 4rem; background: #05080C; border-top: 1px solid var(--border); }
-        .results-section .inner { max-width: 800px; margin: 0 auto; }
-        .results-section .section-label { text-align: center; }
-        .results-section h2 { font-family: 'Anton', sans-serif; font-size: 2.5rem; text-transform: uppercase; color: #fff; line-height: 1.1; margin-bottom: 2rem; text-align: center; letter-spacing: 2px; }
-        .results-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
-        .result-card {
-            background: var(--gray-ui); border: 1px solid var(--border); border-radius: 16px;
-            padding: 1.5rem; transition: all 0.3s;
-            opacity: 0; transform: translateY(20px);
-        }
-        .result-card.revealed { opacity: 1; transform: translateY(0); }
-        .result-card:hover { border-color: var(--green); }
-        .result-card .rating { color: var(--gold); font-size: 0.7rem; font-family: 'JetBrains Mono', monospace; letter-spacing: 2px; margin-bottom: 0.3rem; }
-        .result-card blockquote { font-size: 0.8rem; color: var(--gray-light); line-height: 1.5; margin: 0.5rem 0; font-style: italic; }
-        .result-card .author { font-size: 0.65rem; font-weight: 600; color: var(--green-neon); text-transform: uppercase; letter-spacing: 1px; }
+.payment-bar { padding: 30px 20px; background: var(--gray-ui); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); text-align: center; }
+.payment-bar .inner { max-width: 900px; margin: 0 auto; }
+.payment-bar .label { font-size: 0.55rem; color: var(--gray-mid); font-family: 'JetBrains Mono',monospace; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 12px; }
+.payment-bar .logos { display: flex; justify-content: center; flex-wrap: wrap; gap: 20px 30px; }
+.payment-bar .logos span { font-family: 'Montserrat',sans-serif; font-weight: 700; font-size: 0.7rem; color: var(--gray-light); text-transform: uppercase; letter-spacing: 1px; transition: color 0.3s; cursor: default; }
+.payment-bar .logos span:hover { color: var(--green-neon); }
+.payment-bar .security { margin-top: 12px; display: flex; justify-content: center; gap: 24px; flex-wrap: wrap; }
+.payment-bar .security span { font-size: 0.55rem; color: var(--gray-mid); font-family: 'JetBrains Mono',monospace; text-transform: uppercase; letter-spacing: 1px; }
 
-        .cta-section {
-            padding: 5rem 4rem; background: var(--gray-ui); border-top: 1px solid var(--border);
-            border-bottom: 1px solid var(--border); text-align: center;
-        }
-        .cta-section .inner { max-width: 600px; margin: 0 auto; }
-        .cta-section h2 { font-family: 'Anton', sans-serif; font-size: 3.5rem; text-transform: uppercase; color: #fff; line-height: 1.1; margin-bottom: 1rem; letter-spacing: 2px; }
-        .cta-section h2 span { color: var(--green-neon); }
-        .cta-section p { font-size: 0.9rem; color: var(--gray-mid); line-height: 1.6; margin-bottom: 2rem; }
+.cart-toggle { position: fixed; bottom: 24px; right: 24px; z-index: 900; background: var(--green); color: #05080C; border: none; border-radius: 50px; padding: 12px 20px; font-family: 'Montserrat',sans-serif; font-weight: 700; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 1.5px; cursor: pointer; transition: all 0.3s; box-shadow: 0 0 30px rgba(0,184,63,0.3); display: flex; align-items: center; gap: 8px; }
+.cart-toggle:hover { background: var(--green-neon); box-shadow: 0 0 50px rgba(57,255,102,0.5); transform: translateY(-2px); }
+.cart-toggle .badge { background: #05080C; color: var(--green-neon); border-radius: 50%; width: 22px; height: 22px; display: flex; align-items: center; justify-content: center; font-size: 0.6rem; font-weight: 800; }
+.cart-drawer { position: fixed; bottom: 80px; right: 24px; z-index: 899; background: rgba(31,37,45,0.96); backdrop-filter: blur(20px); border: 1px solid var(--border); border-radius: 16px; padding: 20px; width: 320px; max-height: 400px; overflow-y: auto; opacity: 0; transform: translateY(16px) scale(0.95); transition: all 0.35s cubic-bezier(0.16,1,0.3,1); pointer-events: none; }
+.cart-drawer.open { opacity: 1; transform: translateY(0) scale(1); pointer-events: all; }
+.cart-drawer .c-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; padding-bottom: 10px; border-bottom: 1px solid var(--border); }
+.cart-drawer .c-header span { font-size: 0.65rem; font-family: 'JetBrains Mono',monospace; color: var(--gray-mid); }
+.cart-drawer .c-header strong { color: var(--green-neon); }
+.cart-drawer .c-header .close-btn { background: none; border: none; color: var(--gray-mid); cursor: pointer; font-size: 1rem; transition: color 0.2s; }
+.cart-drawer .c-header .close-btn:hover { color: #fff; }
+.cart-drawer .c-list { display: flex; flex-direction: column; gap: 8px; }
+.cart-drawer .c-item { display: flex; justify-content: space-between; align-items: center; padding: 6px 0; font-size: 0.7rem; }
+.cart-drawer .c-item .c-name { color: #fff; font-weight: 500; flex: 1; }
+.cart-drawer .c-item .c-qty { color: var(--gray-mid); font-family: 'JetBrains Mono',monospace; margin: 0 8px; }
+.cart-drawer .c-item .c-price { color: var(--green-neon); font-weight: 700; font-family: 'JetBrains Mono',monospace; }
+.cart-drawer .c-empty { text-align: center; font-size: 0.65rem; color: var(--gray-mid); font-family: 'JetBrains Mono',monospace; padding: 16px 0; }
+.cart-drawer .c-footer { margin-top: 12px; padding-top: 10px; border-top: 1px solid var(--border); }
+.cart-drawer .c-footer .c-total { display: flex; justify-content: space-between; font-size: 0.8rem; font-weight: 700; color: #fff; margin-bottom: 8px; }
+.cart-drawer .c-footer .c-total span:last-child { color: var(--green-neon); }
+.cart-drawer .c-footer .checkout-btn { width: 100%; padding: 10px; background: var(--green); color: #05080C; border: none; border-radius: 50px; font-family: 'Montserrat',sans-serif; font-size: 0.65rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; cursor: pointer; transition: all 0.25s; }
+.cart-drawer .c-footer .checkout-btn:hover { background: var(--green-neon); }
 
-        .consulting-section {
-            padding: 5rem 4rem; background: #05080C; border-top: 1px solid var(--border);
-        }
-        .consulting-section .inner { max-width: 720px; margin: 0 auto; }
-        .consulting-section .section-label { text-align: center; }
-        .consulting-section h2 { font-family: 'Anton', sans-serif; font-size: 2.5rem; text-transform: uppercase; color: #fff; line-height: 1.1; margin-bottom: 0.5rem; text-align: center; letter-spacing: 2px; }
-        .consulting-section .sub { text-align: center; font-size: 0.85rem; color: var(--gray-mid); margin-bottom: 2.5rem; line-height: 1.5; }
-        .consulting-form { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
-        .consulting-form .full { grid-column: 1 / -1; }
-        .consulting-form label { display: block; font-size: 0.6rem; text-transform: uppercase; letter-spacing: 1.5px; color: var(--gray-mid); margin-bottom: 0.4rem; font-family: 'JetBrains Mono', monospace; }
-        .consulting-form input, .consulting-form select, .consulting-form textarea {
-            width: 100%; padding: 0.8rem 1rem; background: var(--gray-ui); border: 1px solid var(--border);
-            color: #fff; font-family: 'Inter', sans-serif; font-size: 0.8rem; border-radius: 12px;
-            outline: none; transition: border 0.2s;
-        }
-        .consulting-form input:focus, .consulting-form select:focus, .consulting-form textarea:focus { border-color: var(--green); }
-        .consulting-form select option { background: var(--gray-ui); color: #fff; }
-        .consulting-form textarea { min-height: 120px; resize: vertical; }
-        .consulting-form .submit-wrap { grid-column: 1 / -1; display: flex; justify-content: center; margin-top: 0.5rem; }
-        .consulting-form .btn-primary { font-size: 0.8rem; padding: 1rem 3rem; }
+.cta-section { padding: 5rem 4rem; background: var(--gray-ui); border-top: 1px solid var(--border); text-align: center; }
+.cta-section .inner { max-width: 600px; margin: 0 auto; }
+.cta-section h2 { font-family: 'Anton',sans-serif; font-size: clamp(2.2rem,5vw,3.5rem); text-transform: uppercase; color: #fff; line-height: 1.1; margin-bottom: 1rem; letter-spacing: 2px; }
+.cta-section h2 span { color: var(--green-neon); }
+.cta-section p { font-size: 0.9rem; color: var(--gray-mid); line-height: 1.6; margin-bottom: 2rem; }
 
-        .faq-section { padding: 5rem 4rem; background: var(--gray-ui); border-top: 1px solid var(--border); }
-        .faq-section .inner { max-width: 700px; margin: 0 auto; }
-        .faq-section .section-label { text-align: center; }
-        .faq-section h2 { font-family: 'Anton', sans-serif; font-size: 2.5rem; text-transform: uppercase; color: #fff; line-height: 1.1; margin-bottom: 2rem; text-align: center; letter-spacing: 2px; }
-        .faq-item {
-            border-bottom: 1px solid var(--border); padding: 1.2rem 0; cursor: pointer;
-        }
-        .faq-item .question {
-            display: flex; justify-content: space-between; align-items: center;
-            font-family: 'Montserrat', sans-serif; font-weight: 600; font-size: 0.85rem;
-            color: #fff; text-transform: uppercase; letter-spacing: 1px;
-        }
-        .faq-item .question .arrow { transition: transform 0.3s; color: var(--green); font-size: 1.2rem; }
-        .faq-item.open .question .arrow { transform: rotate(45deg); }
-        .faq-item .answer {
-            max-height: 0; overflow: hidden; transition: max-height 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-            font-size: 0.8rem; color: var(--gray-mid); line-height: 1.5;
-        }
-        .faq-item.open .answer { max-height: 200px; padding-top: 0.8rem; }
+.consulting-section { padding: 5rem 4rem; background: #05080C; border-top: 1px solid var(--border); }
+.consulting-section .inner { max-width: 720px; margin: 0 auto; }
+.consulting-section .section-label { text-align: center; }
+.consulting-section h2 { font-family: 'Anton',sans-serif; font-size: clamp(1.8rem,4vw,2.5rem); text-transform: uppercase; color: #fff; line-height: 1.1; margin-bottom: 0.5rem; text-align: center; letter-spacing: 2px; }
+.consulting-section .sub { text-align: center; font-size: 0.85rem; color: var(--gray-mid); margin-bottom: 2.5rem; line-height: 1.5; }
+.consulting-form { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+.consulting-form .full { grid-column: 1 / -1; }
+.consulting-form label { display: block; font-size: 0.6rem; text-transform: uppercase; letter-spacing: 1.5px; color: var(--gray-mid); margin-bottom: 0.4rem; font-family: 'JetBrains Mono',monospace; }
+.consulting-form input, .consulting-form select, .consulting-form textarea { width: 100%; padding: 0.8rem 1rem; background: var(--gray-ui); border: 1px solid var(--border); color: #fff; font-family: 'Inter',sans-serif; font-size: 0.8rem; border-radius: 12px; outline: none; transition: border 0.2s; }
+.consulting-form input:focus, .consulting-form select:focus, .consulting-form textarea:focus { border-color: var(--green); }
+.consulting-form select option { background: var(--gray-ui); color: #fff; }
+.consulting-form textarea { min-height: 120px; resize: vertical; }
+.consulting-form .submit-wrap { grid-column: 1 / -1; display: flex; justify-content: center; margin-top: 0.5rem; }
 
-        footer {
-            padding: 3rem 4rem; background: #05080C; border-top: 1px solid var(--border);
-            text-align: center;
-        }
-        footer .logo { font-family: 'Montserrat', sans-serif; font-weight: 800; font-size: 1.2rem; color: var(--green-neon); letter-spacing: 3px; text-transform: uppercase; margin-bottom: 0.5rem; }
-        footer p { font-size: 0.7rem; color: var(--gray-mid); }
-        footer .social { display: flex; justify-content: center; gap: 0.8rem; margin-top: 1rem; }
-        footer .social span {
-            width: 36px; height: 36px; border: 1px solid var(--border); border-radius: 50%;
-            display: flex; align-items: center; justify-content: center; font-size: 0.65rem;
-            color: var(--gray-mid); cursor: pointer; transition: all 0.3s;
-            font-family: 'Montserrat', sans-serif; font-weight: 700;
-        }
-        footer .social span:hover { border-color: var(--green); color: var(--green); }
+.faq-section { padding: 5rem 4rem; background: var(--gray-ui); border-top: 1px solid var(--border); }
+.faq-section .inner { max-width: 700px; margin: 0 auto; }
+.faq-section .section-label { text-align: center; }
+.faq-section h2 { font-family: 'Anton',sans-serif; font-size: clamp(1.8rem,4vw,2.5rem); text-transform: uppercase; color: #fff; line-height: 1.1; margin-bottom: 2rem; text-align: center; letter-spacing: 2px; }
+.faq-item { border-bottom: 1px solid var(--border); padding: 1.2rem 0; cursor: pointer; }
+.faq-item .question { display: flex; justify-content: space-between; align-items: center; font-family: 'Montserrat',sans-serif; font-weight: 600; font-size: 0.85rem; color: #fff; text-transform: uppercase; letter-spacing: 1px; }
+.faq-item .question .arrow { transition: transform 0.3s; color: var(--green); font-size: 1.2rem; }
+.faq-item.open .question .arrow { transform: rotate(45deg); }
+.faq-item .answer { max-height: 0; overflow: hidden; transition: max-height 0.4s cubic-bezier(0.16,1,0.3,1); font-size: 0.8rem; color: var(--gray-mid); line-height: 1.5; }
+.faq-item.open .answer { max-height: 200px; padding-top: 0.8rem; }
 
-        .toast-container {
-            position: fixed; bottom: 2rem; right: 2rem; z-index: 500;
-            display: flex; flex-direction: column; gap: 8px; pointer-events: none;
-        }
-        .toast {
-            background: var(--green); color: #05080C; padding: 0.8rem 1.2rem;
-            font-size: 0.75rem; font-weight: 600; transform: translateY(20px); opacity: 0;
-            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-            pointer-events: all; display: flex; align-items: center; gap: 8px; min-width: 280px;
-            border-radius: 12px; font-family: 'Montserrat', sans-serif;
-        }
-        .toast.show { transform: translateY(0); opacity: 1; }
+.wave-footer { position: relative; background: #05080C; overflow: hidden; height: 200px; }
+.wave-footer svg { position: absolute; bottom: 0; left: 0; width: 200%; height: 100%; animation: waveDrift 8s linear infinite; }
+.wave-footer svg:nth-child(2) { animation-direction: reverse; animation-duration: 12s; opacity: 0.4; }
+@keyframes waveDrift { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+.wave-footer .overlay { position: absolute; inset: 0; background: linear-gradient(to top, #05080C 40%, transparent); pointer-events: none; }
 
-        @media (max-width: 768px) {
-            header { padding: 1rem 1.5rem; flex-wrap: wrap; }
-            header .logo { position: static; transform: none; font-size: 0.75rem; }
-            .header-left, .header-right { gap: 0.8rem; }
-            .hero { height: 60vh; }
-            .hero-gooey .goo-text span { font-size: 2.4rem; }
-            .hero-gooey { height: 100px; }
-            .hero-gooey { height: 70px; }
-            .hero-sub { font-size: 0.85rem; padding: 0 1rem; }
-            .stats-grid { grid-template-columns: repeat(2, 1fr); gap: 1.5rem; }
-            .stats-section { padding: 2rem 1.5rem; }
-            .learn-section { padding: 3rem 1.5rem; }
-            .learn-section h2 { font-size: 2rem; }
-            .learn-grid { grid-template-columns: 1fr; }
-            .community-section { padding: 3rem 1.5rem; }
-            .community-section h2 { font-size: 2rem; }
-            .results-section { padding: 3rem 1.5rem; }
-            .results-section h2 { font-size: 1.8rem; }
-            .results-grid { grid-template-columns: 1fr; }
-            .cta-section { padding: 3rem 1.5rem; }
-            .cta-section h2 { font-size: 2.2rem; }
-            .consulting-section { padding: 3rem 1.5rem; }
-            .consulting-section h2 { font-size: 1.8rem; }
-            .consulting-form { grid-template-columns: 1fr; }
-            .faq-section { padding: 3rem 1.5rem; }
-            .faq-section h2 { font-size: 1.8rem; }
-            .gallery-grid { grid-template-columns: 1fr; gap: 14px; }
-            .gallery-header h2 { font-size: 38px; }
-            .gallery-section { padding: 65px 14px; }
-            footer { padding: 2rem 1.5rem; }
-        }
+footer { padding: 3rem 4rem; background: #05080C; text-align: center; position: relative; z-index: 1; }
+footer .logo { font-family: 'Montserrat',sans-serif; font-weight: 800; font-size: 1.2rem; color: var(--green-neon); letter-spacing: 3px; text-transform: uppercase; margin-bottom: 0.5rem; }
+footer p { font-size: 0.7rem; color: var(--gray-mid); }
+footer .social { display: flex; justify-content: center; gap: 0.8rem; margin-top: 1rem; }
+footer .social span { width: 36px; height: 36px; border: 1px solid var(--border); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.65rem; color: var(--gray-mid); cursor: pointer; transition: all 0.3s; font-family: 'Montserrat',sans-serif; font-weight: 700; }
+footer .social span:hover { border-color: var(--green); color: var(--green); box-shadow: 0 0 20px rgba(0,184,63,0.2); }
 
-        .gallery-section {
-            padding: 90px 20px;
-            background: radial-gradient(circle at top, rgba(0, 200, 83, 0.12), transparent 35%), #05080c;
-            color: white;
-        }
-        .gallery-header { max-width: 850px; margin: 0 auto 36px; text-align: center; }
-        .gallery-header .eyebrow { color: var(--green-neon); font-weight: 800; letter-spacing: 2px; font-size: 13px; font-family: 'JetBrains Mono', monospace; }
-        .gallery-header h2 { margin: 12px 0; font-size: clamp(34px, 6vw, 68px); line-height: 0.95; font-weight: 900; text-transform: uppercase; font-family: 'Anton', sans-serif; }
-        .gallery-header p { color: #cfd6df; font-size: 18px; line-height: 1.6; }
-        .gallery-tabs { display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; margin-bottom: 34px; }
-        .tab {
-            border: 1px solid rgba(57, 255, 102, 0.25); background: #111821; color: white;
-            padding: 13px 22px; border-radius: 999px; font-weight: 800; cursor: pointer;
-            transition: 0.25s ease; font-family: 'Montserrat', sans-serif; font-size: 0.7rem;
-            text-transform: uppercase; letter-spacing: 1px;
-        }
-        .tab.active, .tab:hover { background: var(--green); color: #031006; box-shadow: 0 0 28px rgba(0, 200, 83, 0.35); }
-        .gallery-grid { max-width: 1180px; margin: 0 auto; display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
-        .gallery-item {
-            width: 100%; aspect-ratio: 4 / 5; object-fit: cover; display: block;
-            background: #111; transition: transform 0.25s ease, opacity 0.25s ease; border-radius: 12px;
-        }
-        .gallery-item:hover { transform: translateY(-6px) scale(1.015); }
-        .gallery-item.hidden { display: none; }
+.modal-backdrop { position: fixed; inset: 0; background: rgba(5,8,12,0.95); z-index: 1000; display: none; align-items: center; justify-content: center; padding: 2rem; cursor: pointer; }
+.modal-backdrop.open { display: flex; }
+.modal-backdrop img { max-width: 90vw; max-height: 90vh; object-fit: contain; cursor: default; border-radius: 12px; }
+.modal-close { position: fixed; top: 2rem; right: 2rem; z-index: 1001; background: none; border: none; color: #fff; font-size: 2rem; cursor: pointer; display: none; }
+.modal-close.open { display: block; }
 
-        .catalog-section { padding: 90px 20px; background: #05080C; border-top: 1px solid var(--border); }
-        .catalog-section .inner { max-width: 1100px; margin: 0 auto; }
-        .catalog-section .header { text-align: center; margin-bottom: 40px; }
-        .catalog-section .header .eyebrow { color: var(--green-neon); font-weight: 800; letter-spacing: 2px; font-size: 13px; font-family: 'JetBrains Mono', monospace; }
-        .catalog-section .header h2 { font-family: 'Anton', sans-serif; font-size: clamp(34px, 5vw, 56px); text-transform: uppercase; color: #fff; line-height: 1; margin: 10px 0; }
-        .catalog-section .header p { color: var(--gray-mid); font-size: 16px; max-width: 600px; margin: 0 auto; line-height: 1.5; }
-        .catalog-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
-        .product-card-digital {
-            background: var(--gray-ui); border: 1px solid var(--border); border-radius: 16px;
-            overflow: hidden; transition: all 0.3s;
-        }
-        .product-card-digital:hover { border-color: var(--green); box-shadow: 0 0 30px rgba(0,184,63,0.08); transform: translateY(-4px); }
-        .product-card-digital .img-wrap { width: 100%; aspect-ratio: 4/3; background: #111; overflow: hidden; display: flex; align-items: center; justify-content: center; }
-        .product-card-digital .img-wrap .placeholder {
-            font-size: 2.5rem; font-family: 'Anton', sans-serif; color: var(--green); opacity: 0.15;
-            text-transform: uppercase; letter-spacing: 4px; user-select: none;
-        }
-        .product-card-digital .body { padding: 16px 18px 18px; }
-        .product-card-digital .body .name { font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.5px; color: #fff; margin-bottom: 6px; }
-        .product-card-digital .body .prices { display: flex; align-items: baseline; gap: 8px; margin-bottom: 12px; }
-        .product-card-digital .body .prices .current { font-size: 1.3rem; font-weight: 800; color: var(--green-neon); font-family: 'Montserrat', sans-serif; }
-        .product-card-digital .body .prices .old { font-size: 0.8rem; color: var(--gray-mid); text-decoration: line-through; font-family: 'JetBrains Mono', monospace; }
-        .product-card-digital .body .actions { display: flex; gap: 8px; }
-        .product-card-digital .body .actions .btn-add {
-            flex: 1; padding: 10px; border: 1px solid var(--border); border-radius: 50px;
-            background: transparent; color: #fff; font-family: 'Montserrat', sans-serif;
-            font-size: 0.6rem; font-weight: 600; text-transform: uppercase; letter-spacing: 1px;
-            cursor: pointer; transition: all 0.25s;
-        }
-        .product-card-digital .body .actions .btn-add:hover { border-color: var(--green); color: var(--green); }
-        .product-card-digital .body .actions .btn-buy {
-            flex: 1; padding: 10px; border: none; border-radius: 50px;
-            background: var(--green); color: #05080C; font-family: 'Montserrat', sans-serif;
-            font-size: 0.6rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px;
-            cursor: pointer; transition: all 0.25s; box-shadow: 0 0 20px rgba(0,184,63,0.2);
-        }
-        .product-card-digital .body .actions .btn-buy:hover { background: var(--green-neon); box-shadow: 0 0 30px rgba(57,255,102,0.4); }
+.toast-container { position: fixed; bottom: 80px; right: 24px; z-index: 500; display: flex; flex-direction: column; gap: 8px; pointer-events: none; }
+.toast { background: var(--green); color: #05080C; padding: 0.8rem 1.2rem; font-size: 0.75rem; font-weight: 600; transform: translateY(16px); opacity: 0; transition: all 0.4s cubic-bezier(0.16,1,0.3,1); pointer-events: all; min-width: 260px; border-radius: 12px; font-family: 'Montserrat',sans-serif; }
+.toast.show { transform: translateY(0); opacity: 1; }
 
-        .payment-bar {
-            padding: 30px 20px; background: var(--gray-ui); border-top: 1px solid var(--border);
-            border-bottom: 1px solid var(--border); text-align: center;
-        }
-        .payment-bar .inner { max-width: 900px; margin: 0 auto; }
-        .payment-bar .label { font-size: 0.55rem; color: var(--gray-mid); font-family: 'JetBrains Mono', monospace; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 12px; }
-        .payment-bar .logos { display: flex; justify-content: center; flex-wrap: wrap; gap: 20px 30px; }
-        .payment-bar .logos span {
-            font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 0.7rem;
-            color: var(--gray-light); text-transform: uppercase; letter-spacing: 1px;
-        }
-        .payment-bar .security { margin-top: 12px; display: flex; justify-content: center; gap: 24px; flex-wrap: wrap; }
-        .payment-bar .security span { font-size: 0.55rem; color: var(--gray-mid); font-family: 'JetBrains Mono', monospace; text-transform: uppercase; letter-spacing: 1px; }
-
-        .mini-cart {
-            position: fixed; bottom: 24px; right: 24px; z-index: 900;
-            background: rgba(31,37,45,0.92); backdrop-filter: blur(16px);
-            border: 1px solid var(--border); border-radius: 16px;
-            padding: 14px 18px; min-width: 210px;
-            opacity: 0; transform: translateY(20px) scale(0.95);
-            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-            pointer-events: none;
-        }
-        .mini-cart.visible { opacity: 1; transform: translateY(0) scale(1); pointer-events: all; }
-        .mini-cart .row { display: flex; justify-content: space-between; align-items: center; }
-        .mini-cart .count { font-size: 0.7rem; color: var(--gray-mid); font-family: 'JetBrains Mono', monospace; }
-        .mini-cart .count strong { color: var(--green-neon); font-weight: 700; }
-        .mini-cart .total { font-size: 0.85rem; font-weight: 700; color: #fff; font-family: 'Montserrat', sans-serif; }
-        .mini-cart .checkout-btn {
-            margin-top: 8px; width: 100%; padding: 10px; background: var(--green); color: #05080C;
-            border: none; border-radius: 50px; font-family: 'Montserrat', sans-serif;
-            font-size: 0.65rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px;
-            cursor: pointer; transition: all 0.25s;
-        }
-        .mini-cart .checkout-btn:hover { background: var(--green-neon); }
-        .mini-cart .empty-msg { font-size: 0.65rem; color: var(--gray-mid); font-family: 'JetBrains Mono', monospace; text-align: center; padding: 4px 0; }
-
-        @media (max-width: 900px) { .catalog-grid { grid-template-columns: repeat(2, 1fr); } }
-        @media (max-width: 560px) { .catalog-grid { grid-template-columns: 1fr; } .catalog-section { padding: 60px 14px; } }
-
-        .gallery-item { cursor: pointer; }
-        img { -webkit-user-drag: none; user-select: none; -webkit-touch-callout: none; }
-        .modal-backdrop {
-            position: fixed; inset: 0; background: rgba(5,8,12,0.95); z-index: 1000;
-            display: none; align-items: center; justify-content: center; padding: 2rem; cursor: pointer;
-        }
-        .modal-backdrop.open { display: flex; }
-        .modal-backdrop img { max-width: 90vw; max-height: 90vh; object-fit: contain; cursor: default; border-radius: 12px; }
-        .modal-close {
-            position: fixed; top: 2rem; right: 2rem; z-index: 1001;
-            background: none; border: none; color: #fff; font-size: 2rem; cursor: pointer; display: none;
-        }
-        .modal-close.open { display: block; }
-    </style>
+@media (max-width: 900px) { .catalog-grid { grid-template-columns: repeat(2,1fr); } .gallery-grid { grid-template-columns: repeat(2,1fr); } }
+@media (max-width: 768px) {
+header { padding: 1rem 1.5rem; flex-wrap: wrap; }
+header .logo { position: static; transform: none; font-size: 0.75rem; }
+.header-left, .header-right { gap: 0.8rem; }
+.hero { height: 60vh; }
+.hero-title-wrap { height: 100px; }
+.hero-sub { font-size: 0.85rem; padding: 0 1rem; }
+.stats-grid { grid-template-columns: repeat(2,1fr); gap: 1.5rem; }
+.stats-section { padding: 2rem 1.5rem; }
+.learn-section { padding: 3rem 1.5rem; }
+.learn-section h2 { font-size: 2rem; }
+.learn-grid { grid-template-columns: 1fr; }
+.community-section { padding: 3rem 1.5rem; }
+.community-section h2 { font-size: 2rem; }
+.results-section { padding: 3rem 1.5rem; }
+.results-section h2 { font-size: 1.8rem; }
+.results-grid { grid-template-columns: 1fr; }
+.cta-section { padding: 3rem 1.5rem; }
+.cta-section h2 { font-size: 2.2rem; }
+.consulting-section { padding: 3rem 1.5rem; }
+.consulting-section h2 { font-size: 1.8rem; }
+.consulting-form { grid-template-columns: 1fr; }
+.faq-section { padding: 3rem 1.5rem; }
+.faq-section h2 { font-size: 1.8rem; }
+.gallery-grid { grid-template-columns: 1fr; gap: 14px; }
+.gallery-header h2 { font-size: 38px; }
+.gallery-section { padding: 65px 14px; }
+.catalog-grid { grid-template-columns: 1fr; }
+.catalog-section { padding: 60px 14px; }
+.cart-drawer { width: 290px; right: 12px; bottom: 72px; }
+.cart-toggle { right: 12px; bottom: 16px; padding: 10px 16px; font-size: 0.65rem; }
+footer { padding: 2rem 1.5rem; }
+}
+</style>
 </head>
 <body>
-    <div class="transition-overlay" id="transitionOverlay"></div>
 
-    <header>
-        <div class="header-left">
-            <a onclick="document.getElementById('learnSection').scrollIntoView({behavior:'smooth'})">Metodologia</a>
-            <a onclick="document.getElementById('communitySection').scrollIntoView({behavior:'smooth'})">Comunidad</a>
-            <a onclick="document.getElementById('consultingSection').scrollIntoView({behavior:'smooth'})">Consultoria</a>
-        </div>
-        <div class="logo" id="mainLogo">FLUSH RESELL</div>
-        <div class="header-right">
-            <a onclick="document.getElementById('ctaSection').scrollIntoView({behavior:'smooth'})">Comenzar</a>
-        </div>
-    </header>
+<div class="transition-overlay" id="transitionOverlay"></div>
 
-    <section class="hero">
-        <div class="hero-gooey" id="heroGooey">
-            <div class="goo-text" id="gooWrap">
-                <span class="g1" id="goo1">APRENDE A GENERAR</span>
-                <span class="g2" id="goo2">INGRESOS CON VINTED</span>
-            </div>
-        </div>
-        <p class="hero-sub">
-            Metodologia comprobada para encontrar productos ganadores, optimizar tu estrategia de reventa y construir un negocio sostenible en Vinted desde cero.
-        </p>
-        <div class="hero-actions">
-            <button class="btn-primary" onclick="document.getElementById('communitySection').scrollIntoView({behavior:'smooth'})">
-                Acceder a la comunidad
-            </button>
-            <button class="btn-secondary" onclick="document.getElementById('consultingSection').scrollIntoView({behavior:'smooth'})">
-                Solicitar consultoria
-            </button>
-        </div>
-    </section>
+<header>
+<div class="header-left">
+<a onclick="document.getElementById('learnSection').scrollIntoView({behavior:'smooth'})">Metodologia</a>
+<a onclick="document.getElementById('communitySection').scrollIntoView({behavior:'smooth'})">Comunidad</a>
+<a onclick="document.getElementById('consultingSection').scrollIntoView({behavior:'smooth'})">Consultoria</a>
+</div>
+<div class="logo" id="mainLogo">FLUSH RESELL</div>
+<div class="header-right"><a onclick="document.getElementById('ctaSection').scrollIntoView({behavior:'smooth'})">Comenzar</a></div>
+</header>
 
-    <section class="stats-section" id="statsSection">
-        <div class="stats-grid">
-            <div class="stat-item">
-                <div class="number">+5.000 EUR</div>
-                <div class="label">INGRESOS MENSUALES</div>
-            </div>
-            <div class="stat-item">
-                <div class="number">2.793</div>
-                <div class="label">SEGUIDORES</div>
-            </div>
-            <div class="stat-item">
-                <div class="number">218</div>
-                <div class="label">MIEMBROS COMUNIDAD</div>
-            </div>
-            <div class="stat-item">
-                <div class="number">+15</div>
-                <div class="label">PUBLICACIONES</div>
-            </div>
-        </div>
-    </section>
+<section class="hero">
+<div class="hero-title-wrap">
+<h1 class="hero-title" id="heroTitle">APRENDE A GENERAR<br>INGRESOS CON <span>VINTED</span></h1>
+</div>
+<p class="hero-sub">Metodologia comprobada para encontrar productos ganadores, optimizar tu estrategia de reventa y construir un negocio sostenible desde cero.</p>
+<div class="hero-actions">
+<button class="btn-primary" onclick="document.getElementById('communitySection').scrollIntoView({behavior:'smooth'})">Acceder a la comunidad</button>
+<button class="btn-secondary" onclick="document.getElementById('consultingSection').scrollIntoView({behavior:'smooth'})">Solicitar consultoria</button>
+</div>
+</section>
 
-    <section class="learn-section" id="learnSection">
-        <div class="inner">
-            <div class="section-label">QUE APRENDERAS</div>
-            <h2>METODOLOGIA DE <span>REVENTA</span></h2>
-            <div class="learn-grid">
-                <div class="learn-card">
-                    <div class="num">01</div>
-                    <h3>Identificacion de productos ganadores</h3>
-                    <p>Aprende a detectar que productos tienen alta demanda y buen margen en Vinted mediante analisis de mercado y tendencias.</p>
-                </div>
-                <div class="learn-card">
-                    <div class="num">02</div>
-                    <h3>Estrategia de compra y venta</h3>
-                    <p>Metodos para adquirir por debajo del precio de mercado y maximizar el retorno en cada venta.</p>
-                </div>
-                <div class="learn-card">
-                    <div class="num">03</div>
-                    <h3>Optimizacion de anuncios</h3>
-                    <p>Fotografia, descripciones y posicionamiento para aumentar la tasa de conversion de tus publicaciones.</p>
-                </div>
-                <div class="learn-card">
-                    <div class="num">04</div>
-                    <h3>Red de proveedores</h3>
-                    <p>Acceso a proveedores verificados que garantizan stock de calidad y precios competitivos para la reventa.</p>
-                </div>
-                <div class="learn-card">
-                    <div class="num">05</div>
-                    <h3>Escalado del negocio</h3>
-                    <p>Desde las primeras ventas hasta la gestion de un volumen recurrente. Sistemas y automatizacion incluidos.</p>
-                </div>
-                <div class="learn-card">
-                    <div class="num">06</div>
-                    <h3>Acompanamiento en comunidad</h3>
-                    <p>Resuelve dudas, comparte resultados y aprende de otros emprendedores que ya estan generando ingresos.</p>
-                </div>
-            </div>
-        </div>
-    </section>
+<section class="stats-section" id="statsSection">
+<div class="stats-grid">
+<div class="stat-item"><div class="number">+5.000 EUR</div><div class="label">INGRESOS MENSUALES</div></div>
+<div class="stat-item"><div class="number">2.793</div><div class="label">SEGUIDORES</div></div>
+<div class="stat-item"><div class="number">218</div><div class="label">MIEMBROS COMUNIDAD</div></div>
+<div class="stat-item"><div class="number">+15</div><div class="label">PUBLICACIONES</div></div>
+</div>
+</section>
 
-    <section class="community-section" id="communitySection">
-        <div class="inner">
-            <div class="section-label">COMUNIDAD EXCLUSIVA</div>
-            <h2>FLUSH <span>MAKERS</span></h2>
-            <p class="sub-text">
-                Una comunidad gratuita de emprendedores en reventa. Accede a contenido semanal, recursos exclusivos y el apoyo de una red activa de personas que comparten tu mismo objetivo.
-            </p>
-            <div class="member-count">218</div>
-            <div class="member-label">MIEMBROS ACTIVOS</div>
-            <button class="btn-primary" onclick="showToast('comunidad')">UNIRME A LA COMUNIDAD</button>
-        </div>
-    </section>
+<section class="learn-section" id="learnSection">
+<div class="inner">
+<div class="section-label">QUE APRENDERAS</div>
+<h2>METODOLOGIA DE <span>REVENTA</span></h2>
+<div class="learn-grid">
+<div class="learn-card"><div class="num">01</div><h3>Identificacion de productos ganadores</h3><p>Aprende a detectar que productos tienen alta demanda y buen margen en Vinted mediante analisis de mercado.</p></div>
+<div class="learn-card"><div class="num">02</div><h3>Estrategia de compra y venta</h3><p>Metodos para adquirir por debajo del precio de mercado y maximizar el retorno en cada venta.</p></div>
+<div class="learn-card"><div class="num">03</div><h3>Optimizacion de anuncios</h3><p>Fotografia, descripciones y posicionamiento para aumentar la tasa de conversion.</p></div>
+<div class="learn-card"><div class="num">04</div><h3>Red de proveedores</h3><p>Acceso a proveedores verificados que garantizan stock de calidad y precios competitivos.</p></div>
+<div class="learn-card"><div class="num">05</div><h3>Escalado del negocio</h3><p>Desde las primeras ventas hasta la gestion de un volumen recurrente con sistemas automatizados.</p></div>
+<div class="learn-card"><div class="num">06</div><h3>Acompanamiento en comunidad</h3><p>Resuelve dudas, comparte resultados y aprende de otros emprendedores en reventa.</p></div>
+</div>
+</div>
+</section>
 
-    <section class="results-section" id="resultsSection">
-        <div class="inner">
-            <div class="section-label">RESULTADOS</div>
-            <h2>TESTIMONIOS DE <span style="color:var(--green-neon)">ALUMNOS</span></h2>
-            <div class="results-grid">
-                <div class="result-card">
-                    <div class="rating">5.0</div>
-                    <blockquote>"Comence sin experiencia y en mi primer mes genere mas de 600 EUR. La metodologia es solida y el acompanamiento constante."</blockquote>
-                    <div class="author">Alejandro M.</div>
-                </div>
-                <div class="result-card">
-                    <div class="rating">5.0</div>
-                    <blockquote>"Los proveedores que comparte la comunidad son de gran calidad. He conseguido stock excelente a precios muy competitivos."</blockquote>
-                    <div class="author">Carla S.</div>
-                </div>
-                <div class="result-card">
-                    <div class="rating">5.0</div>
-                    <blockquote>"El entorno de la comunidad es colaborativo y profesional. He aprendido mas en semanas que en meses investigando por mi cuenta."</blockquote>
-                    <div class="author">David R.</div>
-                </div>
-                <div class="result-card">
-                    <div class="rating">5.0</div>
-                    <blockquote>"Deje mi trabajo a tiempo parcial para dedicarme a la reventa a tiempo completo. Mis ingresos actuales superan con creces mi empleo anterior."</blockquote>
-                    <div class="author">Lucia P.</div>
-                </div>
-            </div>
-        </div>
-    </section>
+<section class="community-section" id="communitySection">
+<div class="inner">
+<div class="section-label">COMUNIDAD EXCLUSIVA</div>
+<h2>FLUSH <span>MAKERS</span></h2>
+<p class="sub-text">Una comunidad gratuita de emprendedores en reventa. Accede a contenido semanal, recursos exclusivos y el apoyo de una red activa.</p>
+<div class="member-count">218</div>
+<div class="member-label">MIEMBROS ACTIVOS</div>
+<button class="btn-primary" onclick="showToast('comunidad')">UNIRME A LA COMUNIDAD</button>
+</div>
+</section>
 
-    <section class="gallery-section" id="gallerySection">
-        <div class="gallery-header">
-            <div class="eyebrow">PRUEBAS Y PRODUCTOS</div>
-            <h2>Resultados, proveedores y calidad real</h2>
-            <p>Mira ejemplos de resultados de alumnos, stock disponible y productos usados para detectar oportunidades de reventa.</p>
-        </div>
-        <div class="gallery-tabs">
-            <button class="tab active" data-category="resultados">Resultados</button>
-            <button class="tab" data-category="stock">Stock y proveedores</button>
-            <button class="tab" data-category="calidad">Calidad</button>
-        </div>
-        <div class="gallery-grid">
-            <img src="https://res.cloudinary.com/dmuxgamms/image/upload/v1783107903/photo_2026-07-03_21-44-01_j1cbp7.jpg" class="gallery-item resultados" alt="Resultado de alumno en reventa">
-            <img src="https://res.cloudinary.com/dmuxgamms/image/upload/v1783107903/photo_2026-07-03_21-44-00_gc8u3x.jpg" class="gallery-item resultados" alt="Prueba de venta en Vinted">
-            <img src="https://res.cloudinary.com/dmuxgamms/image/upload/v1783107903/photo_2026-07-03_21-43-57_vho6cg.jpg" class="gallery-item resultados" alt="Resultado de venta">
-            <img src="https://res.cloudinary.com/dmuxgamms/image/upload/v1783107903/photo_2026-07-03_21-43-58_ubwwvr.jpg" class="gallery-item resultados" alt="Alumno generando ingresos">
-            <img src="https://res.cloudinary.com/dmuxgamms/image/upload/v1783107902/photo_2026-07-03_21-43-53_nt6qxi.jpg" class="gallery-item resultados" alt="Venta confirmada en Vinted">
+<section class="results-section" id="resultsSection">
+<div class="inner">
+<div class="section-label">RESULTADOS</div>
+<h2>TESTIMONIOS DE <span style="color:var(--green-neon)">ALUMNOS</span></h2>
+<div class="results-grid">
+<div class="result-card"><div class="rating">5.0</div><blockquote>"Comence sin experiencia y en mi primer mes genere mas de 600 EUR. La metodologia es solida."</blockquote><div class="author">Alejandro M.</div></div>
+<div class="result-card"><div class="rating">5.0</div><blockquote>"Los proveedores que comparte la comunidad son de gran calidad. He conseguido stock excelente."</blockquote><div class="author">Carla S.</div></div>
+<div class="result-card"><div class="rating">5.0</div><blockquote>"El entorno de la comunidad es colaborativo. He aprendido mas en semanas que en meses solo."</blockquote><div class="author">David R.</div></div>
+<div class="result-card"><div class="rating">5.0</div><blockquote>"Deje mi trabajo a tiempo parcial para dedicarme a la reventa. Mis ingresos se multiplicaron."</blockquote><div class="author">Lucia P.</div></div>
+</div>
+</div>
+</section>
 
-            <img src="https://res.cloudinary.com/dmuxgamms/image/upload/v1783107902/photo_2026-07-03_21-43-40_kmjyi4.jpg" class="gallery-item stock" alt="Stock de productos Apple">
-            <img src="https://res.cloudinary.com/dmuxgamms/image/upload/v1783107902/photo_2026-07-03_21-43-41_pax8ms.jpg" class="gallery-item stock" alt="Proveedor de AirPods Max">
-            <img src="https://res.cloudinary.com/dmuxgamms/image/upload/v1783107902/photo_2026-07-03_21-43-45_xg7ydi.jpg" class="gallery-item stock" alt="Stock de consolas">
-            <img src="https://res.cloudinary.com/dmuxgamms/image/upload/v1783107903/photo_2026-07-03_21-43-47_dmxiww.jpg" class="gallery-item stock" alt="Inventario de reventa">
-            <img src="https://res.cloudinary.com/dmuxgamms/image/upload/v1783107911/photo_2026-07-03_21-43-38_m0qcip.jpg" class="gallery-item stock" alt="Almacen con producto">
-            <img src="https://res.cloudinary.com/dmuxgamms/image/upload/v1783107911/photo_2026-07-03_21-43-36_d1h4vd.jpg" class="gallery-item stock" alt="Cajas de producto para vender">
+<section class="gallery-section" id="gallerySection">
+<div class="gallery-header">
+<div class="eyebrow">PRUEBAS Y PRODUCTOS</div>
+<h2>Resultados, proveedores y calidad real</h2>
+<p>Mira ejemplos de resultados de alumnos, stock disponible y productos usados para detectar oportunidades de reventa.</p>
+</div>
+<div class="gallery-tabs">
+<button class="tab active" data-category="resultados">Resultados</button>
+<button class="tab" data-category="stock">Stock y proveedores</button>
+<button class="tab" data-category="calidad">Calidad</button>
+</div>
+<div class="gallery-grid">
+<img src="https://res.cloudinary.com/dmuxgamms/image/upload/v1783107903/photo_2026-07-03_21-44-01_j1cbp7.jpg" class="gallery-item resultados" alt="Resultado de alumno">
+<img src="https://res.cloudinary.com/dmuxgamms/image/upload/v1783107903/photo_2026-07-03_21-44-00_gc8u3x.jpg" class="gallery-item resultados" alt="Venta en Vinted">
+<img src="https://res.cloudinary.com/dmuxgamms/image/upload/v1783107903/photo_2026-07-03_21-43-57_vho6cg.jpg" class="gallery-item resultados" alt="Resultado">
+<img src="https://res.cloudinary.com/dmuxgamms/image/upload/v1783107903/photo_2026-07-03_21-43-58_ubwwvr.jpg" class="gallery-item resultados" alt="Alumno generando">
+<img src="https://res.cloudinary.com/dmuxgamms/image/upload/v1783107902/photo_2026-07-03_21-43-53_nt6qxi.jpg" class="gallery-item resultados" alt="Venta confirmada">
+<img src="https://res.cloudinary.com/dmuxgamms/image/upload/v1783107902/photo_2026-07-03_21-43-40_kmjyi4.jpg" class="gallery-item stock" alt="Stock Apple">
+<img src="https://res.cloudinary.com/dmuxgamms/image/upload/v1783107902/photo_2026-07-03_21-43-41_pax8ms.jpg" class="gallery-item stock" alt="Proveedor">
+<img src="https://res.cloudinary.com/dmuxgamms/image/upload/v1783107902/photo_2026-07-03_21-43-45_xg7ydi.jpg" class="gallery-item stock" alt="Stock consolas">
+<img src="https://res.cloudinary.com/dmuxgamms/image/upload/v1783107903/photo_2026-07-03_21-43-47_dmxiww.jpg" class="gallery-item stock" alt="Inventario">
+<img src="https://res.cloudinary.com/dmuxgamms/image/upload/v1783107911/photo_2026-07-03_21-43-38_m0qcip.jpg" class="gallery-item stock" alt="Almacen">
+<img src="https://res.cloudinary.com/dmuxgamms/image/upload/v1783107911/photo_2026-07-03_21-43-36_d1h4vd.jpg" class="gallery-item stock" alt="Cajas producto">
+<img src="https://res.cloudinary.com/dmuxgamms/image/upload/v1783107903/photo_2026-07-03_21-44-03_jsxzbv.jpg" class="gallery-item calidad" alt="Apple revisado">
+<img src="https://res.cloudinary.com/dmuxgamms/image/upload/v1783107903/photo_2026-07-03_21-44-04_hmdbci.jpg" class="gallery-item calidad" alt="AirPods Max">
+<img src="https://res.cloudinary.com/dmuxgamms/image/upload/v1783107903/photo_2026-07-03_21-44-05_puzxc9.jpg" class="gallery-item calidad" alt="iPhone">
+<img src="https://res.cloudinary.com/dmuxgamms/image/upload/v1783107903/photo_2026-07-03_21-43-54_g3oogb.jpg" class="gallery-item calidad" alt="PS5">
+<img src="https://res.cloudinary.com/dmuxgamms/image/upload/v1783107903/photo_2026-07-03_21-43-49_tord6i.jpg" class="gallery-item calidad" alt="Componentes">
+<img src="https://res.cloudinary.com/dmuxgamms/image/upload/v1783107902/photo_2026-07-03_21-43-51_jrmbdf.jpg" class="gallery-item calidad" alt="Apple Vision">
+<img src="https://res.cloudinary.com/dmuxgamms/image/upload/v1783107902/photo_2026-07-03_21-43-43_b8rpx7.jpg" class="gallery-item calidad" alt="Mando PS5">
+</div>
+</section>
 
-            <img src="https://res.cloudinary.com/dmuxgamms/image/upload/v1783107903/photo_2026-07-03_21-44-03_jsxzbv.jpg" class="gallery-item calidad" alt="Producto Apple revisado">
-            <img src="https://res.cloudinary.com/dmuxgamms/image/upload/v1783107903/photo_2026-07-03_21-44-04_hmdbci.jpg" class="gallery-item calidad" alt="AirPods Max calidad verificada">
-            <img src="https://res.cloudinary.com/dmuxgamms/image/upload/v1783107903/photo_2026-07-03_21-44-05_puzxc9.jpg" class="gallery-item calidad" alt="iPhone sellado calidad">
-            <img src="https://res.cloudinary.com/dmuxgamms/image/upload/v1783107903/photo_2026-07-03_21-43-54_g3oogb.jpg" class="gallery-item calidad" alt="PlayStation 5 producto real">
-            <img src="https://res.cloudinary.com/dmuxgamms/image/upload/v1783107903/photo_2026-07-03_21-43-49_tord6i.jpg" class="gallery-item calidad" alt="Componentes gaming calidad">
-            <img src="https://res.cloudinary.com/dmuxgamms/image/upload/v1783107902/photo_2026-07-03_21-43-51_jrmbdf.jpg" class="gallery-item calidad" alt="Apple Vision revisado">
-            <img src="https://res.cloudinary.com/dmuxgamms/image/upload/v1783107902/photo_2026-07-03_21-43-43_b8rpx7.jpg" class="gallery-item calidad" alt="Mando PS5 calidad">
-        </div>
-    </section>
+<section class="catalog-section" id="catalogSection">
+<div class="inner">
+<div class="header">
+<div class="eyebrow">PRODUCTOS DIGITALES</div>
+<h2>Guias, proveedores y recursos</h2>
+<p>Accede a material exclusivo para impulsar tu negocio de reventa en Vinted.</p>
+</div>
+<div class="catalog-grid" id="catalogGridDigital"></div>
+</div>
+</section>
 
-    <section class="catalog-section" id="catalogSection">
-        <div class="inner">
-            <div class="header">
-                <div class="eyebrow">PRODUCTOS DIGITALES</div>
-                <h2>Guias, proveedores y recursos</h2>
-                <p>Accede a material exclusivo para impulsar tu negocio de reventa en Vinted.</p>
-            </div>
-            <div class="catalog-grid" id="catalogGridDigital"></div>
-        </div>
-    </section>
+<div class="payment-bar">
+<div class="inner">
+<div class="label">METODOS DE PAGO ACEPTADOS</div>
+<div class="logos">
+<span>American Express</span><span>Apple Pay</span><span>Mastercard</span><span>Visa</span><span>PayPal</span><span>Shop Pay</span>
+</div>
+<div class="security">
+<span>Pago seguro</span><span>Descarga inmediata</span><span>Acceso digital</span><span>Productos y precios</span>
+</div>
+</div>
+</div>
 
-    <div class="payment-bar">
-        <div class="inner">
-            <div class="label">METODOS DE PAGO ACEPTADOS</div>
-            <div class="logos">
-                <span>American Express</span>
-                <span>Apple Pay</span>
-                <span>Mastercard</span>
-                <span>Visa</span>
-                <span>PayPal</span>
-                <span>Shop Pay</span>
-            </div>
-            <div class="security">
-                <span>Pago seguro</span>
-                <span>Descarga inmediata</span>
-                <span>Acceso digital</span>
-                <span>Productos y precios</span>
-            </div>
-        </div>
-    </div>
+<button class="cart-toggle" id="cartToggle" onclick="toggleCartDrawer()">
+<span>Carrito</span>
+<span class="badge" id="cartBadge">0</span>
+</button>
 
-    <div class="mini-cart" id="miniCart">
-        <div class="row">
-            <span class="count"><strong id="cartCount">0</strong> productos</span>
-            <span class="total" id="cartTotal">0,00 EUR</span>
-        </div>
-        <button class="checkout-btn" onclick="checkoutCart()">Finalizar compra</button>
-        <div class="row empty-msg" id="cartEmptyMsg" style="display:none;">No hay productos</div>
-    </div>
+<div class="cart-drawer" id="cartDrawer">
+<div class="c-header">
+<span><strong id="cdCount">0</strong> productos</span>
+<button class="close-btn" onclick="toggleCartDrawer()">✕</button>
+</div>
+<div class="c-list" id="cdList"><div class="c-empty">No hay productos</div></div>
+<div class="c-footer" id="cdFooter">
+<div class="c-total"><span>Total</span><span id="cdTotal">0,00 EUR</span></div>
+<button class="checkout-btn" onclick="checkoutCart()">Finalizar compra</button>
+</div>
+</div>
 
-    <section class="cta-section" id="ctaSection">
-        <div class="inner">
-            <h2>COMIENZA HOY CON <span>FLUSH RESELL</span></h2>
-            <p>
-                Accede gratis a la comunidad y descubre como funciona la reventa en Vinted. Aprende a identificar productos ganadores, consigue proveedores y empieza a generar ingresos desde cero.
-            </p>
-            <button class="btn-primary" onclick="showToast('cta')">QUIERO EMPEZAR</button>
-        </div>
-    </section>
+<section class="cta-section" id="ctaSection">
+<div class="inner">
+<h2>COMIENZA HOY CON <span>FLUSH RESELL</span></h2>
+<p>Accede gratis a la comunidad y descubre como funciona la reventa en Vinted. Aprende a identificar productos ganadores, consigue proveedores y empieza a generar ingresos desde cero.</p>
+<button class="btn-primary" onclick="showToast('cta')">QUIERO EMPEZAR</button>
+</div>
+</section>
 
-    <section class="consulting-section" id="consultingSection">
-        <div class="inner">
-            <div class="section-label">ASESORIA PERSONALIZADA</div>
-            <h2>SOLICITA UNA <span style="color:var(--green-neon)">CONSULTORIA</span></h2>
-            <p class="sub">
-                Si necesitas orientacion especifica para tu caso, rellena el formulario y te contactaremos para una sesion de consultoria personalizada.
-            </p>
-            <form class="consulting-form" id="consultingForm" onsubmit="return submitConsulting(event)">
-                <div>
-                    <label for="consName">Nombre completo</label>
-                    <input type="text" id="consName" required placeholder="Tu nombre">
-                </div>
-                <div>
-                    <label for="consEmail">Correo electronico</label>
-                    <input type="email" id="consEmail" required placeholder="tu@email.com">
-                </div>
-                <div class="full">
-                    <label for="consPhone">Telefono (opcional)</label>
-                    <input type="tel" id="consPhone" placeholder="+34 600 000 000">
-                </div>
-                <div class="full">
-                    <label for="consLevel">Nivel de experiencia</label>
-                    <select id="consLevel">
-                        <option value="" disabled selected>Selecciona tu nivel</option>
-                        <option value="novato">Nunca he vendido en Vinted</option>
-                        <option value="iniciado">He vendido alguna vez pero sin estrategia</option>
-                        <option value="intermedio">Vendo regularmente pero quiero escalar</option>
-                        <option value="avanzado">Ya tengo ingresos y busco optimizar</option>
-                    </select>
-                </div>
-                <div class="full">
-                    <label for="consGoal">Objetivo principal</label>
-                    <select id="consGoal">
-                        <option value="" disabled selected>Selecciona tu objetivo</option>
-                        <option value="empezar">Empezar desde cero en la reventa</option>
-                        <option value="proveedores">Encontrar proveedores de calidad</option>
-                        <option value="escalar">Escalar mi negocio actual</option>
-                        <option value="productos">Identificar productos ganadores</option>
-                        <option value="optimizar">Optimizar mis anuncios y ventas</option>
-                    </select>
-                </div>
-                <div class="full">
-                    <label for="consMsg">Describe tu situacion</label>
-                    <textarea id="consMsg" placeholder="Cuentanos brevemente en que punto estas y que necesitas..."></textarea>
-                </div>
-                <div class="submit-wrap">
-                    <button type="submit" class="btn-primary">ENVIAR SOLICITUD</button>
-                </div>
-            </form>
-        </div>
-    </section>
+<section class="consulting-section" id="consultingSection">
+<div class="inner">
+<div class="section-label">ASESORIA PERSONALIZADA</div>
+<h2>SOLICITA UNA <span style="color:var(--green-neon)">CONSULTORIA</span></h2>
+<p class="sub">Si necesitas orientacion especifica para tu caso, rellena el formulario y te contactaremos para una sesion personalizada.</p>
+<form class="consulting-form" id="consultingForm" onsubmit="return submitConsulting(event)">
+<div><label>Nombre completo</label><input type="text" id="consName" required placeholder="Tu nombre"></div>
+<div><label>Correo electronico</label><input type="email" id="consEmail" required placeholder="tu@email.com"></div>
+<div class="full"><label>Telefono (opcional)</label><input type="tel" id="consPhone" placeholder="+34 600 000 000"></div>
+<div class="full"><label>Nivel de experiencia</label>
+<select id="consLevel"><option value="" disabled selected>Selecciona tu nivel</option><option value="novato">Nunca he vendido en Vinted</option><option value="iniciado">He vendido alguna vez pero sin estrategia</option><option value="intermedio">Vendo regularmente pero quiero escalar</option><option value="avanzado">Ya tengo ingresos y busco optimizar</option></select></div>
+<div class="full"><label>Objetivo principal</label>
+<select id="consGoal"><option value="" disabled selected>Selecciona tu objetivo</option><option value="empezar">Empezar desde cero en la reventa</option><option value="proveedores">Encontrar proveedores de calidad</option><option value="escalar">Escalar mi negocio actual</option><option value="productos">Identificar productos ganadores</option><option value="optimizar">Optimizar mis anuncios y ventas</option></select></div>
+<div class="full"><label>Describe tu situacion</label><textarea id="consMsg" placeholder="Cuentanos brevemente en que punto estas y que necesitas..."></textarea></div>
+<div class="submit-wrap"><button type="submit" class="btn-primary">ENVIAR SOLICITUD</button></div>
+</form>
+</div>
+</section>
 
-    <section class="faq-section" id="faqSection">
-        <div class="inner">
-            <div class="section-label">PREGUNTAS FRECUENTES</div>
-            <h2>RESUELVE TUS <span style="color:var(--green-neon)">DUDAS</span></h2>
-            <div class="faq-list">
-                <div class="faq-item open">
-                    <div class="question" onclick="toggleFaq(this)">
-                        ¿Necesito experiencia previa? <span class="arrow">+</span>
-                    </div>
-                    <div class="answer">No es necesaria. La metodologia esta disenada para que cualquier persona pueda empezar desde cero y obtener resultados en las primeras semanas.</div>
-                </div>
-                <div class="faq-item">
-                    <div class="question" onclick="toggleFaq(this)">
-                        ¿Cuanto se puede ganar? <span class="arrow">+</span>
-                    </div>
-                    <div class="answer">Los resultados varian segun dedicacion. Alumnos comprometidos generan entre 200 y 600 EUR el primer mes. Nuestra referencia personal supera los 5.000 EUR mensuales.</div>
-                </div>
-                <div class="faq-item">
-                    <div class="question" onclick="toggleFaq(this)">
-                        ¿La comunidad tiene costo? <span class="arrow">+</span>
-                    </div>
-                    <div class="answer">La comunidad Flush Makers es completamente gratuita. Puedes acceder, consumir el contenido y decidir si deseas avanzar a programas mas especializados.</div>
-                </div>
-                <div class="faq-item">
-                    <div class="question" onclick="toggleFaq(this)">
-                        ¿Cuanto capital necesito para empezar? <span class="arrow">+</span>
-                    </div>
-                    <div class="answer">Se puede empezar con menos de 50 EUR para adquirir el primer lote de productos. La clave esta en la rotacion, no en el volumen inicial.</div>
-                </div>
-                <div class="faq-item">
-                    <div class="question" onclick="toggleFaq(this)">
-                        ¿Funciona solo en Espana? <span class="arrow">+</span>
-                    </div>
-                    <div class="answer">Vinted opera en toda Europa. Las estrategias son aplicables en cualquier pais donde la plataforma este disponible.</div>
-                </div>
-            </div>
-        </div>
-    </section>
+<section class="faq-section" id="faqSection">
+<div class="inner">
+<div class="section-label">PREGUNTAS FRECUENTES</div>
+<h2>RESUELVE TUS <span style="color:var(--green-neon)">DUDAS</span></h2>
+<div class="faq-list">
+<div class="faq-item open"><div class="question" onclick="toggleFaq(this)">¿Necesito experiencia previa? <span class="arrow">+</span></div><div class="answer">No es necesaria. La metodologia esta disenada para que cualquier persona pueda empezar desde cero.</div></div>
+<div class="faq-item"><div class="question" onclick="toggleFaq(this)">¿Cuanto se puede ganar? <span class="arrow">+</span></div><div class="answer">Los resultados varian segun dedicacion. Alumnos comprometidos generan entre 200 y 600 EUR el primer mes.</div></div>
+<div class="faq-item"><div class="question" onclick="toggleFaq(this)">¿La comunidad tiene costo? <span class="arrow">+</span></div><div class="answer">La comunidad Flush Makers es completamente gratuita.</div></div>
+<div class="faq-item"><div class="question" onclick="toggleFaq(this)">¿Cuanto capital necesito para empezar? <span class="arrow">+</span></div><div class="answer">Se puede empezar con menos de 50 EUR para adquirir el primer lote de productos.</div></div>
+<div class="faq-item"><div class="question" onclick="toggleFaq(this)">¿Funciona solo en Espana? <span class="arrow">+</span></div><div class="answer">Vinted opera en toda Europa. Las estrategias aplican en cualquier pais disponible.</div></div>
+</div>
+</div>
+</section>
 
-    <footer>
-        <div class="logo">FLUSH RESELL</div>
-        <p>Consultoria en reventa y e-commerce</p>
-        <div class="social">
-            <span>IG</span>
-            <span>TK</span>
-            <span>YT</span>
-        </div>
-        <p style="margin-top:1rem;font-size:0.6rem;">2026 FlushResell. Todos los derechos reservados.</p>
-    </footer>
+<div class="wave-footer">
+<svg viewBox="0 0 1440 200" preserveAspectRatio="none">
+<path fill="#00B83F" fill-opacity="0.08" d="M0,96 C360,160 720,32 1080,96 C1260,128 1380,96 1440,80 L1440,200 L0,200 Z"/>
+<path fill="#00B83F" fill-opacity="0.04" d="M0,128 C360,64 720,160 1080,128 C1260,112 1380,144 1440,128 L1440,200 L0,200 Z"/>
+</svg>
+<svg viewBox="0 0 1440 200" preserveAspectRatio="none">
+<path fill="#39FF66" fill-opacity="0.06" d="M0,112 C360,176 720,48 1080,112 C1260,144 1380,112 1440,96 L1440,200 L0,200 Z"/>
+<path fill="#39FF66" fill-opacity="0.03" d="M0,144 C360,80 720,176 1080,144 C1260,128 1380,160 1440,144 L1440,200 L0,200 Z"/>
+</svg>
+<div class="overlay"></div>
+</div>
 
-    <div class="toast-container" id="toastContainer"></div>
+<footer>
+<div class="logo">FLUSH RESELL</div>
+<p>Consultoria en reventa y e-commerce</p>
+<div class="social"><span>IG</span><span>TK</span><span>YT</span></div>
+<p style="margin-top:1rem;font-size:0.6rem;">2026 FlushResell. Todos los derechos reservados.</p>
+</footer>
 
-    <svg style="position:absolute;width:0;height:0;" aria-hidden="true">
-        <defs>
-            <filter id="goo">
-                <feGaussianBlur in="SourceGraphic" stdDeviation="6" result="blur" />
-                <feColorMatrix in="blur" type="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 22 -9" result="goo" />
-                <feBlend in="SourceGraphic" in2="goo" />
-            </filter>
-        </defs>
-    </svg>
+<div class="toast-container" id="toastContainer"></div>
+<div class="modal-backdrop" id="modalBackdrop" onclick="closeModal()"><img id="modalImage" src="" alt=""></div>
+<button class="modal-close" id="modalClose" onclick="closeModal()">✕</button>
 
-    <div class="modal-backdrop" id="modalBackdrop" onclick="closeModal()">
-        <img id="modalImage" src="" alt="">
-    </div>
-    <button class="modal-close" id="modalClose" onclick="closeModal()">✕</button>
+<svg style="position:absolute;width:0;height:0;" aria-hidden="true">
+<defs>
+<filter id="goo">
+<feGaussianBlur in="SourceGraphic" stdDeviation="6" result="blur"/>
+<feColorMatrix in="blur" type="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 22 -9" result="goo"/>
+<feBlend in="SourceGraphic" in2="goo"/>
+</filter>
+</defs>
+</svg>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 <script>
-(function() {
-    const texts = ["APRENDE A GENERAR", "INGRESOS CON VINTED", "FLUSH RESELL"];
-    const el1 = document.getElementById("goo1");
-    const el2 = document.getElementById("goo2");
-    const gooWrap = document.getElementById("gooWrap");
-    if (!el1 || !el2 || typeof gsap === 'undefined') return;
+gsap.set(".hero-title", { opacity: 0, y: 24 });
+gsap.to(".hero-title", { opacity: 1, y: 0, duration: 0.8, ease: "power2.out" });
 
-    el1.textContent = texts[0];
-    el2.textContent = texts[1];
-
-    gsap.set([el1, el2], { opacity: 0, y: 24, filter: "none" });
-    gsap.set(gooWrap, { filter: "none" });
-
-    const tl = gsap.timeline({ delay: 0.3 });
-
-    tl.to(el1, { opacity: 1, y: 0, duration: 0.7, ease: "power2.out" });
-
-    tl.call(() => { gooWrap.style.filter = "url(#goo)"; });
-
-    for (let i = 0; i < texts.length - 1; i++) {
-        if (i > 0) tl.call(() => { el1.textContent = texts[i]; el2.textContent = texts[i + 1]; });
-        tl.to({}, { duration: 0.7, ease: "power2.inOut", onUpdate: function() {
-            const f = this.progress();
-            const b2 = Math.min(6 / (1 - f + 0.1) - 1.5, 30);
-            const b1 = Math.min(6 / (f + 0.1) - 1.5, 30);
-            gsap.set(el2, { filter: `blur(${b1}px)`, opacity: Math.min(f * 1.2, 1) });
-            gsap.set(el1, { filter: `blur(${b2}px)`, opacity: Math.min((1 - f) * 1.2, 1) });
-        } });
-        tl.call(() => {
-            gsap.set([el1, el2], { filter: "" });
-            gsap.set(el2, { opacity: 1 });
-            gsap.set(el1, { opacity: 0 });
-        });
-        if (i < texts.length - 2) tl.to({}, { duration: 1.2 });
-    }
-    tl.call(() => {
-        el2.style.display = "none";
-        el1.innerHTML = "FLUSH<br>RESELL";
-        gsap.set([el1, el2, gooWrap], { filter: "none" });
-        gsap.set(el1, { opacity: 1 });
-    });
-})();
-
-const statObserver = new IntersectionObserver((entries) => {
-    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('revealed'); });
-}, { threshold: 0.3 });
+const statObserver = new IntersectionObserver((e) => { e.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('revealed'); }); }, { threshold: 0.3 });
 document.querySelectorAll('.stat-item').forEach(el => statObserver.observe(el));
 
-const learnObserver = new IntersectionObserver((entries) => {
-    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('revealed'); });
-}, { threshold: 0.2 });
+const learnObserver = new IntersectionObserver((e) => { e.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('revealed'); }); }, { threshold: 0.2 });
 document.querySelectorAll('.learn-card').forEach(el => learnObserver.observe(el));
 
-const resultObserver = new IntersectionObserver((entries) => {
-    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('revealed'); });
-}, { threshold: 0.2 });
+const resultObserver = new IntersectionObserver((e) => { e.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('revealed'); }); }, { threshold: 0.2 });
 document.querySelectorAll('.result-card').forEach(el => resultObserver.observe(el));
 
-function toggleFaq(el) {
-    const item = el.closest('.faq-item');
-    item.classList.toggle('open');
-}
+document.querySelectorAll('.learn-card').forEach(card => {
+card.addEventListener('mousemove', e => {
+const r = card.getBoundingClientRect();
+card.style.setProperty('--mx', ((e.clientX - r.left) / r.width * 100) + '%');
+card.style.setProperty('--my', ((e.clientY - r.top) / r.height * 100) + '%');
+});
+});
+
+function toggleFaq(el) { el.closest('.faq-item').classList.toggle('open'); }
 
 function showToast(type) {
-    const container = document.getElementById('toastContainer');
-    const toast = document.createElement('div');
-    toast.className = 'toast';
-    const msg = type === 'comunidad'
-        ? 'Recibiras el enlace de acceso a Flush Makers en tu correo.'
-        : 'Gracias por tu interes. Te contactaremos en breve.';
-    toast.textContent = msg;
-    container.appendChild(toast);
-    requestAnimationFrame(() => toast.classList.add('show'));
-    setTimeout(() => { toast.classList.remove('show'); setTimeout(() => toast.remove(), 400); }, 3500);
+const c = document.getElementById('toastContainer');
+const t = document.createElement('div'); t.className = 'toast';
+t.textContent = type === 'comunidad' ? 'Recibiras el enlace de acceso a Flush Makers en tu correo.' : 'Gracias por tu interes. Te contactaremos en breve.';
+c.appendChild(t);
+requestAnimationFrame(() => t.classList.add('show'));
+setTimeout(() => { t.classList.remove('show'); setTimeout(() => t.remove(), 400); }, 3500);
 }
 
-function submitConsulting(e) {
-    e.preventDefault();
-    const name = document.getElementById('consName').value.trim();
-    const email = document.getElementById('consEmail').value.trim();
-    if (!name || !email) return false;
-    showToast('cta');
-    document.getElementById('consultingForm').reset();
-    return false;
-}
+function submitConsulting(e) { e.preventDefault(); const n = document.getElementById('consName').value.trim(); const em = document.getElementById('consEmail').value.trim(); if (!n || !em) return false; showToast('cta'); document.getElementById('consultingForm').reset(); return false; }
 
 (function() {
-    const overlay = document.getElementById('transitionOverlay');
-    if (!overlay) return;
-    let boxesHTML = '';
-    for (let i = 0; i < 100; i++) boxesHTML += '<div class="box"></div>';
-    overlay.innerHTML = boxesHTML;
-    const boxes = overlay.querySelectorAll('.box');
-
-    window.activarAnimacion = function() {
-        overlay.classList.add('open');
-        gsap.set(boxes, { scaleY: 0, transformOrigin: 'center bottom' });
-        gsap.to(boxes, {
-            scaleY: 1, duration: 0.4, stagger: 0.015, ease: 'power4.in',
-            onComplete: () => {
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-                gsap.to(boxes, {
-                    scaleY: 0, duration: 0.4, stagger: 0.015, ease: 'power4.out', delay: 0.3,
-                    onComplete: () => { overlay.classList.remove('open'); }
-                });
-            }
-        });
-    };
-    document.getElementById('mainLogo').addEventListener('click', () => window.activarAnimacion());
+const overlay = document.getElementById('transitionOverlay');
+if (!overlay) return;
+let html = ''; for (let i = 0; i < 100; i++) html += '<div class="box"></div>';
+overlay.innerHTML = html;
+const boxes = overlay.querySelectorAll('.box');
+window.activarAnimacion = function() {
+overlay.classList.add('open');
+gsap.set(boxes, { scaleY: 0, transformOrigin: 'center bottom' });
+gsap.to(boxes, { scaleY: 1, duration: 0.4, stagger: 0.015, ease: 'power4.in', onComplete: () => {
+window.scrollTo({ top: 0, behavior: 'smooth' });
+gsap.to(boxes, { scaleY: 0, duration: 0.4, stagger: 0.015, ease: 'power4.out', delay: 0.3, onComplete: () => { overlay.classList.remove('open'); } }); }); };
+document.getElementById('mainLogo').addEventListener('click', () => window.activarAnimacion());
 })();
 
 const tabs = document.querySelectorAll(".tab");
-const items = document.querySelectorAll(".gallery-item");
-items.forEach((item) => {
-    if (!item.classList.contains("resultados")) item.classList.add("hidden");
-});
-tabs.forEach((tab) => {
-    tab.addEventListener("click", () => {
-        tabs.forEach((btn) => btn.classList.remove("active"));
-        tab.classList.add("active");
-        const category = tab.dataset.category;
-        items.forEach((item) => {
-            item.classList.toggle("hidden", !item.classList.contains(category));
-        });
-    });
-});
+const galItems = document.querySelectorAll(".gallery-item");
+galItems.forEach(item => { if (!item.classList.contains("resultados")) item.classList.add("hidden"); });
+tabs.forEach(tab => { tab.addEventListener("click", () => { tabs.forEach(b => b.classList.remove("active")); tab.classList.add("active"); const cat = tab.dataset.category; galItems.forEach(item => { item.classList.toggle("hidden", !item.classList.contains(cat)); }); }); });
 
 const digitalProducts = [
-    { id: 1, name: "Lista productos ganadores y proveedores verano", price: 29.99, oldPrice: 140.99, icon: "LP" },
-    { id: 2, name: "Proveedor definitivo", price: 7.99, oldPrice: 49.99, icon: "PD" },
-    { id: 3, name: "Guia esencial 2026", price: 1.00, oldPrice: 9.99, icon: "GE" },
-    { id: 4, name: "Pack +75 facturas y tickets editables", price: 7.99, oldPrice: 34.99, icon: "FT" },
-    { id: 5, name: "Guia multicuentas", price: 4.99, oldPrice: 29.99, icon: "GM" },
-    { id: 6, name: "Proveedor vapers", price: 4.99, oldPrice: 19.99, icon: "PV" }
+{ id: 1, name: "Lista productos ganadores y proveedores verano", price: 29.99, oldPrice: 140.99, icon: "LP" },
+{ id: 2, name: "Proveedor definitivo", price: 7.99, oldPrice: 49.99, icon: "PD" },
+{ id: 3, name: "Guia esencial 2026", price: 1.00, oldPrice: 9.99, icon: "GE" },
+{ id: 4, name: "Pack +75 facturas y tickets editables", price: 7.99, oldPrice: 34.99, icon: "FT" },
+{ id: 5, name: "Guia multicuentas", price: 4.99, oldPrice: 29.99, icon: "GM" },
+{ id: 6, name: "Proveedor vapers", price: 4.99, oldPrice: 19.99, icon: "PV" }
 ];
-
 function renderDigitalCatalog() {
-    const grid = document.getElementById('catalogGridDigital');
-    grid.innerHTML = digitalProducts.map(p => `
-        <div class="product-card-digital">
-            <div class="img-wrap"><span class="placeholder">${p.icon}</span></div>
-            <div class="body">
-                <div class="name">${p.name}</div>
-                <div class="prices">
-                    <span class="current">${p.price.toFixed(2).replace('.', ',')} EUR</span>
-                    <span class="old">${p.oldPrice.toFixed(2).replace('.', ',')} EUR</span>
-                </div>
-                <div class="actions">
-                    <button class="btn-add" onclick="addToDigitalCart(${p.id})">Anadir</button>
-                    <button class="btn-buy" onclick="buyNow(${p.id})">Comprar ahora</button>
-                </div>
-            </div>
-        </div>
-    `).join('');
+document.getElementById('catalogGridDigital').innerHTML = digitalProducts.map(p => {
+const discount = Math.round((1 - p.price / p.oldPrice) * 100);
+return `<div class="product-card-digital"><div class="img-wrap"><span class="mockup">${p.icon}</span><span class="badge">Digital</span><span class="discount">-${discount}%</span></div><div class="body"><div class="name">${p.name}</div><div class="prices"><span class="current">${p.price.toFixed(2).replace('.',',')} EUR</span><span class="old">${p.oldPrice.toFixed(2).replace('.',',')} EUR</span></div><div class="actions"><button class="btn-add" onclick="addToDigitalCart(${p.id})">Anadir</button><button class="btn-buy" onclick="buyNow(${p.id})">Comprar ahora</button></div></div></div>`;
+}).join('');
 }
+renderDigitalCatalog();
 
 let digitalCart = [];
-
 function addToDigitalCart(id) {
-    const p = digitalProducts.find(x => x.id === id);
-    if (!p) return;
-    const existing = digitalCart.find(x => x.id === id);
-    if (existing) { existing.qty += 1; } else { digitalCart.push({ ...p, qty: 1 }); }
-    updateMiniCart();
+const p = digitalProducts.find(x => x.id === id); if (!p) return;
+const ex = digitalCart.find(x => x.id === id); if (ex) { ex.qty++; } else { digitalCart.push({...p, qty: 1 }); }
+updateCartUI();
+}
+function buyNow(id) { addToDigitalCart(id); toggleCartDrawer(); document.getElementById('cartDrawer').classList.add('open'); }
+
+let cartOpen = false;
+function toggleCartDrawer() {
+cartOpen = !cartOpen;
+document.getElementById('cartDrawer').classList.toggle('open', cartOpen);
 }
 
-function buyNow(id) {
-    addToDigitalCart(id);
-    checkoutCart();
-}
-
-function updateMiniCart() {
-    const cart = document.getElementById('miniCart');
-    const count = document.getElementById('cartCount');
-    const total = document.getElementById('cartTotal');
-    const empty = document.getElementById('cartEmptyMsg');
-    const qty = digitalCart.reduce((s, i) => s + i.qty, 0);
-    const tot = digitalCart.reduce((s, i) => s + i.price * i.qty, 0);
-    count.textContent = qty;
-    total.textContent = tot.toFixed(2).replace('.', ',') + ' EUR';
-    if (qty > 0) {
-        cart.classList.add('visible');
-        empty.style.display = 'none';
-    } else {
-        cart.classList.remove('visible');
-        empty.style.display = 'block';
-    }
+function updateCartUI() {
+const qty = digitalCart.reduce((s,i) => s + i.qty, 0);
+const tot = digitalCart.reduce((s,i) => s + i.price * i.qty, 0);
+document.getElementById('cartBadge').textContent = qty;
+document.getElementById('cdCount').textContent = qty;
+document.getElementById('cdTotal').textContent = tot.toFixed(2).replace('.',',') + ' EUR';
+const list = document.getElementById('cdList');
+if (qty === 0) { list.innerHTML = '<div class="c-empty">No hay productos</div>'; return; }
+list.innerHTML = digitalCart.map(i => `<div class="c-item"><span class="c-name">${i.name}</span><span class="c-qty">x${i.qty}</span><span class="c-price">${(i.price * i.qty).toFixed(2).replace('.',',')} EUR</span></div>`).join('');
+if (!cartOpen) toggleCartDrawer();
 }
 
 function checkoutCart() {
-    const qty = digitalCart.reduce((s, i) => s + i.qty, 0);
-    if (qty === 0) { alert('No hay productos en el carrito.'); return; }
-    const tot = digitalCart.reduce((s, i) => s + i.price * i.qty, 0);
-    alert('Total: ' + tot.toFixed(2).replace('.', ',') + ' EUR\\nGracias por tu compra. Recibiras los accesos por correo.');
-    digitalCart = [];
-    updateMiniCart();
+const qty = digitalCart.reduce((s,i) => s + i.qty, 0);
+if (qty === 0) { alert('No hay productos en el carrito.'); return; }
+const tot = digitalCart.reduce((s,i) => s + i.price * i.qty, 0);
+alert('Total: ' + tot.toFixed(2).replace('.',',') + ' EUR\nGracias por tu compra. Recibiras los accesos por correo.');
+digitalCart = []; updateCartUI(); cartOpen = false; document.getElementById('cartDrawer').classList.remove('open');
 }
 
-renderDigitalCatalog();
-
-function openModal(src) {
-    document.getElementById('modalImage').src = src;
-    document.getElementById('modalBackdrop').classList.add('open');
-    document.getElementById('modalClose').classList.add('open');
-    document.body.style.overflow = 'hidden';
-}
-function closeModal() {
-    document.getElementById('modalBackdrop').classList.remove('open');
-    document.getElementById('modalClose').classList.remove('open');
-    document.body.style.overflow = '';
-}
-document.querySelectorAll('.gallery-item').forEach(el => {
-    el.addEventListener('click', () => openModal(el.src));
-});
+function openModal(src) { document.getElementById('modalImage').src = src; document.getElementById('modalBackdrop').classList.add('open'); document.getElementById('modalClose').classList.add('open'); document.body.style.overflow = 'hidden'; }
+function closeModal() { document.getElementById('modalBackdrop').classList.remove('open'); document.getElementById('modalClose').classList.remove('open'); document.body.style.overflow = ''; }
+document.querySelectorAll('.gallery-item').forEach(el => { el.addEventListener('click', () => openModal(el.src)); });
 </script>
 </body>
 </html>
