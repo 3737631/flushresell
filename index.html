@@ -143,28 +143,6 @@ header .logo:hover{opacity:0.7}
 .product-card-digital .body .actions .btn-buy{flex:1;padding:10px;border:none;border-radius:50px;background:var(--green);color:#05080C;font-family:'Montserrat',sans-serif;font-size:0.6rem;font-weight:700;text-transform:uppercase;letter-spacing:1px;cursor:pointer;transition:all 0.25s;box-shadow:0 0 20px rgba(0,184,63,0.2)}
 .product-card-digital .body .actions .btn-buy:hover{background:var(--green-neon);box-shadow:0 0 40px rgba(57,255,102,0.4);transform:scale(1.03)}
 
-.product-carousel-wrap{max-width:1100px;margin:0 auto 40px;padding:0 20px}
-.product-carousel-wrap .carousel-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px}
-.product-carousel-wrap .carousel-header h3{font-family:'Montserrat',sans-serif;font-weight:700;font-size:0.85rem;text-transform:uppercase;letter-spacing:1.5px;color:#fff}
-.product-carousel-wrap .carousel-header .carousel-arrows{display:flex;gap:8px}
-.product-carousel-wrap .carousel-header .carousel-arrows button{width:32px;height:32px;border-radius:50%;border:1px solid var(--border);background:transparent;color:#fff;cursor:pointer;transition:all 0.3s;font-size:0.9rem;display:flex;align-items:center;justify-content:center}
-.product-carousel-wrap .carousel-header .carousel-arrows button:hover{border-color:var(--green);color:var(--green-neon)}
-.product-carousel-outer{overflow:hidden;border-radius:12px}
-.product-carousel{display:flex;gap:14px;overflow-x:auto;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;padding:4px 0;scrollbar-width:none}
-.product-carousel::-webkit-scrollbar{display:none}
-.product-carousel .carousel-item{min-width:240px;scroll-snap-align:start;background:var(--gray-ui);border:1px solid var(--border);border-radius:12px;padding:16px;transition:all 0.3s;cursor:pointer;flex-shrink:0}
-.product-carousel .carousel-item:hover{border-color:var(--green);box-shadow:0 0 30px rgba(0,184,63,0.1);transform:translateY(-4px)}
-.product-carousel .carousel-item .c-item-name{font-family:'Montserrat',sans-serif;font-weight:700;font-size:0.65rem;text-transform:uppercase;letter-spacing:0.5px;color:#fff;margin-bottom:6px;line-height:1.2}
-.product-carousel .carousel-item .c-item-prices{display:flex;align-items:baseline;gap:6px;margin-bottom:8px}
-.product-carousel .carousel-item .c-item-prices .ci-current{font-size:1rem;font-weight:800;color:var(--green-neon);font-family:'Montserrat',sans-serif}
-.product-carousel .carousel-item .c-item-prices .ci-old{font-size:0.6rem;color:var(--gray-mid);text-decoration:line-through;font-family:'JetBrains Mono',monospace}
-.product-carousel .carousel-item .ci-badge{display:inline-block;font-size:0.45rem;font-family:'JetBrains Mono',monospace;text-transform:uppercase;letter-spacing:1px;background:var(--green);color:#05080C;padding:2px 6px;border-radius:4px;font-weight:700}
-.product-carousel .carousel-item .ci-add{width:100%;margin-top:8px;padding:8px;border:1px solid var(--border);border-radius:50px;background:transparent;color:#fff;font-family:'Montserrat',sans-serif;font-size:0.55rem;font-weight:600;text-transform:uppercase;letter-spacing:1px;cursor:pointer;transition:all 0.25s}
-.product-carousel .carousel-item .ci-add:hover{border-color:var(--green);color:var(--green);background:rgba(0,184,63,0.06)}
-.product-carousel-dots{display:flex;justify-content:center;gap:6px;margin-top:12px}
-.product-carousel-dots .pc-dot{width:6px;height:6px;border-radius:50%;background:#333;border:none;cursor:pointer;transition:all 0.3s;padding:0}
-.product-carousel-dots .pc-dot.active{background:var(--green-neon);width:18px;border-radius:3px}
-
 .payment-bar{padding:30px 20px;background:var(--gray-ui);border-top:1px solid var(--border);border-bottom:1px solid var(--border);text-align:center}
 .payment-bar .inner{max-width:900px;margin:0 auto}
 .payment-bar .label{font-size:0.55rem;color:var(--gray-mid);font-family:'JetBrains Mono',monospace;text-transform:uppercase;letter-spacing:2px;margin-bottom:12px}
@@ -406,19 +384,6 @@ header .logo{position:static;transform:none;font-size:0.75rem}
 <h2>Guias, proveedores y recursos</h2>
 <p>Accede a material exclusivo para impulsar tu negocio de reventa en Vinted.</p>
 </div>
-</div>
-<div class="product-carousel-wrap">
-<div class="carousel-header">
-<h3>DESTACADOS</h3>
-<div class="carousel-arrows">
-<button onclick="scrollCarousel(-1)">&#8592;</button>
-<button onclick="scrollCarousel(1)">&#8594;</button>
-</div>
-</div>
-<div class="product-carousel-outer">
-<div class="product-carousel" id="productCarousel"></div>
-</div>
-<div class="product-carousel-dots" id="carouselDots"></div>
 </div>
 <div class="inner">
 <div class="catalog-grid" id="catalogGridDigital"></div>
@@ -675,52 +640,7 @@ const products = [
   { id: 6, name: 'Proveedor vapers', price: 4.99, oldPrice: 19.99, label: 'EXCLUSIVO', subtitle: 'Nicho exclusivo' },
 ];
 
-// === PRODUCT CAROUSEL ===
-function renderCarousel() {
-  const carousel = document.getElementById('productCarousel');
-  const featured = [products[0], products[1], products[2], products[4], products[5]];
-  carousel.innerHTML = featured.map(p => {
-    const discount = Math.round((1 - p.price / p.oldPrice) * 100);
-    return '<div class="carousel-item">' +
-      '<div class="c-item-name">' + p.name + '</div>' +
-      '<div class="c-item-prices"><span class="ci-current">' + p.price.toFixed(2).replace('.',',') + ' EUR</span><span class="ci-old">' + p.oldPrice.toFixed(2).replace('.',',') + ' EUR</span></div>' +
-      '<span class="ci-badge">-' + discount + '%</span>' +
-      '<button class="ci-add" onclick="addToCart(' + p.id + ')">Anadir al carrito</button>' +
-    '</div>';
-  }).join('');
-  // Dots
-  const dotContainer = document.getElementById('carouselDots');
-  dotContainer.innerHTML = featured.map((_, i) =>
-    '<button class="pc-dot' + (i === 0 ? ' active' : '') + '" onclick="goToCarouselSlide(' + i + ')"></button>'
-  ).join('');
-}
-renderCarousel();
 
-let carouselScrollPos = 0;
-function scrollCarousel(dir) {
-  const c = document.getElementById('productCarousel');
-  const itemW = c.children[0] ? c.children[0].offsetWidth + 14 : 254;
-  carouselScrollPos = Math.max(0, Math.min(carouselScrollPos + dir * itemW, c.scrollWidth - c.clientWidth));
-  c.scrollTo({ left: carouselScrollPos, behavior: 'smooth' });
-  updateCarouselDots();
-}
-function goToCarouselSlide(i) {
-  const c = document.getElementById('productCarousel');
-  const itemW = c.children[0] ? c.children[0].offsetWidth + 14 : 254;
-  carouselScrollPos = i * itemW;
-  c.scrollTo({ left: carouselScrollPos, behavior: 'smooth' });
-  updateCarouselDots();
-}
-function updateCarouselDots() {
-  const c = document.getElementById('productCarousel');
-  const itemW = c.children[0] ? c.children[0].offsetWidth + 14 : 254;
-  const idx = Math.round(carouselScrollPos / itemW);
-  document.querySelectorAll('.pc-dot').forEach((d, i) => d.classList.toggle('active', i === idx));
-}
-document.getElementById('productCarousel').addEventListener('scroll', () => {
-  carouselScrollPos = document.getElementById('productCarousel').scrollLeft;
-  updateCarouselDots();
-});
 
 // === DIGITAL CATALOG ===
 const colors = ['#0B2E18','#1a3d1a','#0d2d1a','#1a3d28','#0d3318','#1a3d1f'];
