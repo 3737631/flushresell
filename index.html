@@ -1,0 +1,890 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FlushResell · Consultoria en Reventa y E-commerce</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Montserrat:wght@400;600;700;800;900&family=Anton&family=JetBrains+Mono:wght@400;700&display=swap');
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:'Inter',sans-serif;background:#05080C;color:#fff;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+:root{--border:#1F252D;--green:#00B83F;--green-neon:#39FF66;--green-dark:#0B2E18;--gold:#F2C94C;--gray-ui:#1F252D;--gray-light:#D9DEE5;--gray-mid:#6B7280}
+::selection{background:var(--green);color:#05080C}
+
+.transition-overlay{position:fixed;inset:0;z-index:999;display:grid;grid-template-columns:repeat(10,1fr);grid-template-rows:repeat(10,1fr);pointer-events:none}
+.transition-overlay .box{background:#05080C;transform:scaleY(0);transform-origin:center bottom}
+.transition-overlay.open{pointer-events:all}
+
+header{position:sticky;top:0;z-index:100;background:rgba(5,8,12,0.97);backdrop-filter:blur(12px);border-bottom:1px solid var(--border)}
+.header-inner{display:flex;align-items:center;justify-content:space-between;padding:1rem 4rem;font-size:0.7rem;text-transform:uppercase;letter-spacing:1.5px}
+header .logo{font-weight:800;letter-spacing:3px;font-size:0.9rem;cursor:pointer;transition:opacity 0.3s;font-family:'Montserrat',sans-serif;color:var(--green-neon);text-align:center}
+header .logo:hover{opacity:0.7}
+.header-nav{display:flex;align-items:center;gap:1.5rem}
+.header-nav a{color:#fff;text-decoration:none;cursor:pointer;transition:opacity 0.3s;font-size:0.65rem;letter-spacing:2px}
+.header-nav a:hover{opacity:0.5}
+
+.hero{min-height:90vh;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#05080C;text-align:center;padding:2rem;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;top:-50%;left:-50%;width:200%;height:200%;background:radial-gradient(ellipse at 50% 40%,rgba(0,184,63,0.12),transparent 50%);pointer-events:none;animation:pulseGlow 6s ease-in-out infinite}
+.hero::after{content:'';position:absolute;top:0;left:0;width:100%;height:100%;background:url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");pointer-events:none;opacity:0.4}
+@keyframes pulseGlow{0%,100%{opacity:0.6}50%{opacity:1}}
+.hero-scroll{position:absolute;bottom:2rem;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:4px;opacity:0.3;animation:floatDown 3s ease-in-out infinite}
+.hero-scroll span{font-size:0.5rem;font-family:'JetBrains Mono',monospace;text-transform:uppercase;letter-spacing:2px;color:var(--gray-mid)}
+.hero-scroll .line{width:1px;height:30px;background:linear-gradient(to bottom,var(--gray-mid),transparent)}
+@keyframes floatDown{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(6px)}}
+
+.hero-title-wrap{position:relative;width:100%;max-width:1000px;margin:0 auto 1rem;padding:0 1rem}
+.hero-title{font-family:'Anton',sans-serif;font-size:clamp(42px,8vw,96px);text-transform:uppercase;line-height:0.95;color:#fff;text-align:center;text-wrap:balance;letter-spacing:2px;overflow:visible;min-height:1.2em}
+.hero-title .green{color:var(--green-neon)}
+#changingWordContainer{display:inline-block;min-width:140px;text-align:center}
+#changingWord{display:inline-block;color:var(--green-neon);transition:opacity 0.35s ease,transform 0.35s cubic-bezier(0.16,1,0.3,1);overflow-wrap:break-word;word-break:break-word}
+.hero-sub{font-size:clamp(0.9rem,2vw,1.15rem);color:var(--gray-mid);max-width:600px;margin:0 auto 2rem;line-height:1.6;position:relative;z-index:1}
+.hero-actions{display:flex;gap:1rem;flex-wrap:wrap;justify-content:center;position:relative;z-index:1}
+.btn-primary{padding:1rem 2.5rem;background:var(--green);color:#05080C;border:none;font-family:'Montserrat',sans-serif;font-weight:700;font-size:0.75rem;text-transform:uppercase;letter-spacing:2px;cursor:pointer;transition:all 0.3s cubic-bezier(0.16,1,0.3,1);border-radius:50px;box-shadow:0 0 30px rgba(0,184,63,0.3);position:relative;overflow:hidden}
+.btn-primary:hover{background:var(--green-neon);box-shadow:0 0 60px rgba(57,255,102,0.5);transform:translateY(-3px) scale(1.02)}
+.btn-primary::after{content:'';position:absolute;inset:0;background:linear-gradient(120deg,transparent,rgba(255,255,255,0.15),transparent);transform:translateX(-100%);transition:transform 0.6s}
+.btn-primary:hover::after{transform:translateX(100%)}
+.btn-secondary{padding:1rem 2.5rem;background:transparent;color:#fff;border:1px solid rgba(255,255,255,0.15);font-family:'Montserrat',sans-serif;font-weight:600;font-size:0.75rem;text-transform:uppercase;letter-spacing:2px;cursor:pointer;transition:all 0.3s cubic-bezier(0.16,1,0.3,1);border-radius:50px}
+.btn-secondary:hover{border-color:var(--green);color:var(--green-neon);background:rgba(0,184,63,0.06);transform:translateY(-2px)}
+
+.stats-section{padding:3rem 4rem;background:var(--gray-ui);border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
+.stats-grid{max-width:1000px;margin:0 auto;display:grid;grid-template-columns:repeat(4,1fr);gap:2rem;text-align:center}
+.stat-item{opacity:0;transform:translateY(24px);transition:all 0.7s cubic-bezier(0.16,1,0.3,1)}
+.stat-item.revealed{opacity:1;transform:translateY(0)}
+.stat-item:nth-child(2){transition-delay:0.12s}
+.stat-item:nth-child(3){transition-delay:0.24s}
+.stat-item:nth-child(4){transition-delay:0.36s}
+.stat-item .number{font-family:'Anton',sans-serif;font-size:2.5rem;color:var(--green-neon);line-height:1}
+.stat-item .label{font-size:0.6rem;text-transform:uppercase;letter-spacing:2px;color:var(--gray-mid);margin-top:0.3rem;font-family:'JetBrains Mono',monospace}
+
+.learn-section{padding:5rem 4rem;background:#05080C;border-top:1px solid var(--border)}
+.learn-section .inner{max-width:1000px;margin:0 auto}
+.section-label{font-size:0.6rem;color:var(--green);font-family:'JetBrains Mono',monospace;letter-spacing:3px;text-transform:uppercase;margin-bottom:0.5rem;opacity:0;transform:translateY(16px);transition:all 0.6s cubic-bezier(0.16,1,0.3,1)}
+.section-label.revealed{opacity:1;transform:translateY(0)}
+.learn-section h2{font-family:'Anton',sans-serif;font-size:clamp(2rem,5vw,3rem);text-transform:uppercase;color:#fff;line-height:1.1;margin-bottom:2.5rem;letter-spacing:2px}
+.learn-section h2 span{color:var(--green-neon)}
+.learn-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.learn-card{background:var(--gray-ui);padding:1.5rem;border-radius:16px;border:1px solid var(--border);transition:all 0.4s cubic-bezier(0.16,1,0.3,1);opacity:0;transform:translateY(24px);position:relative;overflow:hidden}
+.learn-card.revealed{opacity:1;transform:translateY(0)}
+.learn-card:hover{border-color:var(--green);box-shadow:0 0 40px rgba(0,184,63,0.1);transform:translateY(-4px)}
+.learn-card::before{content:'';position:absolute;top:-50%;left:-50%;width:200%;height:200%;background:radial-gradient(circle at var(--mx,50%) var(--my,50%),rgba(0,184,63,0.06),transparent 60%);opacity:0;transition:opacity 0.4s;pointer-events:none}
+.learn-card:hover::before{opacity:1}
+.learn-card .num{font-size:0.7rem;font-weight:700;color:var(--green);font-family:'JetBrains Mono',monospace;margin-bottom:0.4rem}
+.learn-card h3{font-family:'Montserrat',sans-serif;font-weight:700;font-size:0.9rem;text-transform:uppercase;letter-spacing:1px;color:#fff;margin-bottom:0.3rem}
+.learn-card p{font-size:0.75rem;color:var(--gray-mid);line-height:1.5}
+
+.community-section{padding:5rem 4rem;background:var(--gray-ui);border-top:1px solid var(--border);text-align:center;position:relative;overflow:hidden}
+.community-section::before{content:'';position:absolute;top:0;left:0;right:0;bottom:0;background:radial-gradient(ellipse at center,var(--green-dark) 0%,transparent 70%);opacity:0.4}
+.community-section .inner{max-width:700px;margin:0 auto;position:relative;z-index:1}
+.community-section h2{font-family:'Anton',sans-serif;font-size:clamp(2rem,5vw,3rem);text-transform:uppercase;color:#fff;line-height:1.1;margin-bottom:1rem;letter-spacing:2px}
+.community-section h2 span{color:var(--green-neon)}
+.community-section .sub-text{font-size:0.9rem;color:var(--gray-light);line-height:1.6;margin-bottom:1.5rem}
+.community-section .member-count{font-family:'Anton',sans-serif;font-size:4rem;color:var(--green-neon);line-height:1;margin-bottom:0.3rem}
+.community-section .member-label{font-size:0.6rem;color:var(--gray-mid);font-family:'JetBrains Mono',monospace;text-transform:uppercase;letter-spacing:2px;margin-bottom:2rem}
+.community-email{display:flex;justify-content:center;max-width:380px;margin:0 auto;border:1px solid var(--border);border-radius:6px;overflow:hidden}
+.community-email input{flex:1;padding:0.8rem 1rem;background:rgba(5,8,12,0.6);border:none;color:#fff;font-family:'Inter',sans-serif;font-size:0.8rem;outline:none}
+.community-email input:focus{background:rgba(5,8,12,0.8)}
+.community-email input::placeholder{color:var(--gray-mid)}
+.community-email button{padding:0.8rem 1.5rem;background:var(--green);color:#05080C;border:none;font-family:'Montserrat',sans-serif;font-weight:700;font-size:0.7rem;text-transform:uppercase;letter-spacing:1.5px;cursor:pointer;transition:all 0.3s cubic-bezier(0.16,1,0.3,1);white-space:nowrap}
+.community-email button:hover{background:var(--green-neon)}
+
+.results-section{padding:5rem 4rem;background:#05080C;border-top:1px solid var(--border)}
+.results-section .inner{max-width:900px;margin:0 auto}
+.results-section .section-label{text-align:center}
+.results-section h2{font-family:'Anton',sans-serif;font-size:clamp(1.8rem,4vw,2.5rem);text-transform:uppercase;color:#fff;line-height:1.1;margin-bottom:2rem;text-align:center;letter-spacing:2px}
+.testimonial-slider{position:relative;overflow:hidden}
+.testimonial-track{display:flex;transition:transform 0.6s cubic-bezier(0.16,1,0.3,1)}
+.testimonial-card{min-width:100%;padding:0 0.5rem}
+.testimonial-card .inner-card{background:var(--gray-ui);border:1px solid var(--border);border-radius:16px;padding:2rem;transition:all 0.3s}
+.testimonial-card .inner-card:hover{border-color:var(--green)}
+.testimonial-card .rating{color:var(--gold);font-size:0.7rem;font-family:'JetBrains Mono',monospace;letter-spacing:2px;margin-bottom:0.5rem}
+.testimonial-card blockquote{font-size:0.95rem;color:var(--gray-light);line-height:1.6;margin:0.5rem 0 1rem;font-style:italic}
+.testimonial-card .author{font-size:0.65rem;font-weight:600;color:var(--green-neon);text-transform:uppercase;letter-spacing:1px}
+.slider-controls{display:flex;justify-content:center;align-items:center;gap:1rem;margin-top:1.5rem}
+.slider-controls .slider-dot{width:8px;height:8px;border-radius:50%;background:#333;cursor:pointer;transition:all 0.3s;border:none;padding:0;margin:0 4px}
+.slider-controls .slider-dot.active{background:var(--green-neon);box-shadow:0 0 10px rgba(57,255,102,0.5);width:24px;border-radius:4px}
+.slider-arrow{background:transparent;border:1px solid var(--border);color:#fff;width:36px;height:36px;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all 0.3s;font-size:1rem}
+.slider-arrow:hover{border-color:var(--green);color:var(--green-neon)}
+
+.gallery-section{padding:90px 20px;background:radial-gradient(circle at top,rgba(0,200,83,0.12),transparent 35%),#05080c}
+.gallery-header{max-width:850px;margin:0 auto 36px;text-align:center}
+.gallery-header .eyebrow{color:var(--green-neon);font-weight:800;letter-spacing:2px;font-size:13px;font-family:'JetBrains Mono',monospace}
+.gallery-header h2{margin:12px 0;font-size:clamp(34px,5vw,56px);line-height:0.95;font-weight:900;text-transform:uppercase;font-family:'Anton',sans-serif}
+.gallery-header p{color:#cfd6df;font-size:18px;line-height:1.6}
+.gallery-tabs{display:flex;justify-content:center;gap:12px;flex-wrap:wrap;margin-bottom:34px}
+.tab{border:1px solid rgba(57,255,102,0.25);background:#111821;color:white;padding:13px 22px;border-radius:999px;font-weight:800;cursor:pointer;transition:0.25s ease;font-family:'Montserrat',sans-serif;font-size:0.7rem;text-transform:uppercase;letter-spacing:1px}
+.tab.active,.tab:hover{background:var(--green);color:#031006;box-shadow:0 0 28px rgba(0,200,83,0.35)}
+.gallery-grid{max-width:1180px;margin:0 auto;display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.gallery-item{width:100%;aspect-ratio:4/5;display:block;background:#111;background-size:cover;background-position:center;border-radius:12px;cursor:pointer;position:relative;overflow:hidden;transition:all 0.6s cubic-bezier(0.16,1,0.3,1)}
+.gallery-item .gal-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,0.6),transparent 50%);opacity:0;transition:opacity 0.4s;display:flex;align-items:flex-end;padding:12px}
+.gallery-item .gal-overlay span{font-size:0.5rem;font-family:'JetBrains Mono',monospace;text-transform:uppercase;letter-spacing:1px;color:var(--green-neon);background:rgba(0,0,0,0.7);padding:4px 8px;border-radius:4px}
+.gallery-item:hover .gal-overlay{opacity:1}
+.gallery-item:hover{transform:translateY(-6px) scale(1.02);box-shadow:0 16px 48px rgba(0,184,63,0.18)}
+.gallery-item.hidden{display:none}
+
+.catalog-section{padding:90px 20px;background:#05080C;border-top:1px solid var(--border)}
+.catalog-section .inner{max-width:1100px;margin:0 auto}
+.catalog-section .header{text-align:center;margin-bottom:40px}
+.catalog-section .header .eyebrow{color:var(--green-neon);font-weight:800;letter-spacing:2px;font-size:13px;font-family:'JetBrains Mono',monospace}
+.catalog-section .header h2{font-family:'Anton',sans-serif;font-size:clamp(34px,5vw,56px);text-transform:uppercase;color:#fff;line-height:1;margin:10px 0}
+.catalog-section .header p{color:var(--gray-mid);font-size:16px;max-width:600px;margin:0 auto;line-height:1.5}
+.catalog-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.product-card-digital{background:var(--gray-ui);border:1px solid var(--border);border-radius:16px;overflow:hidden;transition:all 0.4s cubic-bezier(0.16,1,0.3,1);opacity:0;transform:translateY(24px)}
+.product-card-digital.revealed{opacity:1;transform:translateY(0)}
+.product-card-digital:hover{border-color:var(--green);box-shadow:0 0 40px rgba(0,184,63,0.15);transform:translateY(-6px)}
+.product-card-digital .img-wrap{width:100%;aspect-ratio:4/3;overflow:hidden;display:flex;align-items:center;justify-content:center;position:relative}
+.product-card-digital .img-wrap .prod-bg{position:absolute;inset:0;background:linear-gradient(135deg,var(--green-dark),#05080C)}
+.product-card-digital .img-wrap .prod-mockup{position:relative;z-index:1;padding:1rem;text-align:center;color:var(--green-neon)}
+.product-card-digital .img-wrap .prod-mockup .mockup-title{font-family:'Anton',sans-serif;font-size:clamp(1rem,2.5vw,1.6rem);text-transform:uppercase;letter-spacing:2px;line-height:1.2;color:#fff}
+.product-card-digital .img-wrap .prod-mockup .mockup-sub{font-size:0.55rem;font-family:'JetBrains Mono',monospace;color:var(--green);margin-top:6px;letter-spacing:2px;text-transform:uppercase}
+.product-card-digital .img-wrap .prod-badge{position:absolute;top:12px;left:12px;z-index:2;background:var(--green);color:#05080C;font-size:0.5rem;font-weight:800;font-family:'JetBrains Mono',monospace;padding:4px 8px;border-radius:6px;text-transform:uppercase;letter-spacing:1px}
+.product-card-digital .img-wrap .prod-discount{position:absolute;top:12px;right:12px;z-index:2;background:rgba(242,201,76,0.12);color:var(--gold);font-size:0.55rem;font-weight:700;font-family:'JetBrains Mono',monospace;padding:4px 8px;border-radius:6px}
+.product-card-digital .body{padding:16px 18px 18px}
+.product-card-digital .body .name{font-family:'Montserrat',sans-serif;font-weight:700;font-size:0.85rem;text-transform:uppercase;letter-spacing:0.5px;color:#fff;margin-bottom:6px;line-height:1.3}
+.product-card-digital .body .prices{display:flex;align-items:baseline;gap:8px;margin-bottom:12px}
+.product-card-digital .body .prices .current{font-size:1.3rem;font-weight:800;color:var(--green-neon);font-family:'Montserrat',sans-serif}
+.product-card-digital .body .prices .old{font-size:0.8rem;color:var(--gray-mid);text-decoration:line-through;font-family:'JetBrains Mono',monospace}
+.product-card-digital .body .actions{display:flex;gap:8px}
+.product-card-digital .body .actions .btn-add{flex:1;padding:10px;border:1px solid var(--border);border-radius:50px;background:transparent;color:#fff;font-family:'Montserrat',sans-serif;font-size:0.6rem;font-weight:600;text-transform:uppercase;letter-spacing:1px;cursor:pointer;transition:all 0.25s}
+.product-card-digital .body .actions .btn-add:hover{border-color:var(--green);color:var(--green);background:rgba(0,184,63,0.06)}
+.product-card-digital .body .actions .btn-buy{flex:1;padding:10px;border:none;border-radius:50px;background:var(--green);color:#05080C;font-family:'Montserrat',sans-serif;font-size:0.6rem;font-weight:700;text-transform:uppercase;letter-spacing:1px;cursor:pointer;transition:all 0.25s;box-shadow:0 0 20px rgba(0,184,63,0.2)}
+.product-card-digital .body .actions .btn-buy:hover{background:var(--green-neon);box-shadow:0 0 40px rgba(57,255,102,0.4);transform:scale(1.03)}
+
+.payment-bar{padding:30px 20px;background:var(--gray-ui);border-top:1px solid var(--border);border-bottom:1px solid var(--border);text-align:center}
+.payment-bar .inner{max-width:900px;margin:0 auto}
+.payment-bar .label{font-size:0.55rem;color:var(--gray-mid);font-family:'JetBrains Mono',monospace;text-transform:uppercase;letter-spacing:2px;margin-bottom:12px}
+.payment-bar .logos{display:flex;justify-content:center;flex-wrap:wrap;gap:20px 30px}
+.payment-bar .logos span{font-family:'Montserrat',sans-serif;font-weight:700;font-size:0.7rem;color:var(--gray-light);text-transform:uppercase;letter-spacing:1px;transition:color 0.3s}
+.payment-bar .logos span:hover{color:var(--green-neon)}
+.payment-bar .security{margin-top:12px;display:flex;justify-content:center;gap:24px;flex-wrap:wrap}
+.payment-bar .security span{font-size:0.55rem;color:var(--gray-mid);font-family:'JetBrains Mono',monospace;text-transform:uppercase;letter-spacing:1px}
+
+.cart-toggle{position:fixed;bottom:24px;right:24px;z-index:900;background:var(--green);color:#05080C;border:none;border-radius:50px;padding:12px 20px;font-family:'Montserrat',sans-serif;font-weight:700;font-size:0.7rem;text-transform:uppercase;letter-spacing:1.5px;cursor:pointer;transition:all 0.3s cubic-bezier(0.16,1,0.3,1);box-shadow:0 0 30px rgba(0,184,63,0.3);display:flex;align-items:center;gap:8px}
+.cart-toggle:hover{background:var(--green-neon);box-shadow:0 0 50px rgba(57,255,102,0.5);transform:translateY(-2px)}
+.cart-toggle .badge{background:#05080C;color:var(--green-neon);border-radius:50%;width:22px;height:22px;display:flex;align-items:center;justify-content:center;font-size:0.6rem;font-weight:800}
+.cart-drawer{position:fixed;bottom:80px;right:24px;z-index:899;background:rgba(31,37,45,0.96);backdrop-filter:blur(20px);border:1px solid var(--border);border-radius:16px;padding:20px;width:320px;max-height:420px;overflow-y:auto;opacity:0;transform:translateY(16px) scale(0.95);transition:all 0.35s cubic-bezier(0.16,1,0.3,1);pointer-events:none;box-shadow:0 0 60px rgba(0,184,63,0.08)}
+.cart-drawer.open{opacity:1;transform:translateY(0) scale(1);pointer-events:all}
+.cart-drawer .c-hdr{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;padding-bottom:10px;border-bottom:1px solid var(--border)}
+.cart-drawer .c-hdr span{font-size:0.65rem;font-family:'JetBrains Mono',monospace;color:var(--gray-mid)}
+.cart-drawer .c-hdr strong{color:var(--green-neon)}
+.cart-drawer .c-hdr .close-btn{background:none;border:none;color:var(--gray-mid);cursor:pointer;font-size:1rem;transition:color 0.2s}
+.cart-drawer .c-hdr .close-btn:hover{color:#fff}
+.cart-drawer .c-list{display:flex;flex-direction:column;gap:6px}
+.cart-drawer .c-item{display:flex;justify-content:space-between;align-items:center;padding:6px 0;font-size:0.7rem;border-bottom:1px solid rgba(255,255,255,0.04)}
+.cart-drawer .c-item .c-name{color:#fff;font-weight:500;flex:1;font-size:0.65rem}
+.cart-drawer .c-item .c-qty{color:var(--gray-mid);font-family:'JetBrains Mono',monospace;margin:0 8px}
+.cart-drawer .c-item .c-price{color:var(--green-neon);font-weight:700;font-family:'JetBrains Mono',monospace}
+.cart-drawer .c-item .c-remove{background:none;border:none;color:var(--gray-mid);cursor:pointer;font-size:0.8rem;padding:0 4px;transition:color 0.2s}
+.cart-drawer .c-item .c-remove:hover{color:#ff4444}
+.cart-drawer .c-empty{text-align:center;font-size:0.65rem;color:var(--gray-mid);font-family:'JetBrains Mono',monospace;padding:20px 0}
+.cart-drawer .c-ftr{margin-top:12px;padding-top:10px;border-top:1px solid var(--border)}
+.cart-drawer .c-ftr .c-total{display:flex;justify-content:space-between;font-size:0.85rem;font-weight:700;color:#fff;margin-bottom:8px}
+.cart-drawer .c-ftr .c-total span:last-child{color:var(--green-neon)}
+.cart-drawer .c-ftr .payment-mini-drawer{display:flex;justify-content:center;flex-wrap:wrap;gap:6px 10px;margin-bottom:10px}
+.cart-drawer .c-ftr .payment-mini-drawer span{font-size:0.45rem;color:var(--gray-mid);font-family:'JetBrains Mono',monospace;text-transform:uppercase;letter-spacing:1px}
+.cart-drawer .c-ftr .checkout-btn{width:100%;padding:10px;background:var(--green);color:#05080C;border:none;border-radius:50px;font-family:'Montserrat',sans-serif;font-size:0.65rem;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;cursor:pointer;transition:all 0.25s}
+.cart-drawer .c-ftr .checkout-btn:hover{background:var(--green-neon)}
+
+.cta-section{padding:5rem 4rem;background:var(--gray-ui);border-top:1px solid var(--border);text-align:center}
+.cta-section .inner{max-width:600px;margin:0 auto}
+.cta-section h2{font-family:'Anton',sans-serif;font-size:clamp(2.2rem,5vw,3.5rem);text-transform:uppercase;color:#fff;line-height:1.1;margin-bottom:1rem;letter-spacing:2px}
+.cta-section h2 span{color:var(--green-neon)}
+.cta-section p{font-size:0.9rem;color:var(--gray-mid);line-height:1.6;margin-bottom:2rem}
+
+.consulting-section{padding:5rem 4rem;background:#05080C;border-top:1px solid var(--border)}
+.consulting-section .inner{max-width:720px;margin:0 auto}
+.consulting-section .section-label{text-align:center}
+.consulting-section h2{font-family:'Anton',sans-serif;font-size:clamp(1.8rem,4vw,2.5rem);text-transform:uppercase;color:#fff;line-height:1.1;margin-bottom:0.5rem;text-align:center;letter-spacing:2px}
+.consulting-section .sub{text-align:center;font-size:0.85rem;color:var(--gray-mid);margin-bottom:2.5rem;line-height:1.5}
+.consulting-form{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.consulting-form .full{grid-column:1/-1}
+.consulting-form label{display:block;font-size:0.6rem;text-transform:uppercase;letter-spacing:1.5px;color:var(--gray-mid);margin-bottom:0.4rem;font-family:'JetBrains Mono',monospace}
+.consulting-form input,.consulting-form select,.consulting-form textarea{width:100%;padding:0.8rem 1rem;background:var(--gray-ui);border:1px solid var(--border);color:#fff;font-family:'Inter',sans-serif;font-size:0.8rem;border-radius:12px;outline:none;transition:border 0.2s}
+.consulting-form input:focus,.consulting-form select:focus,.consulting-form textarea:focus{border-color:var(--green)}
+.consulting-form select option{background:var(--gray-ui);color:#fff}
+.consulting-form textarea{min-height:120px;resize:vertical}
+.consulting-form .submit-wrap{grid-column:1/-1;display:flex;justify-content:center;margin-top:0.5rem}
+
+.faq-section{padding:5rem 4rem;background:var(--gray-ui);border-top:1px solid var(--border)}
+.faq-section .inner{max-width:700px;margin:0 auto}
+.faq-section .section-label{text-align:center}
+.faq-section h2{font-family:'Anton',sans-serif;font-size:clamp(1.8rem,4vw,2.5rem);text-transform:uppercase;color:#fff;line-height:1.1;margin-bottom:2rem;text-align:center;letter-spacing:2px}
+.faq-item{border-bottom:1px solid var(--border);padding:1.2rem 0;cursor:pointer}
+.faq-item .question{display:flex;justify-content:space-between;align-items:center;font-family:'Montserrat',sans-serif;font-weight:600;font-size:0.85rem;color:#fff;text-transform:uppercase;letter-spacing:1px}
+.faq-item .question .arrow{transition:transform 0.3s;color:var(--green);font-size:1.2rem}
+.faq-item.open .question .arrow{transform:rotate(45deg)}
+.faq-item .answer{max-height:0;overflow:hidden;transition:max-height 0.4s cubic-bezier(0.16,1,0.3,1);font-size:0.8rem;color:var(--gray-mid);line-height:1.5}
+.faq-item.open .answer{max-height:200px;padding-top:0.8rem}
+
+.footer-waves{position:relative;background:#05080C;overflow:hidden;height:340px}
+.footer-waves svg{position:absolute;bottom:0;left:0;width:200%;height:100%;overflow:visible}
+.footer-waves .w1{animation:waveSway 7s ease-in-out infinite alternate}
+.footer-waves .w2{animation:waveSway 9s ease-in-out infinite alternate-reverse}
+.footer-waves .w3{animation:waveSway 11s ease-in-out infinite alternate}
+.footer-waves .w4{animation:waveSway 13s ease-in-out infinite alternate-reverse}
+@keyframes waveSway{0%{transform:translateX(0)}100%{transform:translateX(-25%)}}
+.footer-waves .overlay{position:absolute;inset:0;background:linear-gradient(to top,#05080C 35%,transparent);pointer-events:none;z-index:2}
+.footer-waves .glow{position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:1000px;height:280px;background:radial-gradient(ellipse at center,rgba(57,255,102,0.5),rgba(0,184,63,0.2),transparent 70%);pointer-events:none;animation:glowPulse 3s ease-in-out infinite;z-index:0}
+@keyframes glowPulse{0%,100%{opacity:0.5}50%{opacity:1}}
+@keyframes glowPulse{0%,100%{opacity:0.6}50%{opacity:1}}
+.footer-inner{position:relative;padding:3rem 4rem 2rem;background:#05080C;text-align:center;z-index:1}
+.footer-inner .logo{font-family:'Montserrat',sans-serif;font-weight:800;font-size:1.3rem;color:var(--green-neon);letter-spacing:3px;text-transform:uppercase;margin-bottom:0.5rem}
+.footer-inner .tagline{font-size:0.85rem;color:var(--gray-light);max-width:500px;margin:0 auto 1.5rem;line-height:1.5}
+.footer-inner .footer-cta{margin-bottom:1.5rem}
+.footer-inner .social{display:flex;justify-content:center;gap:0.8rem;margin-bottom:1rem}
+.footer-inner .social span{width:36px;height:36px;border:1px solid var(--border);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:0.65rem;color:var(--gray-mid);cursor:pointer;transition:all 0.3s;font-family:'Montserrat',sans-serif;font-weight:700}
+.footer-inner .social span:hover{border-color:var(--green);color:var(--green);box-shadow:0 0 20px rgba(0,184,63,0.2)}
+.footer-inner .payment-mini{display:flex;justify-content:center;flex-wrap:wrap;gap:12px 20px;margin-bottom:1rem}
+.footer-inner .payment-mini span{font-size:0.55rem;color:var(--gray-mid);font-family:'JetBrains Mono',monospace;text-transform:uppercase;letter-spacing:1px}
+.footer-inner .legal{display:flex;justify-content:center;gap:20px;flex-wrap:wrap;font-size:0.6rem;color:var(--gray-mid)}
+.footer-inner .legal a{color:var(--gray-mid);text-decoration:none;transition:color 0.2s;cursor:pointer}
+.footer-inner .legal a:hover{color:var(--green-neon)}
+.footer-inner .copy{font-size:0.6rem;color:var(--gray-mid);margin-top:0.8rem;opacity:0.5}
+
+.modal-backdrop{position:fixed;inset:0;background:rgba(5,8,12,0.95);z-index:1000;display:none;align-items:center;justify-content:center;padding:2rem;cursor:pointer}
+.modal-backdrop.open{display:flex}
+.modal-backdrop img{max-width:90vw;max-height:90vh;object-fit:contain;cursor:default;border-radius:12px}
+.modal-close{position:fixed;top:2rem;right:2rem;z-index:1001;background:none;border:none;color:#fff;font-size:2rem;cursor:pointer;display:none}
+.modal-close.open{display:block}
+
+.pay-modal{position:fixed;inset:0;z-index:1100;display:none;align-items:center;justify-content:center;padding:1.5rem;background:rgba(5,8,12,0.92);backdrop-filter:blur(8px)}
+.pay-modal.open{display:flex}
+.pay-modal .panel{background:var(--gray-ui);border:1px solid var(--border);border-radius:16px;max-width:440px;width:100%;padding:2rem;box-shadow:0 0 80px rgba(0,184,63,0.08)}
+.pay-modal .panel h3{font-family:'Anton',sans-serif;font-size:1.3rem;text-transform:uppercase;color:#fff;margin-bottom:0.3rem;letter-spacing:1px}
+.pay-modal .panel .sub{font-size:0.65rem;color:var(--gray-mid);font-family:'JetBrains Mono',monospace;margin-bottom:1.5rem}
+.pay-modal .pmt-items{display:flex;flex-direction:column;gap:6px;margin-bottom:1rem}
+.pay-modal .pmt-item{display:flex;justify-content:space-between;font-size:0.7rem;color:var(--gray-light);padding:4px 0;border-bottom:1px solid rgba(255,255,255,0.04)}
+.pay-modal .pmt-item .qty{color:var(--gray-mid);font-family:'JetBrains Mono',monospace}
+.pay-modal .pmt-item .price{color:var(--green-neon);font-weight:700;font-family:'JetBrains Mono',monospace}
+.pay-modal .pmt-total{display:flex;justify-content:space-between;font-size:1rem;font-weight:700;color:#fff;padding:0.8rem 0 1.2rem;border-top:1px solid var(--border);margin-top:4px}
+.pay-modal .pmt-total span:last-child{color:var(--green-neon)}
+.pay-modal .pmt-methods{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:1rem}
+.pay-modal .pmt-methods button{padding:0.7rem;background:rgba(5,8,12,0.5);border:1px solid var(--border);border-radius:8px;color:var(--gray-light);font-family:'Montserrat',sans-serif;font-size:0.55rem;font-weight:700;text-transform:uppercase;letter-spacing:1px;cursor:pointer;transition:all 0.2s}
+.pay-modal .pmt-methods button.active{border-color:var(--green);background:rgba(0,184,63,0.08);color:var(--green-neon)}
+.pay-modal .pmt-methods button:hover{border-color:var(--green);color:var(--green-neon)}
+.pay-modal .pay-btn{width:100%;padding:1rem;background:var(--green);color:#05080C;border:none;border-radius:50px;font-family:'Montserrat',sans-serif;font-weight:700;font-size:0.75rem;text-transform:uppercase;letter-spacing:2px;cursor:pointer;transition:all 0.3s;box-shadow:0 0 30px rgba(0,184,63,0.2)}
+.pay-modal .pay-btn:hover{background:var(--green-neon);box-shadow:0 0 50px rgba(57,255,102,0.4)}
+.pay-modal .pay-close{position:absolute;top:1.5rem;right:1.5rem;background:none;border:none;color:var(--gray-mid);font-size:1.2rem;cursor:pointer;transition:color 0.2s;z-index:1101}
+.pay-modal .pay-close:hover{color:#fff}
+
+.toast-container{position:fixed;bottom:80px;right:24px;z-index:500;display:flex;flex-direction:column;gap:8px;pointer-events:none}
+.toast{background:var(--green);color:#05080C;padding:0.8rem 1.2rem;font-size:0.75rem;font-weight:600;transform:translateY(16px);opacity:0;transition:all 0.4s cubic-bezier(0.16,1,0.3,1);pointer-events:all;min-width:260px;border-radius:12px;font-family:'Montserrat',sans-serif}
+.toast.show{transform:translateY(0);opacity:1}
+
+@media(max-width:900px){.catalog-grid{grid-template-columns:repeat(2,1fr)}.gallery-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:768px){
+.header-inner{flex-direction:column;padding:0.6rem 1rem;gap:4px}
+header .logo{font-size:0.7rem;letter-spacing:3px;width:100%}
+.header-nav{width:100%;justify-content:center;gap:1rem;flex-wrap:wrap}
+.header-nav a{font-size:0.5rem;letter-spacing:1.5px}
+.hero{min-height:80vh;padding:1.5rem}
+.hero-title-wrap{max-width:100%}
+.hero-title{font-size:clamp(32px,12vw,52px)}
+#changingWordContainer{min-width:90px}
+.hero-sub{padding:0 0.5rem}
+.stats-grid{grid-template-columns:repeat(2,1fr);gap:1.5rem}
+.stats-section{padding:2rem 1.5rem}
+.learn-section{padding:3rem 1.5rem}
+.learn-section h2{font-size:2rem}
+.learn-grid{grid-template-columns:1fr}
+.community-section{padding:3rem 1.5rem}
+.community-section h2{font-size:2rem}
+.results-section{padding:3rem 1.5rem}
+.results-section h2{font-size:1.8rem}
+.gallery-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.gallery-header h2{font-size:38px}
+.gallery-section{padding:50px 14px}
+.gallery-item{border-radius:8px}
+.catalog-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.catalog-section{padding:50px 14px}
+.product-card-digital .img-wrap{aspect-ratio:1/1}
+.product-card-digital .body{padding:10px 12px 12px}
+.product-card-digital .body .name{font-size:0.6rem;-webkit-line-clamp:2;display:-webkit-box;-webkit-box-orient:vertical;overflow:hidden;margin-bottom:4px;letter-spacing:0.5px}
+.product-card-digital .body .prices{margin-bottom:6px;gap:6px}
+.product-card-digital .body .prices .current{font-size:1rem}
+.product-card-digital .body .prices .old{font-size:0.6rem}
+.product-card-digital .body .actions{gap:4px}
+.product-card-digital .body .actions .btn-add,.product-card-digital .body .actions .btn-buy{font-size:0.45rem;padding:6px 4px;letter-spacing:0.5px}
+.product-card-digital .img-wrap .prod-mockup .mockup-title{font-size:clamp(0.55rem,2vw,0.8rem)}
+.product-card-digital .img-wrap .prod-mockup .mockup-sub{font-size:0.4rem}
+.product-card-digital .img-wrap .prod-badge{font-size:0.4rem;padding:2px 5px;top:8px;left:8px}
+.product-card-digital .img-wrap .prod-discount{font-size:0.4rem;padding:2px 5px;top:8px;right:8px}
+.cart-drawer{width:290px;right:12px;bottom:72px}
+.cart-toggle{right:12px;bottom:16px;padding:10px 16px;font-size:0.65rem}
+.cta-section{padding:3rem 1.5rem}
+.cta-section h2{font-size:2.2rem}
+.consulting-section{padding:3rem 1.5rem}
+.consulting-section h2{font-size:1.8rem}
+.consulting-form{grid-template-columns:1fr}
+.faq-section{padding:3rem 1.5rem}
+.faq-section h2{font-size:1.8rem}
+.footer-inner{padding:2rem 1.5rem}
+.footer-waves{height:220px}
+}
+</style>
+</head>
+<body>
+
+<div class="transition-overlay" id="transitionOverlay"></div>
+
+<header>
+<div class="header-inner">
+<div class="header-nav">
+<a onclick="document.getElementById('learnSection').scrollIntoView({behavior:'smooth'})">Metodologia</a>
+<a onclick="document.getElementById('communitySection').scrollIntoView({behavior:'smooth'})">Comunidad</a>
+<a onclick="document.getElementById('consultingSection').scrollIntoView({behavior:'smooth'})">Consultoria</a>
+<a onclick="document.getElementById('catSection').scrollIntoView({behavior:'smooth'})">Catalogo</a>
+</div>
+<div class="logo" id="mainLogo">FLUSH RESELL</div>
+</div>
+</header>
+
+<section class="hero">
+<div class="hero-title-wrap">
+<h1 class="hero-title" id="heroTitle">APRENDE A GENERAR<br>INGRESOS CON <span id="changingWordContainer"><span id="changingWord">VINTED</span></span></h1>
+</div>
+<p class="hero-sub" id="heroSub">Metodo, proveedores y recursos digitales para empezar en la reventa con una estrategia clara, productos ganadores y comunidad activa.</p>
+<div class="hero-actions" id="heroActions">
+<button class="btn-primary" onclick="document.getElementById('catSection').scrollIntoView({behavior:'smooth'})">Ver catalogo</button>
+<button class="btn-secondary" onclick="document.getElementById('communitySection').scrollIntoView({behavior:'smooth'})">Entrar a la comunidad</button>
+</div>
+
+</section>
+
+<section class="stats-section" id="statsSection">
+<div class="stats-grid">
+<div class="stat-item"><div class="number">+5.000 EUR</div><div class="label">INGRESOS MENSUALES</div></div>
+<div class="stat-item"><div class="number">2.793</div><div class="label">SEGUIDORES</div></div>
+<div class="stat-item"><div class="number">218</div><div class="label">MIEMBROS COMUNIDAD</div></div>
+<div class="stat-item"><div class="number">+15</div><div class="label">PUBLICACIONES</div></div>
+</div>
+</section>
+
+<section class="learn-section" id="learnSection">
+<div class="inner">
+<div class="section-label">QUE APRENDERAS</div>
+<h2>METODOLOGIA DE <span>REVENTA</span></h2>
+<div class="learn-grid">
+<div class="learn-card"><div class="num">01</div><h3>Identificacion de productos ganadores</h3><p>Aprende a detectar que productos tienen alta demanda y buen margen en Vinted mediante analisis de mercado.</p></div>
+<div class="learn-card"><div class="num">02</div><h3>Estrategia de compra y venta</h3><p>Metodos para adquirir por debajo del precio de mercado y maximizar el retorno en cada venta.</p></div>
+<div class="learn-card"><div class="num">03</div><h3>Optimizacion de anuncios</h3><p>Fotografia, descripciones y posicionamiento para aumentar la tasa de conversion de tus publicaciones.</p></div>
+<div class="learn-card"><div class="num">04</div><h3>Red de proveedores</h3><p>Acceso a proveedores verificados que garantizan stock de calidad y precios competitivos para la reventa.</p></div>
+<div class="learn-card"><div class="num">05</div><h3>Escalado del negocio</h3><p>Desde las primeras ventas hasta la gestion de un volumen recurrente con sistemas y automatizacion.</p></div>
+<div class="learn-card"><div class="num">06</div><h3>Acompanamiento en comunidad</h3><p>Resuelve dudas, comparte resultados y aprende de otros emprendedores que ya estan generando ingresos.</p></div>
+</div>
+</div>
+</section>
+
+<section class="community-section" id="communitySection">
+<div class="inner">
+<div class="section-label">COMUNIDAD EXCLUSIVA</div>
+<h2>FLUSH <span>MAKERS</span></h2>
+<p class="sub-text">Una comunidad gratuita de emprendedores en reventa. Accede a contenido semanal, recursos exclusivos y el apoyo de una red activa de personas que comparten tu mismo objetivo.</p>
+<div class="member-count">218</div>
+<div class="member-label">MIEMBROS ACTIVOS</div>
+<a href="https://www.instagram.com/flushresell?igsh=bjVmanhrcDJuNzZ4" target="_blank" rel="noopener" style="display:inline-block;margin-bottom:1.5rem;color:var(--green-neon);font-family:'JetBrains Mono',monospace;font-size:0.55rem;text-transform:uppercase;letter-spacing:2px;text-decoration:none;transition:opacity 0.2s" onmouseover="this.style.opacity='0.7'" onmouseout="this.style.opacity='1'">@flushresell</a>
+<div class="community-email"><input type="email" id="communityEmail" placeholder="tu@email.com"><button onclick="submitCommunity()">UNIRME</button></div>
+</div>
+</section>
+
+<section class="results-section" id="resultsSection">
+<div class="inner">
+<div class="section-label">TESTIMONIOS</div>
+<h2>RESULTADOS DE <span style="color:var(--green-neon)">ALUMNOS</span></h2>
+<div class="testimonial-slider" id="testimonialSlider">
+<div class="testimonial-track" id="testimonialTrack">
+<div class="testimonial-card"><div class="inner-card"><div class="rating">5.0</div><blockquote>"Comence sin experiencia y en mi primer mes genere mas de 600 EUR. La metodologia es solida y el acompanamiento constante."</blockquote><div class="author">Alejandro M.</div></div></div>
+<div class="testimonial-card"><div class="inner-card"><div class="rating">5.0</div><blockquote>"Los proveedores que comparte la comunidad son de gran calidad. He conseguido stock excelente a precios muy competitivos."</blockquote><div class="author">Carla S.</div></div></div>
+<div class="testimonial-card"><div class="inner-card"><div class="rating">5.0</div><blockquote>"El entorno de la comunidad es colaborativo y profesional. He aprendido mas en semanas que en meses investigando por mi cuenta."</blockquote><div class="author">David R.</div></div></div>
+<div class="testimonial-card"><div class="inner-card"><div class="rating">5.0</div><blockquote>"Deje mi trabajo a tiempo parcial para dedicarme a la reventa a tiempo completo. Mis ingresos actuales superan con creces mi empleo anterior."</blockquote><div class="author">Lucia P.</div></div></div>
+</div>
+<div class="slider-controls">
+<button class="slider-arrow" onclick="slideTestimonial(-1)">&#8592;</button>
+<div id="sliderDots"></div>
+<button class="slider-arrow" onclick="slideTestimonial(1)">&#8594;</button>
+</div>
+</div>
+</div>
+</section>
+
+<section class="gallery-section" id="gallerySection">
+<div class="gallery-header">
+<div class="eyebrow">PRUEBAS Y PRODUCTOS</div>
+<h2>Resultados, proveedores y calidad real</h2>
+<p>Mira ejemplos de resultados de alumnos, stock disponible y productos usados para detectar oportunidades de reventa.</p>
+</div>
+<div class="gallery-tabs">
+<button class="tab active" data-cat="resultados">Resultados reales</button>
+<button class="tab" data-cat="stock">Stock y proveedores</button>
+<button class="tab" data-cat="calidad">Calidad verificada</button>
+</div>
+<div class="gallery-grid" id="galleryGrid"></div>
+</section>
+
+<section class="catalog-section" id="catSection">
+<div class="inner">
+<div class="header">
+<div class="eyebrow">PRODUCTOS DIGITALES</div>
+<h2>Guias, proveedores y recursos</h2>
+<p>Accede a material exclusivo para impulsar tu negocio de reventa en Vinted.</p>
+</div>
+</div>
+<div class="inner">
+<div class="catalog-grid" id="catalogGridDigital"></div>
+</div>
+</section>
+
+<div class="payment-bar">
+<div class="inner">
+<div class="label">METODOS DE PAGO ACEPTADOS</div>
+<div class="logos">
+<span>American Express</span><span>Apple Pay</span><span>Mastercard</span><span>Visa</span><span>PayPal</span><span>Shop Pay</span>
+</div>
+<div class="security">
+<span>Pago seguro</span><span>Descarga inmediata</span><span>Acceso digital</span><span>Soporte incluido</span>
+</div>
+</div>
+</div>
+
+<button class="cart-toggle" id="cartToggle" onclick="toggleCart()">
+<span>Carrito</span><span class="badge" id="cartBadge">0</span>
+</button>
+<div class="cart-drawer" id="cartDrawer">
+<div class="c-hdr"><span><strong id="cdCount">0</strong> productos</span><button class="close-btn" onclick="toggleCart()">✕</button></div>
+<div class="c-list" id="cdList"><div class="c-empty">No hay productos</div></div>
+<div class="c-ftr" id="cdFooter">
+<div class="c-total"><span>Total</span><span id="cdTotal">0,00 EUR</span></div>
+<div class="payment-mini-drawer">
+<span>Visa</span><span>Mastercard</span><span>PayPal</span><span>Apple Pay</span>
+</div>
+<button class="checkout-btn" onclick="checkoutCart()">Finalizar compra</button>
+</div>
+</div>
+
+<section class="cta-section" id="ctaSection">
+<div class="inner">
+<h2>COMIENZA HOY CON <span>FLUSH RESELL</span></h2>
+<p>Accede gratis a la comunidad y descubre como funciona la reventa en Vinted. Aprende a identificar productos ganadores, consigue proveedores y empieza a generar ingresos desde cero.</p>
+<button class="btn-primary" onclick="document.getElementById('consultingSection').scrollIntoView({behavior:'smooth'})">QUIERO EMPEZAR</button>
+</div>
+</section>
+
+<section class="consulting-section" id="consultingSection">
+<div class="inner">
+<div class="section-label">ASESORIA PERSONALIZADA</div>
+<h2>SOLICITA UNA <span style="color:var(--green-neon)">CONSULTORIA</span></h2>
+<p class="sub">Si necesitas orientacion especifica para tu caso, rellena el formulario y te contactaremos para una sesion personalizada.</p>
+<form class="consulting-form" id="consultingForm" onsubmit="return submitConsulting(event)">
+<div><label>Nombre completo</label><input type="text" id="consName" required placeholder="Tu nombre"></div>
+<div class="full"><label>Telefono (opcional)</label><input type="tel" id="consPhone" placeholder="+34 600 000 000"></div>
+<div class="full"><label>Nivel de experiencia</label>
+<select id="consLevel"><option value="" disabled selected>Selecciona tu nivel</option><option value="novato">Nunca he vendido en Vinted</option><option value="iniciado">He vendido alguna vez pero sin estrategia</option><option value="intermedio">Vendo regularmente pero quiero escalar</option><option value="avanzado">Ya tengo ingresos y busco optimizar</option></select></div>
+<div class="full"><label>Objetivo principal</label>
+<select id="consGoal"><option value="" disabled selected>Selecciona tu objetivo</option><option value="empezar">Empezar desde cero en la reventa</option><option value="proveedores">Encontrar proveedores de calidad</option><option value="escalar">Escalar mi negocio actual</option><option value="productos">Identificar productos ganadores</option><option value="optimizar">Optimizar mis anuncios y ventas</option></select></div>
+<div class="full"><label>Describe tu situacion</label><textarea id="consMsg" placeholder="Cuentanos brevemente en que punto estas y que necesitas..."></textarea></div>
+<div class="submit-wrap"><button type="submit" class="btn-primary">SOLICITAR CONSULTORIA</button></div>
+</form>
+</div>
+</section>
+
+<section class="faq-section" id="faqSection">
+<div class="inner">
+<div class="section-label">PREGUNTAS FRECUENTES</div>
+<h2>RESUELVE TUS <span style="color:var(--green-neon)">DUDAS</span></h2>
+<div class="faq-list">
+<div class="faq-item open"><div class="question" onclick="toggleFaq(this)">¿Que recibo despues de comprar? <span class="arrow">+</span></div><div class="answer">Recibiras acceso inmediato al contenido digital por correo electronico. Todo es descargable y accesible desde cualquier dispositivo.</div></div>
+<div class="faq-item"><div class="question" onclick="toggleFaq(this)">¿La entrega es inmediata? <span class="arrow">+</span></div><div class="answer">Si. Una vez realizado el pago, recibiras automaticamente los enlaces de descarga y acceso en tu correo.</div></div>
+<div class="faq-item"><div class="question" onclick="toggleFaq(this)">¿Sirve si empiezo desde cero? <span class="arrow">+</span></div><div class="answer">Absolutamente. La metodologia esta disenada para que cualquier persona sin experiencia pueda empezar y obtener resultados.</div></div>
+<div class="faq-item"><div class="question" onclick="toggleFaq(this)">¿Puedo acceder desde movil? <span class="arrow">+</span></div><div class="answer">Todo el contenido es digital y compatible con cualquier dispositivo: movil, tablet u ordenador.</div></div>
+<div class="faq-item"><div class="question" onclick="toggleFaq(this)">¿Como contacto si tengo dudas? <span class="arrow">+</span></div><div class="answer">Puedes escribirnos a traves del formulario de consultoria o directamente por Instagram. Te responderemos en menos de 24h.</div></div>
+</div>
+</div>
+</section>
+
+<svg style="position:absolute;width:0;height:0"><defs>
+<filter id="waveGlow"><feGaussianBlur stdDeviation="4" result="blur"/><feComposite in="SourceGraphic" in2="blur" operator="over"/></filter>
+<filter id="waveGlowStrong"><feGaussianBlur stdDeviation="6" result="blur"/><feComposite in="SourceGraphic" in2="blur" operator="over"/></filter>
+</defs></svg>
+<div class="footer-waves">
+<div class="glow"></div>
+<svg class="w1" viewBox="0 0 1440 380" preserveAspectRatio="none" filter="url(#waveGlowStrong)"><path fill="none" stroke="#39FF66" stroke-width="3" opacity="0.7" d="M0,190 C120,280 240,80 360,180 C480,280 600,80 720,180 C840,280 960,80 1080,180 C1200,280 1320,80 1440,180 L1440,380 L0,380 Z"/><path fill="none" stroke="#00B83F" stroke-width="1.5" opacity="0.5" d="M0,210 C120,290 240,100 360,200 C480,290 600,100 720,200 C840,290 960,100 1080,200 C1200,290 1320,100 1440,200 L1440,380 L0,380 Z"/></svg>
+<svg class="w2" viewBox="0 0 1440 380" preserveAspectRatio="none" filter="url(#waveGlow)"><path fill="none" stroke="#00B83F" stroke-width="2.5" opacity="0.6" d="M0,150 C180,260 360,40 540,150 C720,260 900,40 1080,150 C1260,260 1440,40 1440,150 L1440,380 L0,380 Z"/><path fill="none" stroke="#39FF66" stroke-width="1" opacity="0.35" d="M0,170 C180,275 360,60 540,170 C720,275 900,60 1080,170 C1260,275 1440,60 1440,170 L1440,380 L0,380 Z"/></svg>
+<svg class="w3" viewBox="0 0 1440 380" preserveAspectRatio="none" filter="url(#waveGlow)"><path fill="none" stroke="#39FF66" stroke-width="2" opacity="0.5" d="M0,220 C140,310 280,120 420,220 C560,310 700,120 840,220 C980,310 1120,120 1260,220 C1400,310 1440,140 1440,220 L1440,380 L0,380 Z"/><path fill="none" stroke="#00B83F" stroke-width="1" opacity="0.3" d="M0,240 C140,330 280,140 420,240 C560,330 700,140 840,240 C980,330 1120,140 1260,240 C1400,330 1440,160 1440,240 L1440,380 L0,380 Z"/></svg>
+<svg class="w4" viewBox="0 0 1440 380" preserveAspectRatio="none" filter="url(#waveGlow)"><path fill="none" stroke="#00B83F" stroke-width="1.5" opacity="0.4" d="M0,130 C160,240 320,20 480,130 C640,240 800,20 960,130 C1120,240 1280,20 1440,130 L1440,380 L0,380 Z"/></svg>
+<div class="overlay"></div>
+</div>
+
+<div class="footer-inner">
+<div class="logo">FLUSH RESELL</div>
+<p class="tagline">Empieza hoy con proveedores, recursos y una estrategia clara para la reventa en Vinted.</p>
+<div class="footer-cta"><button class="btn-primary" onclick="document.getElementById('catSection').scrollIntoView({behavior:'smooth'})">COMENZAR AHORA</button></div>
+<div class="payment-mini">
+<span>American Express</span><span>Apple Pay</span><span>Mastercard</span><span>Visa</span><span>PayPal</span><span>Shop Pay</span>
+</div>
+<a href="https://www.instagram.com/flushresell?igsh=bjVmanhrcDJuNzZ4" target="_blank" rel="noopener" style="display:inline-block;margin-bottom:1rem;color:var(--green-neon);font-family:'Montserrat',sans-serif;font-size:0.65rem;font-weight:700;text-transform:uppercase;letter-spacing:2px;text-decoration:none;transition:opacity 0.2s" onmouseover="this.style.opacity='0.7'" onmouseout="this.style.opacity='1'">@flushresell en Instagram</a>
+<div class="legal"><a>Aviso legal</a><a>Privacidad</a><a>Terminos</a><a>Devoluciones</a></div>
+<p class="copy">2026 FlushResell. Todos los derechos reservados.</p>
+</div>
+
+<div class="toast-container" id="toastContainer"></div>
+<div class="modal-backdrop" id="modalBackdrop" onclick="closeModal()"><img id="modalImage" src="" alt=""></div>
+<button class="modal-close" id="modalClose" onclick="closeModal()">✕</button>
+
+<div class="pay-modal" id="payModal">
+<button class="pay-close" onclick="closePayModal()">✕</button>
+<div class="panel">
+<h3>Finalizar compra</h3>
+<p class="sub">Revisa tu pedido antes de pagar</p>
+<div class="pmt-items" id="pmtItems"></div>
+<div class="pmt-total"><span>Total</span><span id="pmtTotal">0,00 EUR</span></div>
+<p class="sub" style="margin-bottom:0.8rem">Metodo de pago</p>
+<div class="pmt-methods">
+<button class="active" data-method="visa" onclick="selectPayMethod(this)">Visa</button>
+<button data-method="mastercard" onclick="selectPayMethod(this)">Mastercard</button>
+<button data-method="paypal" onclick="selectPayMethod(this)">PayPal</button>
+<button data-method="applepay" onclick="selectPayMethod(this)">Apple Pay</button>
+</div>
+<button class="pay-btn" onclick="processPayment()">Pagar ahora</button>
+</div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script>
+// === HERO CHANGING WORDS ===
+const words = ["VINTED","REVENTA","PROVEEDORES","PRODUCTOS GANADORES","ECOMMERCE"];
+let wordIdx = 0;
+const wordEl = document.getElementById("changingWord");
+
+function changeWord() {
+  wordIdx = (wordIdx + 1) % words.length;
+  wordEl.style.opacity = '0';
+  wordEl.style.transform = 'translateY(-14px)';
+  setTimeout(() => {
+    wordEl.textContent = words[wordIdx];
+    wordEl.style.transform = 'translateY(0)';
+    wordEl.style.opacity = '1';
+  }, 350);
+}
+setInterval(changeWord, 1600);
+
+// === HERO ENTRY ===
+gsap.set("#heroTitle, #heroSub, #heroActions", { opacity: 0, y: 28 });
+gsap.to("#heroTitle", { opacity: 1, y: 0, duration: 0.8, ease: "power2.out" });
+gsap.to("#heroSub", { opacity: 1, y: 0, duration: 0.8, delay: 0.2, ease: "power2.out" });
+gsap.to("#heroActions", { opacity: 1, y: 0, duration: 0.8, delay: 0.4, ease: "power2.out" });
+
+// === SCROLL REVEALS ===
+function setupReveal(sel, thresh) {
+  const els = document.querySelectorAll(sel);
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('revealed');
+        obs.unobserve(entry.target);
+      }
+    });
+  }, { threshold: thresh });
+  els.forEach(el => obs.observe(el));
+}
+setupReveal('.stat-item', 0.3);
+setupReveal('.learn-card', 0.15);
+setupReveal('.faq-item', 0.15);
+setupReveal('.section-label', 0.3);
+
+// Card glow mouse follow
+document.querySelectorAll('.learn-card').forEach(card => {
+  card.addEventListener('mousemove', e => {
+    const r = card.getBoundingClientRect();
+    card.style.setProperty('--mx', ((e.clientX - r.left) / r.width * 100) + '%');
+    card.style.setProperty('--my', ((e.clientY - r.top) / r.height * 100) + '%');
+  });
+});
+
+// === FAQ ===
+function toggleFaq(el) { el.closest('.faq-item').classList.toggle('open'); }
+
+// === TESTIMONIAL SLIDER ===
+let tIdx = 0;
+const tTrack = document.getElementById('testimonialTrack');
+const tCards = document.querySelectorAll('.testimonial-card');
+const dotContainer = document.getElementById('sliderDots');
+tCards.forEach((_, i) => {
+  const d = document.createElement('button');
+  d.className = 'slider-dot' + (i === 0 ? ' active' : '');
+  d.onclick = () => goToTestimonial(i);
+  dotContainer.appendChild(d);
+});
+function goToTestimonial(i) {
+  tIdx = Math.max(0, Math.min(i, tCards.length - 1));
+  tTrack.style.transform = 'translateX(-' + (tIdx * 100) + '%)';
+  document.querySelectorAll('.slider-dot').forEach((d, j) => d.classList.toggle('active', j === tIdx));
+}
+function slideTestimonial(d) { goToTestimonial(tIdx + d); }
+let tInterval = setInterval(() => slideTestimonial(1), 5000);
+document.getElementById('testimonialSlider').addEventListener('mouseenter', () => clearInterval(tInterval));
+document.getElementById('testimonialSlider').addEventListener('mouseleave', () => {
+  tInterval = setInterval(() => slideTestimonial(1), 5000);
+});
+
+// === GALLERY ===
+const galData = [
+  { cat: 'resultados', label: 'Resultados', urls: [
+    'https://res.cloudinary.com/dmuxgamms/image/upload/v1783107903/photo_2026-07-03_21-44-01_j1cbp7.jpg',
+    'https://res.cloudinary.com/dmuxgamms/image/upload/v1783107903/photo_2026-07-03_21-44-00_gc8u3x.jpg',
+    'https://res.cloudinary.com/dmuxgamms/image/upload/v1783107903/photo_2026-07-03_21-43-57_vho6cg.jpg',
+    'https://res.cloudinary.com/dmuxgamms/image/upload/v1783107903/photo_2026-07-03_21-43-58_ubwwvr.jpg',
+    'https://res.cloudinary.com/dmuxgamms/image/upload/v1783107902/photo_2026-07-03_21-43-53_nt6qxi.jpg',
+  ]},
+  { cat: 'stock', label: 'Stock', urls: [
+    'https://res.cloudinary.com/dmuxgamms/image/upload/v1783107902/photo_2026-07-03_21-43-40_kmjyi4.jpg',
+    'https://res.cloudinary.com/dmuxgamms/image/upload/v1783107902/photo_2026-07-03_21-43-41_pax8ms.jpg',
+    'https://res.cloudinary.com/dmuxgamms/image/upload/v1783107902/photo_2026-07-03_21-43-45_xg7ydi.jpg',
+    'https://res.cloudinary.com/dmuxgamms/image/upload/v1783107903/photo_2026-07-03_21-43-47_dmxiww.jpg',
+    'https://res.cloudinary.com/dmuxgamms/image/upload/v1783107911/photo_2026-07-03_21-43-38_m0qcip.jpg',
+    'https://res.cloudinary.com/dmuxgamms/image/upload/v1783107911/photo_2026-07-03_21-43-36_d1h4vd.jpg',
+  ]},
+  { cat: 'calidad', label: 'Calidad', urls: [
+    'https://res.cloudinary.com/dmuxgamms/image/upload/v1783107903/photo_2026-07-03_21-44-03_jsxzbv.jpg',
+    'https://res.cloudinary.com/dmuxgamms/image/upload/v1783107903/photo_2026-07-03_21-44-04_hmdbci.jpg',
+    'https://res.cloudinary.com/dmuxgamms/image/upload/v1783107903/photo_2026-07-03_21-44-05_puzxc9.jpg',
+    'https://res.cloudinary.com/dmuxgamms/image/upload/v1783107903/photo_2026-07-03_21-43-54_g3oogb.jpg',
+    'https://res.cloudinary.com/dmuxgamms/image/upload/v1783107903/photo_2026-07-03_21-43-49_tord6i.jpg',
+    'https://res.cloudinary.com/dmuxgamms/image/upload/v1783107902/photo_2026-07-03_21-43-51_jrmbdf.jpg',
+    'https://res.cloudinary.com/dmuxgamms/image/upload/v1783107902/photo_2026-07-03_21-43-43_b8rpx7.jpg',
+  ]},
+];
+
+function renderGallery(cat) {
+  const grid = document.getElementById('galleryGrid');
+  const data = galData.find(g => g.cat === cat);
+  if (!data) return;
+  grid.innerHTML = data.urls.map((url, i) =>
+    '<div style="background-image:url(' + url + ')" class="gallery-item ' + cat + '">' +
+      '<div class="gal-overlay"><span>' + data.label + ' ' + (i + 1) + '</span></div>' +
+    '</div>'
+  ).join('');
+  const items = Array.from(grid.children);
+  items.forEach((el, i) => {
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(20px)';
+    setTimeout(() => {
+      el.style.transition = 'all 0.5s cubic-bezier(0.16,1,0.3,1)';
+      el.style.opacity = '1';
+      el.style.transform = 'translateY(0)';
+    }, i * 80);
+    el.addEventListener('click', () => {
+      const url = el.style.backgroundImage.slice(5, -2).replace(/["']/g, '');
+      openModal(url);
+    });
+  });
+}
+
+document.querySelectorAll('.gallery-tabs .tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    document.querySelectorAll('.gallery-tabs .tab').forEach(t => t.classList.remove('active'));
+    tab.classList.add('active');
+    renderGallery(tab.dataset.cat);
+  });
+});
+renderGallery('resultados');
+
+// === PRODUCTS DATA ===
+const products = [
+  { id: 1, name: 'Lista productos ganadores y proveedores verano', price: 29.99, oldPrice: 140.99, label: 'TOP VENTAS', subtitle: 'Acceso completo' },
+  { id: 2, name: 'Proveedor definitivo', price: 7.99, oldPrice: 49.99, label: 'MAS VENDIDO', subtitle: 'Stock premium' },
+  { id: 3, name: 'Guia esencial 2026', price: 1.00, oldPrice: 9.99, label: 'OFERTA', subtitle: 'Nivel inicial' },
+  { id: 4, name: 'Pack +75 facturas y tickets editables', price: 7.99, oldPrice: 34.99, label: 'NUEVO', subtitle: 'Plantillas editables' },
+  { id: 5, name: 'Guia multicuentas', price: 4.99, oldPrice: 29.99, label: 'RECOMENDADO', subtitle: 'Escalado avanzado' },
+  { id: 6, name: 'Proveedor vapers', price: 4.99, oldPrice: 19.99, label: 'EXCLUSIVO', subtitle: 'Nicho exclusivo' },
+];
+
+
+
+// === DIGITAL CATALOG ===
+const colors = ['#0B2E18','#1a3d1a','#0d2d1a','#1a3d28','#0d3318','#1a3d1f'];
+function renderCatalog() {
+  document.getElementById('catalogGridDigital').innerHTML = products.map((p, i) => {
+    const discount = Math.round((1 - p.price / p.oldPrice) * 100);
+    const bgColor = colors[i % colors.length];
+    return '<div class="product-card-digital">' +
+      '<div class="img-wrap">' +
+        '<div class="prod-bg" style="background:linear-gradient(135deg,' + bgColor + ',#05080C)"></div>' +
+        '<div class="prod-mockup">' +
+          '<div class="mockup-title">' + p.name + '</div>' +
+          '<div class="mockup-sub">' + p.subtitle + '</div>' +
+        '</div>' +
+        '<span class="prod-badge">' + p.label + '</span>' +
+        '<span class="prod-discount">-' + discount + '%</span>' +
+      '</div>' +
+      '<div class="body">' +
+        '<div class="name">' + p.name + '</div>' +
+        '<div class="prices"><span class="current">' + p.price.toFixed(2).replace('.',',') + ' EUR</span><span class="old">' + p.oldPrice.toFixed(2).replace('.',',') + ' EUR</span></div>' +
+        '<div class="actions">' +
+          '<button class="btn-add" onclick="addToCart(' + p.id + ')">Anadir</button>' +
+          '<button class="btn-buy" onclick="buyNow(' + p.id + ')">Comprar ahora</button>' +
+        '</div>' +
+      '</div>' +
+    '</div>';
+  }).join('');
+}
+renderCatalog();
+// Reveal product cards immediately (observers were set up before renderCatalog populated the grid)
+document.querySelectorAll('.product-card-digital').forEach((el, i) => {
+  setTimeout(() => el.classList.add('revealed'), i * 80);
+});
+
+// === CART (localStorage) ===
+let cart = [];
+function loadCart() {
+  try { cart = JSON.parse(localStorage.getItem('flushCart')) || []; } catch(e) { cart = []; }
+  updateCart();
+}
+function saveCart() { localStorage.setItem('flushCart', JSON.stringify(cart)); }
+function addToCart(id) {
+  const p = products.find(x => x.id === id);
+  if (!p) return;
+  const ex = cart.find(x => x.id === id);
+  if (ex) { ex.qty++; } else { cart.push({ ...p, qty: 1 }); }
+  saveCart();
+  updateCart();
+  showToast('add');
+}
+function removeFromCart(id) {
+  cart = cart.filter(x => x.id !== id);
+  saveCart();
+  updateCart();
+}
+function buyNow(id) {
+  const p = products.find(x => x.id === id);
+  if (!p) return;
+  const ex = cart.find(x => x.id === id);
+  if (ex) { ex.qty++; } else { cart.push({ ...p, qty: 1 }); }
+  saveCart();
+  updateCart();
+  if (cartOpen) { cartOpen = false; document.getElementById('cartDrawer').classList.remove('open'); }
+  openPayModal();
+}
+let cartOpen = false;
+function toggleCart() { cartOpen = !cartOpen; document.getElementById('cartDrawer').classList.toggle('open', cartOpen); }
+document.addEventListener('click', function(e) {
+  if (cartOpen && !e.target.closest('#cartDrawer') && !e.target.closest('#cartToggle')) {
+    cartOpen = false; document.getElementById('cartDrawer').classList.remove('open');
+  }
+});
+function updateCart() {
+  const qty = cart.reduce((s, i) => s + i.qty, 0);
+  const tot = cart.reduce((s, i) => s + i.price * i.qty, 0);
+  document.getElementById('cartBadge').textContent = qty;
+  document.getElementById('cdCount').textContent = qty;
+  document.getElementById('cdTotal').textContent = tot.toFixed(2).replace('.',',') + ' EUR';
+  const list = document.getElementById('cdList');
+  if (qty === 0) { list.innerHTML = '<div class="c-empty">No hay productos</div>'; return; }
+  list.innerHTML = cart.map(i =>
+    '<div class="c-item">' +
+      '<span class="c-name">' + i.name + '</span>' +
+      '<span class="c-qty">x' + i.qty + '</span>' +
+      '<span class="c-price">' + (i.price * i.qty).toFixed(2).replace('.',',') + ' EUR</span>' +
+      '<button class="c-remove" onclick="removeFromCart(' + i.id + ')">✕</button>' +
+    '</div>'
+  ).join('');
+}
+function checkoutCart() {
+  const qty = cart.reduce((s, i) => s + i.qty, 0);
+  if (qty === 0) { alert('No hay productos en el carrito.'); return; }
+  openPayModal();
+}
+function openPayModal() {
+  const qty = cart.reduce((s, i) => s + i.qty, 0);
+  const tot = cart.reduce((s, i) => s + i.price * i.qty, 0);
+  document.getElementById('pmtItems').innerHTML = cart.map(i =>
+    '<div class="pmt-item"><span>' + i.name + '</span><span class="qty">x' + i.qty + '</span><span class="price">' + (i.price * i.qty).toFixed(2).replace('.',',') + ' EUR</span></div>'
+  ).join('');
+  document.getElementById('pmtTotal').textContent = tot.toFixed(2).replace('.',',') + ' EUR';
+  document.getElementById('payModal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closePayModal() {
+  document.getElementById('payModal').classList.remove('open');
+  document.body.style.overflow = '';
+}
+function selectPayMethod(el) {
+  document.querySelectorAll('.pmt-methods button').forEach(b => b.classList.remove('active'));
+  el.classList.add('active');
+}
+function processPayment() {
+  const tot = cart.reduce((s, i) => s + i.price * i.qty, 0);
+  closePayModal();
+  if (cartOpen) { cartOpen = false; document.getElementById('cartDrawer').classList.remove('open'); }
+  alert('Pago realizado con exito.\nTotal: ' + tot.toFixed(2).replace('.',',') + ' EUR\nRecibiras los accesos por correo.');
+  cart = [];
+  saveCart();
+  updateCart();
+}
+loadCart();
+
+function submitCommunity() {
+  const email = document.getElementById('communityEmail').value.trim();
+  if (!email || !email.includes('@')) { alert('Introduce un correo valido.'); return; }
+  showToast('comunidad');
+  document.getElementById('communityEmail').value = '';
+}
+
+function showToast(type) {
+  const c = document.getElementById('toastContainer');
+  const t = document.createElement('div');
+  t.className = 'toast';
+  t.textContent = type === 'comunidad' ? 'Recibiras el enlace de acceso a Flush Makers en tu correo.' :
+    type === 'add' ? 'Producto anadido al carrito.' : 'Gracias por tu interes. Te contactaremos en breve.';
+  c.appendChild(t);
+  requestAnimationFrame(() => t.classList.add('show'));
+  setTimeout(() => { t.classList.remove('show'); setTimeout(() => t.remove(), 400); }, 3000);
+}
+
+function submitConsulting(e) {
+  e.preventDefault();
+  const n = document.getElementById('consName').value.trim();
+  if (!n) return false;
+  showToast('cta');
+  document.getElementById('consultingForm').reset();
+  return false;
+}
+
+function openModal(s) {
+  document.getElementById('modalImage').src = s;
+  document.getElementById('modalBackdrop').classList.add('open');
+  document.getElementById('modalClose').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeModal() {
+  document.getElementById('modalBackdrop').classList.remove('open');
+  document.getElementById('modalClose').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+// Transition overlay
+(function() {
+  const overlay = document.getElementById('transitionOverlay');
+  if (!overlay) return;
+  let html = '';
+  for (let i = 0; i < 100; i++) html += '<div class="box"></div>';
+  overlay.innerHTML = html;
+  const boxes = overlay.querySelectorAll('.box');
+  window.activarAnimacion = function() {
+    overlay.classList.add('open');
+    gsap.set(boxes, { scaleY: 0, transformOrigin: 'center bottom' });
+    gsap.to(boxes, {
+      scaleY: 1, duration: 0.4, stagger: 0.015, ease: 'power4.in',
+      onComplete: () => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        gsap.to(boxes, {
+          scaleY: 0, duration: 0.4, stagger: 0.015, ease: 'power4.out', delay: 0.3,
+          onComplete: () => { overlay.classList.remove('open'); }
+        });
+      }
+    });
+  };
+  document.getElementById('mainLogo').addEventListener('click', () => window.activarAnimacion());
+})();
+</script>
+</body>
+</html>
